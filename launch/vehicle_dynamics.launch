@@ -1,13 +1,13 @@
 <launch>
 
   <!-- xacro を展開して robot_description に設定 -->
-  <param name="robot_description" command="$(find xacro)/xacro '$(find vehicle_4ws_description)/urdf/vehicle_4ws_real.xacro'" />
+  <param name="robot_description" command="$(find xacro)/xacro '$(find vehicle_backstepping)/urdf/vehicle_4ws_real.xacro'" />
 
   <!-- Gazebo にスポーン -->
-  <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" args="-param robot_description -urdf -model vehicle_4ws -x -6.0 -y -1.0 -z 0.24 -R 0.0 -P -0.15 -Y 0.0" />
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" args="-param robot_description -urdf -model vehicle_4ws -x -6.0 -y -1.0 -z 0.29 -R 0.0 -P -0.143 -Y 0.0" />
 
   <!-- RViz の設定 -->
-  <arg name="rvizconfig" default="$(find vehicle_4ws_description)/rviz/urdf.rviz"/>
+  <arg name="rvizconfig" default="$(find vehicle_backstepping)/rviz/urdf.rviz"/>
   <arg name="gui" default="true" />
 
   <!-- hill を hill 名前空間でスポーン -->
@@ -16,11 +16,11 @@
            command="$(find xacro)/xacro '$(find hill_description)/urdf/hill.xacro'" />
 
     <node pkg="gazebo_ros" type="spawn_model" name="spawn_model"
-          args="-param hill_description -urdf -model hill -x -6.8 -y 0 -z 0" />
+          args="-param hill_description -urdf -model hill -x -6.9 -y 0 -z 0" />
   </group>
 
   <!-- Gazebo の空の世界を起動 -->
-  <arg name="world_name" value="$(find vehicle_4ws_description)/worlds/marker.world"/>
+  <arg name="world_name" value="$(find vehicle_backstepping)/worlds/marker.world"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(arg world_name)"/>
@@ -31,13 +31,13 @@
     <arg name="debug" value="false"/>
   </include>
 
-  <node pkg="vehicle_4ws_description"
+  <node pkg="vehicle_backstepping"
       type="trajectory_marker_publisher"
       name="trajectory_marker_publisher"
       output="screen"/>
 
    <!-- controller の起動 -->
-  <rosparam file="$(find vehicle_4ws_description)/config/controller.yaml" command="load"/>
+  <rosparam file="$(find vehicle_backstepping)/config/controller.yaml" command="load"/>
   <node name="controller_spawner" pkg="controller_manager"
         type="spawner" respawn="false"
         output="screen" ns="vehicle_4ws"

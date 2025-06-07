@@ -1,7 +1,7 @@
 <launch>
   <!-- (A) worlds/ を Gazebo の検索パスに追加 -->
   <env name="GAZEBO_RESOURCE_PATH"
-       value="$(optenv GAZEBO_RESOURCE_PATH):$(find vehicle_4ws_description)/worlds"/>
+       value="$(optenv GAZEBO_RESOURCE_PATH):$(find vehicle_backstepping)/worlds"/>
 
   <!-- (B) marker.world を相対パスで指定 -->
   <arg name="world_name" default="marker.world"/>
@@ -16,7 +16,7 @@
 
   <!-- (D) URDF → robot_description -->
   <param name="robot_description"
-         command="$(find xacro)/xacro '$(find vehicle_4ws_description)/urdf/vehicle_4ws_Xaxis_tracking.xacro'"/>
+         command="$(find xacro)/xacro '$(find vehicle_backstepping)/urdf/vehicle_4ws_Xaxis_tracking.xacro'"/>
 
   <!-- (E) モデルを spawn -->
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" output="screen"
@@ -24,11 +24,11 @@
               -x -6.5 -y -1.0 -z 0.05 -Y 0.0"/>
 
   <!-- (F) PoseArray → Path プラグイン用ノード -->
-  <node pkg="vehicle_4ws_description" type="trajectory_path_publisher"
+  <node pkg="vehicle_backstepping" type="trajectory_path_publisher"
         name="trajectory_path_publisher" output="screen"/>
 
   <!-- (G) controllers, robot_state_publisher, RViz -->
-  <rosparam file="$(find vehicle_4ws_description)/config/controller.yaml" command="load"/>
+  <rosparam file="$(find vehicle_backstepping)/config/controller.yaml" command="load"/>
   <node name="controller_spawner" pkg="controller_manager" type="spawner"
         ns="vehicle_4ws" output="screen"
         args="joint_state_controller
@@ -42,6 +42,6 @@
         output="screen">
     <remap from="/joint_states" to="/vehicle_4ws/joint_states"/>
   </node>
-  <arg name="rvizconfig" default="$(find vehicle_4ws_description)/rviz/urdf.rviz"/>
+  <arg name="rvizconfig" default="$(find vehicle_backstepping)/rviz/urdf.rviz"/>
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true"/>
 </launch>

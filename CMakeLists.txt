@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.2)
 # CMP0048: project()でVERSIONを管理するポリシーをNEWに設定
 cmake_policy(SET CMP0048 NEW)
-project(vehicle_4ws_description VERSION 0.0.1)
+project(vehicle_backstepping VERSION 0.0.1)
 
 ## C++11を有効化
 add_compile_options(-std=c++11)

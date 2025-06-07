@@ -13,11 +13,11 @@
   <group ns="vehicle_4ws">
     <!-- xacro から URDF を展開し /vehicle_4ws/robot_description に登録 -->
     <param name="robot_description"
-           command="$(find xacro)/xacro '$(find vehicle_4ws_description)/urdf/vehicle_4ws.xacro'"/>
+           command="$(find xacro)/xacro '$(find vehicle_backstepping)/urdf/vehicle_4ws.xacro'"/>
 
     <!-- controller.yaml を /vehicle_4ws スコープでロード -->
             <!-- コントローラ設定を vehicle_4ws namespace にロード -->
-    <rosparam ns="vehicle_4ws" file="$(find vehicle_4ws_description)/config/controller.yaml" command="load"/>
+    <rosparam ns="vehicle_4ws" file="$(find vehicle_backstepping)/config/controller.yaml" command="load"/>
     <!-- スポーナーを vehicle_4ws namespace で起動。引数は一行で指定 -->
     <node name="controller_spawner"
           pkg="controller_manager"
@@ -44,7 +44,7 @@
         output="screen">
     <!-- URDF を再度展開 -->
     <param name="robot_description"
-           command="$(find xacro)/xacro '$(find vehicle_4ws_description)/urdf/vehicle_4ws.xacro'"/>
+           command="$(find xacro)/xacro '$(find vehicle_backstepping)/urdf/vehicle_4ws.xacro'"/>
     <!-- joint_states を vehicle_4ws 名前空間内のトピックにリマップ -->
     <remap from="/joint_states" to="/vehicle_4ws/joint_states"/>
     <!-- フレーム名衝突回避のためプレフィックス -->
@@ -56,5 +56,5 @@
         type="rviz"
         name="rviz"
         output="screen"
-        args="-d $(find vehicle_4ws_description)/rviz/spawn_two_models.rviz"/>
+        args="-d $(find vehicle_backstepping)/rviz/spawn_two_models.rviz"/>
 </launch>

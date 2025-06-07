@@ -1,7 +1,7 @@
 <launch>
-  <arg name="model" default="$(find vehicle_4ws_description)/urdf/vehicle_4ws.xacro"/>
+  <arg name="model" default="$(find vehicle_backstepping)/urdf/vehicle_4ws.xacro"/>
   <arg name="gui" default="true"/>
-  <arg name="rvizconfig" default="$(find vehicle_4ws_description)/launch/urdf.rviz"/>
+  <arg name="rvizconfig" default="$(find vehicle_backstepping)/launch/urdf.rviz"/>
   <param name="robot_description" command="$(find xacro)/xacro $(arg model)"/>
   <param name="use_gui" value="$(arg gui)"/>
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>

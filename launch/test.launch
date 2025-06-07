@@ -1,13 +1,13 @@
 <launch>
 
   <!-- xacro を展開して robot_description に設定 -->
-  <param name="robot_description" command="$(find xacro)/xacro '$(find vehicle_4ws_description)/urdf/vehicle_4ws.xacro'" />
+  <param name="robot_description" command="$(find xacro)/xacro '$(find vehicle_backstepping)/urdf/vehicle_4ws.xacro'" />
 
   <!-- Gazebo にスポーン -->
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" args="-param robot_description -urdf -model vehicle_4ws -x -2.0 -y 0 -z 0.05" />
 
   <!-- RViz の設定 -->
-  <arg name="rvizconfig" default="$(find vehicle_4ws_description)/rviz/urdf.rviz"/>
+  <arg name="rvizconfig" default="$(find vehicle_backstepping)/rviz/urdf.rviz"/>
   <arg name="gui" default="true" />
 
   <!-- hill を hill 名前空間でスポーン -->
@@ -29,7 +29,7 @@
   </include>
 
    <!-- controller の起動 -->
-  <rosparam file="$(find vehicle_4ws_description)/config/controller.yaml" command="load"/>
+  <rosparam file="$(find vehicle_backstepping)/config/controller.yaml" command="load"/>
   <node name="controller_spawner" pkg="controller_manager"
         type="spawner" respawn="false"
         output="screen" ns="vehicle_4ws"

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>vehicle_4ws_description</name>
+  <name>vehicle_backstepping</name>
   <version>0.0.0</version>
-<description>The vehicle_4ws_description package</description>
+<description>The vehicle_backstepping package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
