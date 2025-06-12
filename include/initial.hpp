@@ -77,6 +77,7 @@ inline double  w2;
 inline double u1, u2;
 inline double v1, v2;
 inline double thetaT = 0.0;
+inline double Thetap = 0.0;
 
 
 //フィードバック関数
@@ -108,17 +109,30 @@ inline double M_mass = 376.64;
 inline double I_theta = vehicle_inertia_coef * 418.647558; 
 inline double rho = 0.0 * DEG2RAD;
 inline double phidot = 0.0;
-inline double q_twist[3] = {0.0};
-inline double qdot_twist[3] = {0.0};
+inline double q_twist[6] = {0.0};
+inline double qdot_twist[6] = {0.0};
 inline double Tau1 = 0.0;
 inline double Tau2 = 0.0;
 inline std::vector<double> x_d = std::vector<double>(Dim + 1, 0.0);
 inline std::vector<double> x_dd = std::vector<double>(Dim + 1, 0.0);
-extern Eigen::Map<Eigen::Vector3d> q_map;
-extern Eigen::Map<Eigen::Vector3d> qdot_map;
+extern Eigen::Map<Eigen::Matrix<double,6,1>&> q_map;
+extern Eigen::Map<Eigen::Matrix<double,6,1>&> qdot_map;
+extern Eigen::Map<Eigen::Matrix<double,6,1>&> qddot_map;
 inline double dymanic_v = 0.0;
 
-
+extern const double m_b;          // 車体質量
+extern const double m_w_f;        // 前輪 1 本あたり質量
+extern const double m_w_r;        // 後輪 1 本あたり質量
+extern const double I_theta;      // 車体ヨー慣性
+extern const double J_phi;        // ステア軸慣性
+extern const double J_w_f;        // 前輪 1 本あたり回転慣性
+extern const double J_w_r;        // 後輪 1 本あたり回転慣性
+extern const double wheelRadius = 0.15;          // 後輪半径
+inline double Q_phi;
+inline double Q_psi_f;
+inline double Q_psi_r;
+inline nu1 = 0.0;
+inline nu2 = 0.0;
 
 // 初期値設定関数
 // 引数: t, dt, x0, x_new

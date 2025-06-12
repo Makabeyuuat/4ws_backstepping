@@ -22,8 +22,6 @@ getInputValue::getInputValue(double h)
 }
 
 array<double,2> getInputValue::computeRearWheelOmegas(double speed, double steeringAngle) {
-    const double wheelRadius = 0.15;  // ホイール半径[m]
-    const double L = lv;            // ホイールベース[m]
     const double W = 0.04;            // トレッド幅[m]
     array<double,2> omegas;
 
@@ -34,7 +32,7 @@ array<double,2> getInputValue::computeRearWheelOmegas(double speed, double steer
         return omegas;
     }
     double absPhi = fabs(steeringAngle);
-    double R = L / tan(absPhi);
+    double R = lv / tan(absPhi);
     double R_in  = R - W/2.0;
     double R_out = R + W/2.0;
     double v_in  = speed * (R_in  / R);
@@ -55,8 +53,6 @@ array<double,2> getInputValue::computeRearWheelOmegas(double speed, double steer
 }
 
 array<double,2> getInputValue::computeRearWheelTorque(double Fx, double steeringAngle) {
-    const double wheelRadius = 0.15;  // ホイール半径 [m]
-    const double L           = lv;   // ホイールベース [m]
     const double W           = 0.04;  // トレッド幅 [m]
     array<double,2> torques;
 
@@ -72,7 +68,7 @@ array<double,2> getInputValue::computeRearWheelTorque(double Fx, double steering
 
     // ③ バイク曲率半径の計算
     double absPhi = std::fabs(steeringAngle);
-    double R      = L / std::tan(absPhi);
+    double R      = lv / std::tan(absPhi);
     double R_in   = R - W/2.0;    // 内輪半径
     double R_out  = R + W/2.0;    // 外輪半径
 
@@ -196,7 +192,8 @@ void getInputValue::ddrungeKutta(std::vector<double>& x_d, std::vector<double>& 
 void getInputValue::getU(std::vector<double>& x_old, int sr_j) {
     // --- 制御入力の計算 ---
     // 各内部関数を呼び出して制御入力を計算
-    thetaT = x_old[3] - atan2(dRdq[sr_j][1], dRdq[sr_j][0]);
+    thetaT = atan2(dRdq[sr_j][1], dRdq[sr_j][0])
+    Thetap = x_old[3] - thetaT;
 
     x_old[4] = x_old[4] - thetaT;
 
@@ -224,7 +221,7 @@ void getInputValue::getXInput(std::vector<double>& x_old, std::vector<double>& x
 void getInputValue::U1(const std::vector<double>& x_old, int sr_j) {
 
 
-	u1 = ((1 - sr.d * sr.Cs) / cos(thetaT - atan2(dRdq[sr_j][1], dRdq[sr_j][0]))) * w1;
+	u1 = ((1 - sr.d * sr.Cs) / cos(Thetap - atan2(dRdq[sr_j][1], dRdq[sr_j][0]))) * w1;
 
 
 }
@@ -242,10 +239,10 @@ void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
 	
 
 	//??lv?l?v?Z
-	double z1 = -sr.Cs1 * sr.d * tan(thetaT)
-		- sr.Cs * (1 - sr.d * sr.Cs) * ((1 + pow(sin(thetaT), 2)) / pow(cos(thetaT), 2))
-		+ pow((1 - sr.d * sr.Cs), 2) * tan(x_old[4]) / (lv * pow(cos(thetaT), 3));
-	double z2 = ((1 - sr.d * sr.Cs) * tan(thetaT)) / w1;
+	double z1 = -sr.Cs1 * sr.d * tan(Thetap)
+		- sr.Cs * (1 - sr.d * sr.Cs) * ((1 + pow(sin(Thetap), 2)) / pow(cos(Thetap), 2))
+		+ pow((1 - sr.d * sr.Cs), 2) * tan(x_old[4]) / (lv * pow(cos(Thetap), 3));
+	double z2 = ((1 - sr.d * sr.Cs) * tan(Thetap)) / w1;
 	double z3 = sr.d / pow(w1, 2);
 	double a = -1.5;
 
@@ -258,26 +255,26 @@ void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
 	w2 = p1 * z1 + p2 * z2 + p3 * z3;
 
 
-	dx2ds = -sr.Cs2 * sr.d * tan(thetaT)
-		- sr.Cs1 * (1 - sr.d * sr.Cs) * ((1 + pow(sin(thetaT), 2)) / pow(cos(thetaT), 2))
-		+ sr.d * sr.Cs * sr.Cs1 * ((1 + pow(sin(thetaT), 2))) / pow(cos(thetaT), 2)
-		- sr.d * sr.Cs1 * (2 * (1 - sr.d * sr.Cs) * tan(x_old[4])) / (lv * pow(cos(thetaT), 3)) -sr.Cs-sr.d;
+	dx2ds = -sr.Cs2 * sr.d * tan(Thetap)
+		- sr.Cs1 * (1 - sr.d * sr.Cs) * ((1 + pow(sin(Thetap), 2)) / pow(cos(Thetap), 2))
+		+ sr.d * sr.Cs * sr.Cs1 * ((1 + pow(sin(Thetap), 2))) / pow(cos(Thetap), 2)
+		- sr.d * sr.Cs1 * (2 * (1 - sr.d * sr.Cs) * tan(x_old[4])) / (lv * pow(cos(Thetap), 3)) -sr.Cs-sr.d;
 
-	dx2dd = -sr.Cs1 * tan(thetaT)
-		+ sr.Cs * sr.Cs * ((1 + pow(sin(thetaT), 2)) / pow(cos(thetaT), 2))
-		- (2 * (1 - sr.d * sr.Cs) * tan(x_old[4]) * sr.Cs) / (lv * pow(cos(thetaT), 3));
+	dx2dd = -sr.Cs1 * tan(Thetap)
+		+ sr.Cs * sr.Cs * ((1 + pow(sin(Thetap), 2)) / pow(cos(Thetap), 2))
+		- (2 * (1 - sr.d * sr.Cs) * tan(x_old[4]) * sr.Cs) / (lv * pow(cos(Thetap), 3));
 
 
-	dx2dthp = -sr.Cs1 * sr.d / pow(cos(thetaT), 2)
-		- sr.Cs * (1 - sr.d * sr.Cs) * 4 * sin(thetaT) / pow(cos(thetaT), 3)
-		+ 3 * (pow((1 - sr.d * sr.Cs), 2) * tan(x_old[4]) * sin(thetaT)) / (lv * pow(cos(thetaT), 4));
+	dx2dthp = -sr.Cs1 * sr.d / pow(cos(Thetap), 2)
+		- sr.Cs * (1 - sr.d * sr.Cs) * 4 * sin(Thetap) / pow(cos(Thetap), 3)
+		+ 3 * (pow((1 - sr.d * sr.Cs), 2) * tan(x_old[4]) * sin(Thetap)) / (lv * pow(cos(Thetap), 4));
 
-	dx2dphi = pow((1 - sr.d * sr.Cs), 2) / (lv * pow(cos(thetaT), 3) * pow(cos(x_old[4]), 2));
+	dx2dphi = pow((1 - sr.d * sr.Cs), 2) / (lv * pow(cos(Thetap), 3) * pow(cos(x_old[4]), 2));
 
-	a1 = dx2ds + dx2dd * (1 - sr.d * sr.Cs) * tan(thetaT)
-		+ dx2dthp * ((tan(x_old[4]) * (1 - sr.d * sr.Cs)) / (lv * cos(thetaT)) - sr.Cs);
+	a1 = dx2ds + dx2dd * (1 - sr.d * sr.Cs) * tan(Thetap)
+		+ dx2dthp * ((tan(x_old[4]) * (1 - sr.d * sr.Cs)) / (lv * cos(Thetap)) - sr.Cs);
 
-	a2 = (lv * pow(cos(thetaT), 3) * pow(cos(x_old[4]), 2)) / pow((1 - sr.d * sr.Cs), 2);
+	a2 = (lv * pow(cos(Thetap), 3) * pow(cos(x_old[4]), 2)) / pow((1 - sr.d * sr.Cs), 2);
 
 
 
