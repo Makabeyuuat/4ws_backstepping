@@ -53,6 +53,7 @@ inline Search sr;
 inline double true_body_pos[2] = {};
 inline double omega_rear[2] = {};
 inline double torque_rear[2] = {};
+inline double torque_front[2] = {};
 inline double true_body_yaw = 0.0;
 inline double true_steering = 0.0;
 inline std::vector<double> x_old = std::vector<double>(Dim + 1, 0.0);

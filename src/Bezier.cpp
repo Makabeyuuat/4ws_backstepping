@@ -29,7 +29,7 @@ double Ry(double* b, double* q, int j) {
 }
 
 
-//?x?W?F?????1?K????
+
 double d1Rxdq1(double* b, double* q, int j) {
 	int i;
 	double ret = 0.0;
@@ -52,7 +52,7 @@ double d1Rydq1(double* b, double* q, int j) {
 }
 
 
-//?x?W?F?????2?K????
+
 double d2Rxdq2(double* b, double* q, int j) {
 	int i;
 	double ret = 0.0;
@@ -77,7 +77,7 @@ double d2Rydq2(double* b, double* q, int j) {
 	return(ret);
 }
 
-//?x?W?F?????3?K????
+
 double d3Rxdq3(double* b, double* q, int j) {
 	int i;
 	double ret = 0.0;
@@ -102,7 +102,7 @@ double d3Rydq3(double* b, double* q, int j) {
 }
 
 
-//?x?W?F?????4?K????
+
 double d4Rxdq4(double* b, double* q, int j) {
 	int i;
 	double ret = 0.0;
@@ -126,7 +126,66 @@ double d4Rydq4(double* b, double* q, int j) {
 	return(ret);
 }
 
-//?m?????v?Z
+// 5階微分：Rx 成分
+double d5Rxdq5(double* b, double* q, int j) {
+    int i;
+    double ret = 0.0;
+
+    for (i = 5; i <= BEZIER_ORDER; i++) {
+        // binomial 差分: b[i] - 5 b[i-1] + 10 b[i-2] - 10 b[i-3] + 5 b[i-4] - b[i-5]
+        double diff =
+            b[i]
+          - 5.0 * b[i - 1]
+          + 10.0 * b[i - 2]
+          - 10.0 * b[i - 3]
+          + 5.0 * b[i - 4]
+          - 1.0 * b[i - 5];
+
+        // binomial(C(BEZIER_ORDER,i))
+        double coef = factorial(BEZIER_ORDER)
+                    / (factorial(BEZIER_ORDER - i) * factorial(i));
+
+        // i*(i-1)*(i-2)*(i-3)*(i-4)
+        double perm = (double)i * (i - 1) * (i - 2) * (i - 3) * (i - 4);
+
+        ret += diff
+             * coef
+             * perm
+             * pow(q[j], i - 5)
+             * pow((1.0 - q[j]), BEZIER_ORDER - i);
+    }
+    return ret;
+}
+
+// 5階微分：Ry 成分
+double d5Rydq5(double* b, double* q, int j) {
+    int i;
+    double ret = 0.0;
+
+    for (i = 5; i <= BEZIER_ORDER; i++) {
+        double diff =
+            b[i]
+          - 5.0 * b[i - 1]
+          + 10.0 * b[i - 2]
+          - 10.0 * b[i - 3]
+          + 5.0 * b[i - 4]
+          - 1.0 * b[i - 5];
+
+        double coef = factorial(BEZIER_ORDER)
+                    / (factorial(BEZIER_ORDER - i) * factorial(i));
+
+        double perm = (double)i * (i - 1) * (i - 2) * (i - 3) * (i - 4);
+
+        ret += diff
+             * coef
+             * perm
+             * pow(q[j], i - 5)
+             * pow((1.0 - q[j]), BEZIER_ORDER - i);
+    }
+    return ret;
+}
+
+
 double norm(double* bx, double* by, double* q, int j) {
 	double ret = 0.0;
 	ret = sqrt(pow(d1Rxdq1(bx, q, j), 2) + pow(d1Rydq1(by, q, j), 2));

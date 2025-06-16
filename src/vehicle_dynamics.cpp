@@ -98,7 +98,32 @@ int main(int argc, char** argv) {
 			+ Power(d1Rxdq1(Bx, qs, i), 3) * (15 * Power(d2Rxdq2(Bx, qs, i), 2) * d2Rydq2(By, qs, i) - 3 * Power(d2Rydq2(By, qs, i), 3)
 				+ 10 * d1Rydq1(By, qs, i) * d2Rxdq2(Bx, qs, i) * d3Rxdq3(Bx, qs, i) - 10 * d1Rydq1(By, qs, i) * d2Rydq2(By, qs, i) * d3Rydq3(By, qs, i)
 				+ 2 * Power(d1Rydq1(By, qs, i), 2) * d4Rydq4(By, qs, i))) / Power(Power(d1Rxdq1(Bx, qs, i), 2) + Power(d1Rydq1(By, qs, i), 2), 4.5);
-
+		
+		cs[i][3] = (-(Power(d1Rxdq1(Bx, qs, i),6)*(10*d3Rxdq3(Bx, qs, i)*d3Rxdq3(By, qs, i) + 5*d2Rxdq2(By, qs, i)*d4Rxdq4(Bx, qs, i) + 10*d2Rxdq2(Bx, qs, i)*d4Rxdq4(By, qs, i) + d1Rxdq1(By, qs, i)*d5Rxdq5(Bx, qs, i))) + 
+     				Power(d1Rxdq1(Bx, qs, i),2)*Power(d1Rxdq1(By, qs, i),2)*(486*Power(d2Rxdq2(Bx, qs, i),3)*d2Rxdq2(By, qs, i) - 86*d1Rxdq1(By, qs, i)*Power(d2Rxdq2(Bx, qs, i),2)*d3Rxdq3(Bx, qs, i) + 
+     				   d2Rxdq2(Bx, qs, i)*(-486*Power(d2Rxdq2(By, qs, i),3) + 128*d1Rxdq1(By, qs, i)*d2Rxdq2(By, qs, i)*d3Rxdq3(By, qs, i)) + 
+     				   d1Rxdq1(By, qs, i)*(34*Power(d2Rxdq2(By, qs, i),2)*d3Rxdq3(Bx, qs, i) + 15*d1Rxdq1(By, qs, i)*d2Rxdq2(By, qs, i)*d4Rxdq4(Bx, qs, i) + 
+     				      d1Rxdq1(By, qs, i)*(10*d3Rxdq3(Bx, qs, i)*d3Rxdq3(By, qs, i) - 3*d1Rxdq1(By, qs, i)*d5Rxdq5(Bx, qs, i)))) + 
+     				Power(d1Rxdq1(By, qs, i),4)*(-57*Power(d2Rxdq2(Bx, qs, i),3)*d2Rxdq2(By, qs, i) + 19*d1Rxdq1(By, qs, i)*Power(d2Rxdq2(Bx, qs, i),2)*d3Rxdq3(Bx, qs, i) + 
+     				   5*d2Rxdq2(Bx, qs, i)*(21*Power(d2Rxdq2(By, qs, i),3) - 12*d1Rxdq1(By, qs, i)*d2Rxdq2(By, qs, i)*d3Rxdq3(By, qs, i) + Power(d1Rxdq1(By, qs, i),2)*d4Rxdq4(By, qs, i)) + 
+     				   d1Rxdq1(By, qs, i)*(-45*Power(d2Rxdq2(By, qs, i),2)*d3Rxdq3(Bx, qs, i) + 10*d1Rxdq1(By, qs, i)*d2Rxdq2(By, qs, i)*d4Rxdq4(Bx, qs, i) + 
+     				      d1Rxdq1(By, qs, i)*(10*d3Rxdq3(Bx, qs, i)*d3Rxdq3(By, qs, i) - d1Rxdq1(By, qs, i)*d5Rxdq5(Bx, qs, i)))) - 
+     				Power(d1Rxdq1(Bx, qs, i),4)*(105*Power(d2Rxdq2(Bx, qs, i),3)*d2Rxdq2(By, qs, i) + 105*d1Rxdq1(By, qs, i)*Power(d2Rxdq2(Bx, qs, i),2)*d3Rxdq3(Bx, qs, i) + 
+     				   d2Rxdq2(Bx, qs, i)*(-57*Power(d2Rxdq2(By, qs, i),3) - 188*d1Rxdq1(By, qs, i)*d2Rxdq2(By, qs, i)*d3Rxdq3(By, qs, i) + 15*Power(d1Rxdq1(By, qs, i),2)*d4Rxdq4(By, qs, i)) + 
+     				   d1Rxdq1(By, qs, i)*(-79*Power(d2Rxdq2(By, qs, i),2)*d3Rxdq3(Bx, qs, i) + d1Rxdq1(By, qs, i)*(10*d3Rxdq3(Bx, qs, i)*d3Rxdq3(By, qs, i) + 3*d1Rxdq1(By, qs, i)*d5Rxdq5(Bx, qs, i)))) + 
+     				Power(d1Rxdq1(Bx, qs, i),7)*d5Rxdq5(By, qs, i) + Power(d1Rxdq1(Bx, qs, i),5)*(45*Power(d2Rxdq2(Bx, qs, i),2)*d3Rxdq3(By, qs, i) - 19*Power(d2Rxdq2(By, qs, i),2)*d3Rxdq3(By, qs, i) + 
+     				   15*d2Rxdq2(Bx, qs, i)*(4*d2Rxdq2(By, qs, i)*d3Rxdq3(Bx, qs, i) + d1Rxdq1(By, qs, i)*d4Rxdq4(Bx, qs, i)) + 
+     				   5*d1Rxdq1(By, qs, i)*(2*Power(d3Rxdq3(Bx, qs, i),2) - 2*Power(d3Rxdq3(By, qs, i),2) - 3*d2Rxdq2(By, qs, i)*d4Rxdq4(By, qs, i)) + 3*Power(d1Rxdq1(By, qs, i),2)*d5Rxdq5(By, qs, i)) + 
+     				d1Rxdq1(Bx, qs, i)*Power(d1Rxdq1(By, qs, i),3)*(-57*Power(d2Rxdq2(Bx, qs, i),4) - 105*Power(d2Rxdq2(By, qs, i),4) + 105*d1Rxdq1(By, qs, i)*Power(d2Rxdq2(By, qs, i),2)*d3Rxdq3(By, qs, i) + 
+     				   Power(d2Rxdq2(Bx, qs, i),2)*(486*Power(d2Rxdq2(By, qs, i),2) - 79*d1Rxdq1(By, qs, i)*d3Rxdq3(By, qs, i)) + 
+     				   d1Rxdq1(By, qs, i)*d2Rxdq2(Bx, qs, i)*(-188*d2Rxdq2(By, qs, i)*d3Rxdq3(Bx, qs, i) + 15*d1Rxdq1(By, qs, i)*d4Rxdq4(Bx, qs, i)) - 
+     				   15*Power(d1Rxdq1(By, qs, i),2)*d2Rxdq2(By, qs, i)*d4Rxdq4(By, qs, i) + Power(d1Rxdq1(By, qs, i),2)*
+     				    (10*Power(d3Rxdq3(Bx, qs, i),2) - 10*Power(d3Rxdq3(By, qs, i),2) + d1Rxdq1(By, qs, i)*d5Rxdq5(By, qs, i))) + 
+     				Power(d1Rxdq1(Bx, qs, i),3)*d1Rxdq1(By, qs, i)*(105*Power(d2Rxdq2(Bx, qs, i),4) + 57*Power(d2Rxdq2(By, qs, i),4) + 86*d1Rxdq1(By, qs, i)*Power(d2Rxdq2(By, qs, i),2)*d3Rxdq3(By, qs, i) - 
+     				   2*Power(d2Rxdq2(Bx, qs, i),2)*(243*Power(d2Rxdq2(By, qs, i),2) + 17*d1Rxdq1(By, qs, i)*d3Rxdq3(By, qs, i)) + 
+     				   2*d1Rxdq1(By, qs, i)*d2Rxdq2(Bx, qs, i)*(-64*d2Rxdq2(By, qs, i)*d3Rxdq3(Bx, qs, i) + 15*d1Rxdq1(By, qs, i)*d4Rxdq4(Bx, qs, i)) - 
+     				   30*Power(d1Rxdq1(By, qs, i),2)*d2Rxdq2(By, qs, i)*d4Rxdq4(By, qs, i) + Power(d1Rxdq1(By, qs, i),2)*
+     				    (20*Power(d3Rxdq3(Bx, qs, i),2) - 20*Power(d3Rxdq3(By, qs, i),2) + 3*d1Rxdq1(By, qs, i)*d5Rxdq5(By, qs, i))))/Power(Power(d1Rxdq1(Bx, qs, i),2) + Power(d1Rxdq1(By, qs, i),2),6)
 	}
 
 	
@@ -113,7 +138,7 @@ int main(int argc, char** argv) {
     // vehicle1.publishWheelCommand(v1, v1);
 	// 各車両へ steering コマンドと車輪のトルクコマンドを送信
     vehicle1.publishSteeringCommand(x_old[4],x_old[4]);
-    vehicle1.publishWheelCommand(torque_rear[0], torque_rear[1]);
+    vehicle1.publishWheelCommand(torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
 
 
 
@@ -151,18 +176,15 @@ int main(int argc, char** argv) {
 		ROS_INFO_THROTTLE(1.0, "x_d: x_d=%.3f, y_d=%.3f, theta_d=%.3f",
 		    x_d[1], x_d[2],x_d[3]);
 
-		ROS_INFO_THROTTLE(1.0, "Tau: tau1=%.3f, tau2=%.3f",
-		    Tau1, Tau2);
-
-		ROS_INFO_THROTTLE(1.0, "Torque: rear_left=%.3f, rear_right=%.3f\n",
-		    torque_rear[0], torque_rear[1]);
+		ROS_INFO_THROTTLE(1.0, "Torque: front_left=%.3f, front_right=%.3f, rear_left=%.3f, rear_right=%.3f\n",
+		    torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
 
 		// // 各車両へ steering コマンドと車輪の回転速度コマンドを送信
         // vehicle1.publishSteeringCommand(x_old[4],x_old[4]);
         // vehicle1.publishWheelCommand(omega_rear[0], omega_rear[1]);
 		// 各車両へ steering コマンドと車輪のトルクコマンドを送信
 		vehicle1.publishSteeringCommand(x_old[4],x_old[4]);
-		vehicle1.publishWheelCommand(torque_rear[0], torque_rear[1]);
+		vehicle1.publishWheelCommand(torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
 
 		// ループレートを維持
 		loop_rate.sleep();

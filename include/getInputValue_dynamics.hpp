@@ -38,6 +38,7 @@ private:
     std::vector<std::vector<double>> x; // x[0], x[1], x[2]
     std::array<double,2> rearOmega; 
     std::array<double,2> rearTorque;  
+    std::array<double,2> forntTorque;
 
     // differential_equations.hpp で定義された配列をコピー
     std::vector<FunctionPtr> fAllVec;
@@ -49,6 +50,7 @@ private:
     // @return std::array{omega_left, omega_right}
     std::array<double,2> computeRearWheelOmegas(double speed, double steeringAngle);
     std::array<double,2> computeRearWheelTorque(double Fx, double steeringAngle);
+    std::array<double,2> computeFrontWheelTorque(double Fx, double steeringAngle);
 
     void U1(const std::vector<double>& x_old, int sr_j);
     void U2(const std::vector<double>& x_old, int sr_j);

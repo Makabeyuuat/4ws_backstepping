@@ -154,18 +154,21 @@ void DynamicsIntegrator::step(
         // 運動方程式上位3行: 慣性 M3, コリオリ C3, 重力 K3
         Eigen::Matrix3d M3;
         M3 <<
-          m_b + 2*m_w, 0, -m_b*lv/2*sin(theta),
-          0, m_b + 2*m_w,  m_b*lv/2*cos(theta),
-         -m_b*lv/2*sin(theta), m_b*lv/2*cos(theta), I_theta_ + m_b*lv*lv/4;
+          kinematics_solver_.Mxi_funcs[0], kinematics_solver_.Mxi_funcs[1], kinematics_solver_.Mxi_funcs[2],
+          kinematics_solver_.Mxi_funcs[6], kinematics_solver_.Mxi_funcs[7], kinematics_solver_.Mxi_funcs[8],
+          kinematics_solver_.Mxi_funcs[12], kinematics_solver_.Mxi_funcs[13], kinematics_solver_.Mxi_funcs[14];
 
         Eigen::Vector3d C3;
         C3 <<
-          -m_b*lv*thetadot*cos(theta)*thetadot,
-          -m_b*lv*thetadot*sin(theta)*thetadot,
-          -m_b*lv*thetadot*(xdot*cos(theta)+ydot*sin(theta));
+          kinematics_solver_.Cxi_funcs[2],
+          kinematics_solver_.Cxi_funcs[8],
+          0.0;
 
         Eigen::Vector3d K3;
-        K3 << (m_b+2*m_w)*g_*sin(rho_), 0.0, 0.0;
+        K3 << 
+          kinematics_solver_.Kxi_funcs[0], 
+          kinematics_solver_.Kxi_funcs[1],
+          kinematics_solver_.Kxi_funcs[2];
         // 右辺 = -(M3*α3 + C3 + K3)
         
         Eigen::Vector3d rhs = - (M3*alpha3 + C3 + K3);
@@ -178,38 +181,38 @@ void DynamicsIntegrator::step(
         Q_psi_f = I_psif  * alpha(4) + wheelRadius * lambda(2); // 前輪トルク
         Q_psi_r = I_psir  * alpha(5) + wheelRadius * lambda(3); // 後輪トルク
 
-        // --- 5) 全自由度動力学の解 ---
-        Eigen::Matrix<double,6,6> Mxi = Eigen::Matrix<double,6,6>::Zero();
-        Mxi.block<3,3>(0,0) = M3;
-        Mxi(3,3) = I_phi;
-        Mxi(4,4) = I_psif;
-        Mxi(5,5) = I_psir;
+        // // --- 5) 全自由度動力学の解 ---
+        // Eigen::Matrix<double,6,6> Mxi = Eigen::Matrix<double,6,6>::Zero();
+        // Mxi.block<3,3>(0,0) = M3;
+        // Mxi(3,3) = I_phi;
+        // Mxi(4,4) = I_psif;
+        // Mxi(5,5) = I_psir;
 
-        Eigen::Matrix<double,6,6> Cxi = Eigen::Matrix<double,6,6>::Zero();
-        Cxi.block<3,3>(0,0) <<
-          0, 0, -m_b*lv*thetadot*cos(theta),
-          0, 0, -m_b*lv*thetadot*sin(theta),
-          -m_b*lv*thetadot*cos(theta), -m_b*lv*thetadot*sin(theta), 0;
+        // Eigen::Matrix<double,6,6> Cxi = Eigen::Matrix<double,6,6>::Zero();
+        // Cxi.block<3,3> = C3 <<
+        //   kinematics_solver_.Cxi_funcs[21], kinematics_solver_.Cxi_funcs[22], kinematics_solver_.Cxi_funcs[23],
+        //   kinematics_solver_.Cxi_funcs[27], kinematics_solver_.Cxi_funcs[28], kinematics_solver_.Cxi_funcs[29]
+        //   kinematics_solver_.Cxi_funcs[33], kinematics_solver_.Cxi_funcs[34], kinematics_solver_.Cxi_funcs[35];
 
-        Eigen::Matrix<double,6,1> Kxi = Eigen::Matrix<double,6,1>::Zero();
-        Kxi(0) = (m_b+2*m_w)*g_*sin(rho_);
+        // Eigen::Matrix<double,6,1> Kxi = Eigen::Matrix<double,6,1>::Zero();
+        // Kxi(0) = (m_b+2*m_w)*g_*sin(rho_);
 
-        Eigen::Matrix<double,6,4> Axi = Eigen::Matrix<double,6,4>::Zero();
-        Axi.block<3,4>(0,0) = A3;
+        // Eigen::Matrix<double,6,4> Axi = Eigen::Matrix<double,6,4>::Zero();
+        // Axi.block<3,4>(0,0) = A3;
 
-        Eigen::Matrix<double,6,1> Qfull = Eigen::Matrix<double,6,1>::Zero();
-        Qfull(3) = Q_phi;    Qfull(4) = Q_psi_f;    Qfull(5) = Q_psi_r;
+        // Eigen::Matrix<double,6,1> Qfull = Eigen::Matrix<double,6,1>::Zero();
+        // Qfull(3) = Q_phi;    Qfull(4) = Q_psi_f;    Qfull(5) = Q_psi_r;
 
-        Eigen::Matrix<double,6,1> rhs6 = Qfull + Axi*lambda - Cxi*qdot - Kxi;
-        // 逆行列で q̈ を求める
-        qdd = Mxi.inverse() * rhs6;
+        // Eigen::Matrix<double,6,1> rhs6 = Qfull + Axi*lambda - Cxi*qdot - Kxi;
+        // // 逆行列で q̈ を求める
+        // qdd = Mxi.inverse() * rhs6;
 
         //積分用の配列に代入
         x_dd[0] = 0.0;
-        x_dd[1] = qdd(0);
-        x_dd[2] = qdd(1);
-        x_dd[3] = qdd(2);
-        x_dd[4] = qdd(3);
+        x_dd[1] = 0.0;
+        x_dd[2] = 0.0;
+        x_dd[3] = 0.0;
+        x_dd[4] = 0.0;
       }
 
 

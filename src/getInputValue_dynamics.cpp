@@ -14,6 +14,7 @@ getInputValue::getInputValue(double h)
     x(3,   std::vector<double>(Dim+1,0.0)),
     rearOmega{0.0, 0.0},
     rearTorque{0.0, 0.0},
+    frontTorque{0.0, 0.0},
     fAllVec(fAll.begin(), fAll.end()),
     fdAllVec(fdAll.begin(), fdAll.end())
    
@@ -50,6 +51,45 @@ array<double,2> getInputValue::computeRearWheelOmegas(double speed, double steer
         omegas[1] = omega_in;
     }
     return omegas;
+}
+
+
+array<double,2> getInputValue::computeFrontWheelTorque(double Fx, double steeringAngle) {
+    const double W           = 0.04;  // 前輪トレッド幅 [m]
+    array<double,2> torques;
+
+    // ① 前進力 → ホイールトルクに変換（２輪で均等分担）
+    double tau_base = Fx * wheelRadius / 2.0;
+
+    // ② ほぼ直進なら均等トルク
+    if (std::fabs(steeringAngle) < 1e-6) {
+        torques[0] = tau_base;  // 左前輪
+        torques[1] = tau_base;  // 右前輪
+        return torques;
+    }
+
+    // ③ バイク曲率半径の計算
+    double absPhi = std::fabs(steeringAngle);
+    double R      = lv / std::tan(absPhi);
+    double R_in   = R - W/2.0;    // 内輪半径
+    double R_out  = R + W/2.0;    // 外輪半径
+
+    // ④ 転がり比に応じたトルク配分
+    double tau_in  = tau_base * (R_in  / R);
+    double tau_out = tau_base * (R_out / R);
+
+    // ⑤ 左右トルクをステア方向に合わせてセット
+    if (steeringAngle > 0) {
+        // 左折: 左前輪が内輪
+        torques[0] = tau_in;   // 左前輪
+        torques[1] = tau_out;  // 右前輪
+    } else {
+        // 右折: 右前輪が内輪
+        torques[0] = tau_out;  // 左前輪
+        torques[1] = tau_in;   // 右前輪
+    }
+
+    return torques;
 }
 
 array<double,2> getInputValue::computeRearWheelTorque(double Fx, double steeringAngle) {
@@ -134,17 +174,22 @@ void getInputValue::rungeKutta(std::vector<double>& x_old, std::vector<double>& 
         }
         x_old[0] = x_old[0] + h;  // 時間の更新
 
-        dynamic_v = x_d[1]*cos(x_old[3]) + x_d[2]*sin(x_old[3]);
+        // dynamic_v = x_d[1]*cos(x_old[3]) + x_d[2]*sin(x_old[3]);
 
-        // 後輪左右の角速度をクラスメンバに格納
-        rearOmega = computeRearWheelOmegas(dynamic_v, x_old[4]);
-        omega_rear[0] = rearOmega[0];  // 左後輪
-        omega_rear[1] = rearOmega[1];  // 右後輪
+        // // 後輪左右の角速度をクラスメンバに格納
+        // rearOmega = computeRearWheelOmegas(dynamic_v, x_old[4]);
+        // omega_rear[0] = rearOmega[0];  // 左後輪
+        // omega_rear[1] = rearOmega[1];  // 右後輪
 
          // 後輪左右のトルクをクラスメンバに格納
-        rearTorque = computeRearWheelTorque(Tau1, x_old[4]);
+        rearTorque = computeRearWheelTorque(Q_psi_r, x_old[4]);
+        frontTorque = computeFrontWheelTorque(Q_psi_f, x_old[4]);
+        
         torque_rear[0] = rearTorque[0];  // 左後輪
         torque_rear[1] = rearTorque[1];  // 右後輪
+
+        torque_front[0] = frontTorque[0];  // 左後輪
+        torque_front[1] = frontTorque[1];  // 右後輪
     
 }
 
