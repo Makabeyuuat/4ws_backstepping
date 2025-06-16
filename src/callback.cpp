@@ -21,8 +21,8 @@ void jointStateCallback(const sensor_msgs::JointState::ConstPtr& msg)
         const auto& joint = msg->name[i];
         double pos = msg->position[i];  // [m] for prismatic
         double vel = msg->velocity[i];
-        double wheel_angle_FL,wheel_angle_FR,wheel_angle_RL,wheel_angle_RR
-        double wheel_angle_vel_FL, wheel_angle_vel_FR, wheel_angle_vel_RL, wheel_angle_vel_RR
+        double wheel_angle_FL,wheel_angle_FR,wheel_angle_RL,wheel_angle_RR;
+        double wheel_angle_vel_FL, wheel_angle_vel_FR, wheel_angle_vel_RL, wheel_angle_vel_RR;
         // // — プリズマティックジョイントの変位を delta_pos に格納 —
         // if (joint == "linkage_point_to_v1") {
         //     delta_pos[0] = pos;
@@ -41,7 +41,7 @@ void jointStateCallback(const sensor_msgs::JointState::ConstPtr& msg)
         // …既存の revolute ジョイント処理…
         if (msg->name[i] == "front_right_steering") {
             phidot = vel;
-            qdot_twist[3] = phidot
+            qdot_twist[3] = phidot;
             x_d[4] = phidot;
         }
         if (joint == "front_left_wheel") {
@@ -60,10 +60,10 @@ void jointStateCallback(const sensor_msgs::JointState::ConstPtr& msg)
             wheel_angle_RR     = pos;
             wheel_angle_vel_RR   = vel;
         }
-        q_twist[4] = (wheel_angle_FL + wheel_angle_FR)/2
-        qdot_twist[4] = (wheel_angle_vel_FL + wheel_angle_vel_FR)/2
-        q_twist[5] = (wheel_angle_RL + wheel_angle_RR)/2
-        qdot_twist[5] = (wheel_angle_ve_RL + wheel_angle_vel_RR)/2
+        q_twist[4] = (wheel_angle_FL + wheel_angle_FR)/2;
+        qdot_twist[4] = (wheel_angle_vel_FL + wheel_angle_vel_FR)/2;
+        q_twist[5] = (wheel_angle_RL + wheel_angle_RR)/2;
+        qdot_twist[5] = (wheel_angle_ve_RL + wheel_angle_vel_RR)/2;
 
     }
 }

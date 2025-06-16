@@ -34,6 +34,7 @@ typedef struct {
 	double Cs;
 	double Cs1;
 	double Cs2;
+	double Cs3;
 	int j;
 	double Psx;
 	double Psy;
@@ -58,7 +59,7 @@ inline std::vector<double> x_old = std::vector<double>(Dim + 1, 0.0);
 inline std::vector<double> x_new = std::vector<double>(Dim + 1, 0.0);
 inline std::vector<double> x_input = std::vector<double>(Dim + 1, 0.0);
 //曲率の配列を保存
-inline double cs[Q][3] = {};
+inline double cs[Q][4] = {};
 inline double R[Q][2] = {};
 inline double dRdq[Q][2] = {};
 inline double d2Rdq2[Q][2] = {};
@@ -73,6 +74,7 @@ inline double	h, t_max;
 //制御入力
 inline double  w1;
 inline double  w2;
+inline double P21, P22, P23;
 //inline double a0 = 0.2;
 inline double u1, u2;
 inline double v1, v2;
@@ -115,25 +117,24 @@ inline double Tau1 = 0.0;
 inline double Tau2 = 0.0;
 inline std::vector<double> x_d = std::vector<double>(Dim + 1, 0.0);
 inline std::vector<double> x_dd = std::vector<double>(Dim + 1, 0.0);
-extern Eigen::Map<Eigen::Matrix<double,6,1>&> q_map;
-extern Eigen::Map<Eigen::Matrix<double,6,1>&> qdot_map;
-extern Eigen::Map<Eigen::Matrix<double,6,1>&> qddot_map;
+extern Eigen::Map<Eigen::Matrix<double,6,1>> q_map;
+extern Eigen::Map<Eigen::Matrix<double,6,1>> qdot_map;
+extern Eigen::Map<Eigen::Matrix<double,6,1>> qddot_map;
 inline double dymanic_v = 0.0;
 
-extern const double m_b;          // 車体質量
-extern const double m_w_f;        // 前輪 1 本あたり質量
-extern const double m_w_r;        // 後輪 1 本あたり質量
-extern const double I_theta;      // 車体ヨー慣性
-extern const double J_phi;        // ステア軸慣性
-extern const double J_w_f;        // 前輪 1 本あたり回転慣性
-extern const double J_w_r;        // 後輪 1 本あたり回転慣性
-extern const double wheelRadius = 0.15;          // 後輪半径
+inline double m_b;          // 車体質量
+inline double m_w;        // 前輪 1 本あたり質量
+inline double I_phi;        // ステア軸慣性
+inline double I_psif;        // 前輪 1 本あたり回転慣性
+inline double I_psir;        // 後輪 1 本あたり回転慣性
+inline double wheelRadius = 0.15;          // 後輪半径
 inline double Q_phi;
 inline double Q_psi_f;
 inline double Q_psi_r;
-inline nu1 = 0.0;
-inline nu2 = 0.0;
-
+inline double nu1 = 0.0;
+inline double nu2 = 0.0;
+inline double u1_act = 0.0; 
+inline double u2_act = 0.0; 
 // 初期値設定関数
 // 引数: t, dt, x0, x_new
 void initial(double &t, double &dt);

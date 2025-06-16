@@ -192,10 +192,9 @@ void getInputValue::ddrungeKutta(std::vector<double>& x_d, std::vector<double>& 
 void getInputValue::getU(std::vector<double>& x_old, int sr_j) {
     // --- 制御入力の計算 ---
     // 各内部関数を呼び出して制御入力を計算
-    thetaT = atan2(dRdq[sr_j][1], dRdq[sr_j][0])
-    Thetap = x_old[3] - thetaT;
+    Thetap = x_old[3] - atan2(dRdq[sr_j][1], dRdq[sr_j][0]);
 
-    x_old[4] = x_old[4] - thetaT;
+    x_old[4] = x_old[4] - Thetap;
 
     U1(x_old, sr_j);
     U2(x_old, sr_j);
@@ -221,7 +220,7 @@ void getInputValue::getXInput(std::vector<double>& x_old, std::vector<double>& x
 void getInputValue::U1(const std::vector<double>& x_old, int sr_j) {
 
 
-	u1 = ((1 - sr.d * sr.Cs) / cos(Thetap - atan2(dRdq[sr_j][1], dRdq[sr_j][0]))) * w1;
+	u1 = ((1 - sr.d * sr.Cs) / cos(Thetap)) * w1;
 
 
 }
@@ -246,13 +245,11 @@ void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
 	double z3 = sr.d / pow(w1, 2);
 	double a = -1.5;
 
-	double p1, p2, p3;
+	P21 = 3 * a;
+	P22 = -3 * a * a;
+	P23 = a * a * a;
 
-	p1 = 3 * a;
-	p2 = -3 * a * a;
-	p3 = a * a * a;
-
-	w2 = p1 * z1 + p2 * z2 + p3 * z3;
+	w2 = P21 * z1 + P22 * z2 + P23 * z3;
 
 
 	dx2ds = -sr.Cs2 * sr.d * tan(Thetap)
@@ -278,7 +275,6 @@ void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
 
 
 
-	u2 = a2 * (w2 - a1 * w1);
+	u2 = a2 * (w2 - a1 * u1);
 
 }
-
