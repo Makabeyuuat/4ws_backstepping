@@ -238,6 +238,7 @@ void getInputValue::getU(std::vector<double>& x_old, int sr_j) {
     // --- 制御入力の計算 ---
     // 各内部関数を呼び出して制御入力を計算
     Thetap = x_old[3] - atan2(dRdq[sr_j][1], dRdq[sr_j][0]);
+    thetaT = atan2(dRdq[sr_j][1], dRdq[sr_j][0]);
 
     x_old[4] = x_old[4] - Thetap;
 

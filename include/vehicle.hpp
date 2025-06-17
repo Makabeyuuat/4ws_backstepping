@@ -17,12 +17,12 @@ public:
     void publishSteeringCommand(double front_left_steering_value, double front_right_steering_value);
 
     // 車両の全ての車輪に対して回転速度コマンドを送信するメソッド
-    void publishWheelCommand(double rear_left_rotation_value, double rear_right_rotation_value);
+    void publishWheelCommand(double front_left_rotation_value, double front_right_rotation_value, double rear_left_rotation_value, double rear_right_rotation_value);
 
 private:
     // 各車輪用のパブリッシャー
-    // ros::Publisher front_left_wheel_pub;
-    // ros::Publisher front_right_wheel_pub;
+    ros::Publisher front_left_wheel_pub;
+    ros::Publisher front_right_wheel_pub;
     ros::Publisher rear_left_wheel_pub;
     ros::Publisher rear_right_wheel_pub;
 

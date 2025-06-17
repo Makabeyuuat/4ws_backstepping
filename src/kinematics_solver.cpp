@@ -36,14 +36,14 @@ return ret;
 double KinematicsSolver::calc_aqd_1_()
 {
 double ret;
-ret = Cos(Thetap + thetat(t))*nu1 - Sin(Thetap + thetat(t))*u1_act*(sr.Cs*calc_d_SX_d_t_1_1_() + calc_d_SX_d_t_3_1_());
+ret = Cos(Thetap + thetaT)*nu1 - Sin(Thetap + thetaT)*u1_act*(sr.Cs*calc_d_SX_d_t_1_1_() + calc_d_SX_d_t_3_1_());
 return ret;
 }
 
 double KinematicsSolver::calc_aqd_2_()
 {
 double ret;
-ret = nu1*Sin(Thetap + thetat(t)) + Cos(Thetap + thetat(t))*u1_act*(sr.Cs*calc_d_SX_d_t_1_1_() + calc_d_SX_d_t_3_1_());
+ret = nu1*Sin(Thetap + thetaT) + Cos(Thetap + thetaT)*u1_act*(sr.Cs*calc_d_SX_d_t_1_1_() + calc_d_SX_d_t_3_1_());
 return ret;
 }
 
@@ -64,7 +64,7 @@ return ret;
 double KinematicsSolver::calc_aqd_5_()
 {
 double ret;
-ret = (Cos(x_old[4])*nu1 - Sin(x_old[4])*u1_act*u2_act)/wheelRadius;
+ret = (Cos(q_map(3))*nu1 - Sin(q_map(3))*u1_act*u2_act)/wheelRadius;
 return ret;
 }
 
@@ -78,21 +78,21 @@ return ret;
 double KinematicsSolver::calc_Axi_1_1_()
 {
 double ret;
-ret = Sin(x_old[4] + theta(t));
+ret = Sin(q_map(3) + q_map(2));
 return ret;
 }
 
 double KinematicsSolver::calc_Axi_1_2_()
 {
 double ret;
-ret = -Cos(x_old[4] + theta(t));
+ret = -Cos(q_map(3) + q_map(2));
 return ret;
 }
 
 double KinematicsSolver::calc_Axi_1_3_()
 {
 double ret;
-ret = -(lv*Cos(x_old[4]));
+ret = -(lv*Cos(q_map(3)));
 return ret;
 }
 
@@ -120,14 +120,14 @@ return ret;
 double KinematicsSolver::calc_Axi_2_1_()
 {
 double ret;
-ret = Sin(theta(t));
+ret = Sin(q_map(2));
 return ret;
 }
 
 double KinematicsSolver::calc_Axi_2_2_()
 {
 double ret;
-ret = -Cos(theta(t));
+ret = -Cos(q_map(2));
 return ret;
 }
 
@@ -162,14 +162,14 @@ return ret;
 double KinematicsSolver::calc_Axi_3_1_()
 {
 double ret;
-ret = -Cos(x_old[4] + theta(t));
+ret = -Cos(q_map(3) + q_map(2));
 return ret;
 }
 
 double KinematicsSolver::calc_Axi_3_2_()
 {
 double ret;
-ret = -Sin(x_old[4] + theta(t));
+ret = -Sin(q_map(3) + q_map(2));
 return ret;
 }
 
@@ -204,14 +204,14 @@ return ret;
 double KinematicsSolver::calc_Axi_4_1_()
 {
 double ret;
-ret = -Cos(theta(t));
+ret = -Cos(q_map(2));
 return ret;
 }
 
 double KinematicsSolver::calc_Axi_4_2_()
 {
 double ret;
-ret = -Sin(theta(t));
+ret = -Sin(q_map(2));
 return ret;
 }
 
@@ -260,7 +260,7 @@ return ret;
 double KinematicsSolver::calc_Cxi_1_3_()
 {
 double ret;
-ret = -(lv*(m_b + 2*m_w)*Cos(theta(t))*x_d[2]);
+ret = -(lv*(m_b + 2*m_w)*Cos(q_map(2))*x_d[2]);
 return ret;
 }
 
@@ -302,7 +302,7 @@ return ret;
 double KinematicsSolver::calc_Cxi_2_3_()
 {
 double ret;
-ret = -(lv*(m_b + 2*m_w)*Sin(theta(t))*x_d[2]);
+ret = -(lv*(m_b + 2*m_w)*Sin(q_map(2))*x_d[2]);
 return ret;
 }
 
@@ -612,7 +612,7 @@ return ret;
 double KinematicsSolver::calc_Kxi_1_()
 {
 double ret;
-ret = GRVY*(m_b + 2*m_w)*Sin(rho);
+ret = GRAV*(m_b + 2*m_w)*Sin(rho);
 return ret;
 }
 
@@ -626,7 +626,7 @@ return ret;
 double KinematicsSolver::calc_Kxi_3_()
 {
 double ret;
-ret = -(GRVY*lv*(m_b + 2*m_w)*Sin(rho)*Sin(theta(t)))/2.;
+ret = -(GRAV*lv*(m_b + 2*m_w)*Sin(rho)*Sin(q_map(2)))/2.;
 return ret;
 }
 
@@ -668,7 +668,7 @@ return ret;
 double KinematicsSolver::calc_Mxi_1_3_()
 {
 double ret;
-ret = -(lv*(m_b + 2*m_w)*Sin(theta(t)))/2.;
+ret = -(lv*(m_b + 2*m_w)*Sin(q_map(2)))/2.;
 return ret;
 }
 
@@ -710,7 +710,7 @@ return ret;
 double KinematicsSolver::calc_Mxi_2_3_()
 {
 double ret;
-ret = (lv*(m_b + 2*m_w)*Cos(theta(t)))/2.;
+ret = (lv*(m_b + 2*m_w)*Cos(q_map(2)))/2.;
 return ret;
 }
 
@@ -738,21 +738,21 @@ return ret;
 double KinematicsSolver::calc_Mxi_3_1_()
 {
 double ret;
-ret = -(lv*(m_b + 2*m_w)*Sin(theta(t)))/2.;
+ret = -(lv*(m_b + 2*m_w)*Sin(q_map(2)))/2.;
 return ret;
 }
 
 double KinematicsSolver::calc_Mxi_3_2_()
 {
 double ret;
-ret = (lv*(m_b + 2*m_w)*Cos(theta(t)))/2.;
+ret = (lv*(m_b + 2*m_w)*Cos(q_map(2)))/2.;
 return ret;
 }
 
 double KinematicsSolver::calc_Mxi_3_3_()
 {
 double ret;
-ret = Itheta + (Power(lv,2)*(m_b + 4*m_w))/4.;
+ret = I_theta + (Power(lv,2)*(m_b + 4*m_w))/4.;
 return ret;
 }
 
@@ -801,7 +801,7 @@ return ret;
 double KinematicsSolver::calc_Mxi_4_4_()
 {
 double ret;
-ret = Iphi;
+ret = I_phi;
 return ret;
 }
 
@@ -850,7 +850,7 @@ return ret;
 double KinematicsSolver::calc_Mxi_5_5_()
 {
 double ret;
-ret = IpsiF;
+ret = I_psif;
 return ret;
 }
 

@@ -41,7 +41,8 @@
   <node name="controller_spawner" pkg="controller_manager"
         type="spawner" respawn="false"
         output="screen" ns="vehicle_4ws"
-        args="joint_state_controller front_right_steering_position_controller front_right_wheel_velocity_controller
+        args="joint_state_controller 
+              front_right_steering_position_controller front_right_wheel_velocity_controller
               rear_right_wheel_velocity_controller front_left_steering_position_controller 
               front_left_wheel_velocity_controller rear_left_wheel_velocity_controller"/> 
 

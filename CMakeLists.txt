@@ -31,33 +31,33 @@ include_directories(
 
 
 ## 実行ファイルの定義
-add_executable(test_motion_controller
-  src/test_motion.cpp
-  src/vehicle.cpp
-  src/callback.cpp
-)
-target_link_libraries(test_motion_controller
-  ${catkin_LIBRARIES}
-)
+# add_executable(test_motion_controller
+#   src/test_motion.cpp
+#   src/vehicle.cpp
+#   src/callback.cpp
+# )
+# target_link_libraries(test_motion_controller
+#   ${catkin_LIBRARIES}
+# )
 
 ## 実行ファイルの定義
-add_executable(Xaxis_tracking_controller
-  src/Xaxis_tracking.cpp
-  src/vehicle.cpp
-  src/callback.cpp
-  src/Bezier.cpp
-  src/differential_equations.cpp
-  src/initial.cpp
-  src/mathFunc.cpp
-  src/getInputValue.cpp
-)
-target_link_libraries(Xaxis_tracking_controller
-  ${catkin_LIBRARIES}
-)
+# add_executable(Xaxis_tracking_controller
+#   src/Xaxis_tracking.cpp
+#   src/vehicle.cpp
+#   src/callback.cpp
+#   src/Bezier.cpp
+#   src/differential_equations.cpp
+#   src/initial.cpp
+#   src/mathFunc.cpp
+#   src/getInputValue.cpp
+# )
+# target_link_libraries(Xaxis_tracking_controller
+#   ${catkin_LIBRARIES}
+# )
 
-install(TARGETS Xaxis_tracking_controller
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+# install(TARGETS Xaxis_tracking_controller
+#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
 
 
 ## 実行ファイルの定義
@@ -79,14 +79,14 @@ target_link_libraries(vehicle_dynamics_controller
 
 
 
-add_executable(trajectory_path_publisher 
-  src/trajectory_path_publisher.cpp
-  src/mathFunc.cpp         # Rx, Ry を実装しているファイル
-  src/Bezier.cpp           # 必要なら
-  src/initial.cpp          # 必要なら
-  )
-target_link_libraries(trajectory_path_publisher ${catkin_LIBRARIES})
-add_dependencies(trajectory_path_publisher ${catkin_EXPORTED_TARGETS})
+# add_executable(trajectory_path_publisher 
+#   src/trajectory_path_publisher.cpp
+#   src/mathFunc.cpp         # Rx, Ry を実装しているファイル
+#   src/Bezier.cpp           # 必要なら
+#   src/initial.cpp          # 必要なら
+#   )
+# target_link_libraries(trajectory_path_publisher ${catkin_LIBRARIES})
+# add_dependencies(trajectory_path_publisher ${catkin_EXPORTED_TARGETS})
 #### 追加ノードがあればここに追記 ####
 # add_executable(steering_desired_controller src/steering_desired_controller.cpp src/vehicle.cpp)
 # target_link_libraries(steering_desired_controller ${catkin_LIBRARIES})

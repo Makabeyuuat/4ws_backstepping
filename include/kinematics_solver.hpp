@@ -55,7 +55,7 @@ public:
     double calc_pd_W_pd_X_2_1_(); double calc_pd_W_pd_X_2_2_(); double calc_pd_W_pd_X_2_3_(); double calc_pd_W_pd_X_2_4_();
 
     // chainedform Z
-    double calc_Z_1_1_(); double calc_Z_1_2_(); double calc_Z_1_3_(); double calc_Z_2_1_(); double calc_Z_2_2_(); double calc_Z_2_3_();
+    // double calc_Z_1_1_(); double calc_Z_1_2_(); double calc_Z_1_3_(); double calc_Z_2_1_(); double calc_Z_2_2_(); double calc_Z_2_3_();
 
     // chainedform Zの偏微分
     double calc_pd_Z2_pd_X_1_1_(); double calc_pd_Z2_pd_X_1_2_(); double calc_pd_Z2_pd_X_1_3_(); double calc_pd_Z2_pd_X_1_4_();
@@ -69,6 +69,9 @@ public:
     double calc_d_SX_d_t_1_1_(); double calc_d_SX_d_t_1_2_(); double calc_d_SX_d_t_2_1_(); double calc_d_SX_d_t_2_2_();
     double calc_d_SX_d_t_3_1_(); double calc_d_SX_d_t_3_2_(); double calc_d_SX_d_t_4_1_(); double calc_d_SX_d_t_4_2_();
 
+    //目標速度の時間微分
+    double calc_pd_ud_pd_t_1_();
+    double calc_pd_ud_pd_t_2_();
     // ------------------------------------------------------
     // 関数ポインタ（std::function）グループ
     using Func = std::function<double()>;
@@ -86,6 +89,7 @@ public:
     std::vector<Func> pd_Z2_funcs;
     std::vector<Func> SX_funcs;
     std::vector<Func> dSXdt_funcs;
+    std::vector<Func> pdud_funcs;
 
     // コンストラクタで各ベクターを初期化
     KinematicsSolver() {
@@ -163,14 +167,15 @@ public:
             [this](){ return calc_pd_W_pd_X_2_3_(); },
             [this](){ return calc_pd_W_pd_X_2_4_(); }
         };
-        Z_funcs = {
-            [this](){ return calc_Z_1_1_(); },
-            [this](){ return calc_Z_1_2_(); },
-            [this](){ return calc_Z_1_3_(); },
-            [this](){ return calc_Z_2_1_(); },
-            [this](){ return calc_Z_2_2_(); },
-            [this](){ return calc_Z_2_3_(); }
-        };
+        // Z_funcs = {
+        //     [this](){ return calc_Z_1_1_(); },
+        //     [this](){ return calc_Z_1_2_(); },
+        //     [this](){ return calc_Z_1_3_(); },
+        //     [this](){ return calc_Z_2_1_(); },
+        //     [this](){ return calc_Z_2_2_(); },
+        //     [this](){ return calc_Z_2_3_(); }double calc_Z_1_1_(); double calc_Z_1_2_(); double calc_Z_1_3_(); double calc_Z_2_1_(); double calc_Z_2_2_(); double calc_Z_2_3_();
+
+        // };
         pd_Z2_funcs = {
             [this](){ return calc_pd_Z2_pd_X_1_1_(); },
             [this](){ return calc_pd_Z2_pd_X_1_2_(); },
@@ -206,5 +211,10 @@ public:
             [this](){ return calc_d_SX_d_t_4_1_(); },
             [this](){ return calc_d_SX_d_t_4_2_(); }
         };
+        pdud_funcs = {
+            [this](){ return calc_pd_ud_pd_t_1_(); },
+            [this](){ return calc_pd_ud_pd_t_2_(); }
+        };
+        
     }
 };

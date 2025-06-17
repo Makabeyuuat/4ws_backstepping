@@ -38,7 +38,7 @@ private:
     std::vector<std::vector<double>> x; // x[0], x[1], x[2]
     std::array<double,2> rearOmega; 
     std::array<double,2> rearTorque;  
-    std::array<double,2> forntTorque;
+    std::array<double,2> frontTorque;
 
     // differential_equations.hpp で定義された配列をコピー
     std::vector<FunctionPtr> fAllVec;

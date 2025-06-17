@@ -45,8 +45,7 @@ public:
     void step(const Eigen::Matrix<double,6,1>& q,
               const Eigen::Matrix<double,6,1>& qdot,
               double u1,
-              double u2,
-              const Eigen::Matrix<double,6,1>& qddot);
+              double u2);
 
 private:
         KinematicsSolver kinematics_solver_;

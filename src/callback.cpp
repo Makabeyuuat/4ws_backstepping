@@ -54,7 +54,7 @@ void jointStateCallback(const sensor_msgs::JointState::ConstPtr& msg)
         }
         else if (joint == "rear_left_wheel") {
             wheel_angle_RL     = pos;
-            wheel_angle_ve_RL   = vel;
+            wheel_angle_vel_RL   = vel;
         }
         else if (joint == "rear_right_wheel") {
             wheel_angle_RR     = pos;
@@ -63,7 +63,7 @@ void jointStateCallback(const sensor_msgs::JointState::ConstPtr& msg)
         q_twist[4] = (wheel_angle_FL + wheel_angle_FR)/2;
         qdot_twist[4] = (wheel_angle_vel_FL + wheel_angle_vel_FR)/2;
         q_twist[5] = (wheel_angle_RL + wheel_angle_RR)/2;
-        qdot_twist[5] = (wheel_angle_ve_RL + wheel_angle_vel_RR)/2;
+        qdot_twist[5] = (wheel_angle_vel_RL + wheel_angle_vel_RR)/2;
 
     }
 }

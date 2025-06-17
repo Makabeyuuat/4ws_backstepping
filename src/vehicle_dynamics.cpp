@@ -123,7 +123,7 @@ int main(int argc, char** argv) {
      				   2*Power(d2Rxdq2(Bx, qs, i),2)*(243*Power(d2Rxdq2(By, qs, i),2) + 17*d1Rxdq1(By, qs, i)*d3Rxdq3(By, qs, i)) + 
      				   2*d1Rxdq1(By, qs, i)*d2Rxdq2(Bx, qs, i)*(-64*d2Rxdq2(By, qs, i)*d3Rxdq3(Bx, qs, i) + 15*d1Rxdq1(By, qs, i)*d4Rxdq4(Bx, qs, i)) - 
      				   30*Power(d1Rxdq1(By, qs, i),2)*d2Rxdq2(By, qs, i)*d4Rxdq4(By, qs, i) + Power(d1Rxdq1(By, qs, i),2)*
-     				    (20*Power(d3Rxdq3(Bx, qs, i),2) - 20*Power(d3Rxdq3(By, qs, i),2) + 3*d1Rxdq1(By, qs, i)*d5Rxdq5(By, qs, i))))/Power(Power(d1Rxdq1(Bx, qs, i),2) + Power(d1Rxdq1(By, qs, i),2),6)
+     				    (20*Power(d3Rxdq3(Bx, qs, i),2) - 20*Power(d3Rxdq3(By, qs, i),2) + 3*d1Rxdq1(By, qs, i)*d5Rxdq5(By, qs, i))))/Power(Power(d1Rxdq1(Bx, qs, i),2) + Power(d1Rxdq1(By, qs, i),2),6);
 	}
 
 	
@@ -153,7 +153,7 @@ int main(int argc, char** argv) {
 	
 		//制御入力を計算し、それらをルンゲクッタ法で更新
 		getInputValue.getU(x_old, sr.j);
-		integrator.step(q_map, qdot_map, x_old[4], phidot, u1, u2);
+		integrator.step(q_map, qdot_map, u1, u2);
 		getInputValue.ddrungeKutta(x_d, x_dd);
 		getInputValue.rungeKutta(x_old, x_d);
 
@@ -175,6 +175,9 @@ int main(int argc, char** argv) {
 		
 		ROS_INFO_THROTTLE(1.0, "x_d: x_d=%.3f, y_d=%.3f, theta_d=%.3f",
 		    x_d[1], x_d[2],x_d[3]);
+
+		ROS_INFO_THROTTLE(1.0, "nu: nu1=%.3f, nu2=%.3f",
+		    nu1, nu2);
 
 		ROS_INFO_THROTTLE(1.0, "Torque: front_left=%.3f, front_right=%.3f, rear_left=%.3f, rear_right=%.3f\n",
 		    torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);

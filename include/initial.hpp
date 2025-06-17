@@ -123,11 +123,11 @@ extern Eigen::Map<Eigen::Matrix<double,6,1>> qdot_map;
 extern Eigen::Map<Eigen::Matrix<double,6,1>> qddot_map;
 inline double dymanic_v = 0.0;
 
-inline double m_b;          // 車体質量
-inline double m_w;        // 前輪 1 本あたり質量
-inline double I_phi;        // ステア軸慣性
-inline double I_psif;        // 前輪 1 本あたり回転慣性
-inline double I_psir;        // 後輪 1 本あたり回転慣性
+inline double m_b = 376.64;          // 車体質量
+inline double m_w = 4.63972;        // 前輪 1 本あたり質量
+inline double I_phi = 0.021551;        // ステア軸慣性
+inline double I_psif = 0.053334;        // 前輪 1 本あたり回転慣性
+inline double I_psir = 0.053334;        // 後輪 1 本あたり回転慣性
 inline double wheelRadius = 0.15;          // 後輪半径
 inline double Q_phi;
 inline double Q_psi_f;
@@ -136,6 +136,8 @@ inline double nu1 = 0.0;
 inline double nu2 = 0.0;
 inline double u1_act = 0.0; 
 inline double u2_act = 0.0; 
+inline double asd = 0.0;
+inline double athetapd = 0.0;
 // 初期値設定関数
 // 引数: t, dt, x0, x_new
 void initial(double &t, double &dt);
