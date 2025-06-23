@@ -2,6 +2,13 @@
 #include "initial.hpp"
 #include "differential_equations_dynamics.hpp"
 #include "mathFunc.h"
+#include "kinematics_solver.hpp"
+#include <cmath>
+#include <limits>
+#include <Eigen/Dense>
+#include <Eigen/SVD> 
+#include <Eigen/Core>   
+#include <iostream>
 
 using namespace std;
 
@@ -16,11 +23,10 @@ getInputValue::getInputValue(double h)
     rearTorque{0.0, 0.0},
     frontTorque{0.0, 0.0},
     fAllVec(fAll.begin(), fAll.end()),
-    fdAllVec(fdAll.begin(), fdAll.end())
+    fdAllVec(fdAll.begin(), fdAll.end()),
+    kinematics_solver_()
    
-{
-
-}
+{}
 
 array<double,2> getInputValue::computeRearWheelOmegas(double speed, double steeringAngle) {
     const double W = 0.04;            // トレッド幅[m]
@@ -53,13 +59,90 @@ array<double,2> getInputValue::computeRearWheelOmegas(double speed, double steer
     return omegas;
 }
 
+//入力が力の場合
+// array<double,2> getInputValue::computeFrontWheelTorque(double Fx, double steeringAngle) {
+//     const double W           = 0.04;  // 前輪トレッド幅 [m]
+//     array<double,2> torques;
 
-array<double,2> getInputValue::computeFrontWheelTorque(double Fx, double steeringAngle) {
-    const double W           = 0.04;  // 前輪トレッド幅 [m]
-    array<double,2> torques;
+//     // ① 前進力 → ホイールトルクに変換（２輪で均等分担）
+//     double tau_base = Fx * wheelRadius / 2.0;
 
-    // ① 前進力 → ホイールトルクに変換（２輪で均等分担）
-    double tau_base = Fx * wheelRadius / 2.0;
+//     // ② ほぼ直進なら均等トルク
+//     if (std::fabs(steeringAngle) < 1e-6) {
+//         torques[0] = tau_base;  // 左前輪
+//         torques[1] = tau_base;  // 右前輪
+//         return torques;
+//     }
+
+//     // ③ バイク曲率半径の計算
+//     double absPhi = std::fabs(steeringAngle);
+//     double R      = lv / std::tan(absPhi);
+//     double R_in   = R - W/2.0;    // 内輪半径
+//     double R_out  = R + W/2.0;    // 外輪半径
+
+//     // ④ 転がり比に応じたトルク配分
+//     double tau_in  = tau_base * (R_in  / R);
+//     double tau_out = tau_base * (R_out / R);
+
+//     // ⑤ 左右トルクをステア方向に合わせてセット
+//     if (steeringAngle > 0) {
+//         // 左折: 左前輪が内輪
+//         torques[0] = tau_in;   // 左前輪
+//         torques[1] = tau_out;  // 右前輪
+//     } else {
+//         // 右折: 右前輪が内輪
+//         torques[0] = tau_out;  // 左前輪
+//         torques[1] = tau_in;   // 右前輪
+//     }
+
+//     return torques;
+// }
+
+// array<double,2> getInputValue::computeRearWheelTorque(double Fx, double steeringAngle) {
+//     const double W           = 0.04;  // トレッド幅 [m]
+//     array<double,2> torques;
+
+//     // ① 前進力 → ホイールトルクに変換（２輪で均等分担）
+//     double tau_base = Fx * wheelRadius / 2.0;
+
+//     // ② ほぼ直進なら均等トルク
+//     if (std::fabs(steeringAngle) < 1e-6) {
+//         torques[0] = tau_base;
+//         torques[1] = tau_base;
+//         return torques;
+//     }
+
+//     // ③ バイク曲率半径の計算
+//     double absPhi = std::fabs(steeringAngle);
+//     double R      = lv / std::tan(absPhi);
+//     double R_in   = R - W/2.0;    // 内輪半径
+//     double R_out  = R + W/2.0;    // 外輪半径
+
+//     // ④ 転がり比に応じたトルク配分
+//     double tau_in  = tau_base * (R_in  / R);
+//     double tau_out = tau_base * (R_out / R);
+
+//     // ⑤ 左右トルクをステア方向に合わせてセット
+//     if (steeringAngle > 0) {
+//         // 左折: 左が内輪 → 左に小さめトルク、右に大きめトルク
+//         torques[0] = tau_in;
+//         torques[1] = tau_out;
+//     } else {
+//         // 右折: 右が内輪 → 左に大きめトルク、右に小さめトルク
+//         torques[0] = tau_out;
+//         torques[1] = tau_in;
+//     }
+
+//     return torques;
+// }
+
+// 入力がトルクの場合
+std::array<double,2> getInputValue::computeFrontWheelTorque(double Q, double steeringAngle) {
+    const double W = 0.04;  // 前輪トレッド幅 [m]
+    std::array<double,2> torques;
+
+    // ① 入力 Q (Nm) をまず均等に半分ずつ分担
+    double tau_base = Q * 0.5;
 
     // ② ほぼ直進なら均等トルク
     if (std::fabs(steeringAngle) < 1e-6) {
@@ -68,23 +151,23 @@ array<double,2> getInputValue::computeFrontWheelTorque(double Fx, double steerin
         return torques;
     }
 
-    // ③ バイク曲率半径の計算
+    // ③ 曲率半径の計算
     double absPhi = std::fabs(steeringAngle);
     double R      = lv / std::tan(absPhi);
     double R_in   = R - W/2.0;    // 内輪半径
     double R_out  = R + W/2.0;    // 外輪半径
 
-    // ④ 転がり比に応じたトルク配分
+    // ④ 内外輪トルク配分
     double tau_in  = tau_base * (R_in  / R);
     double tau_out = tau_base * (R_out / R);
 
-    // ⑤ 左右トルクをステア方向に合わせてセット
+    // ⑤ 左右どちらが内輪かでアサイン
     if (steeringAngle > 0) {
-        // 左折: 左前輪が内輪
+        // 左折: 左が内輪
         torques[0] = tau_in;   // 左前輪
         torques[1] = tau_out;  // 右前輪
     } else {
-        // 右折: 右前輪が内輪
+        // 右折: 右が内輪
         torques[0] = tau_out;  // 左前輪
         torques[1] = tau_in;   // 右前輪
     }
@@ -92,12 +175,12 @@ array<double,2> getInputValue::computeFrontWheelTorque(double Fx, double steerin
     return torques;
 }
 
-array<double,2> getInputValue::computeRearWheelTorque(double Fx, double steeringAngle) {
-    const double W           = 0.04;  // トレッド幅 [m]
-    array<double,2> torques;
+std::array<double,2> getInputValue::computeRearWheelTorque(double Q, double steeringAngle) {
+    const double W = 0.04;  // 後輪トレッド幅 [m]
+    std::array<double,2> torques;
 
-    // ① 前進力 → ホイールトルクに変換（２輪で均等分担）
-    double tau_base = Fx * wheelRadius / 2.0;
+    // ① 入力 Q (Nm) をまず均等に分担
+    double tau_base = Q * 0.5;
 
     // ② ほぼ直進なら均等トルク
     if (std::fabs(steeringAngle) < 1e-6) {
@@ -106,25 +189,25 @@ array<double,2> getInputValue::computeRearWheelTorque(double Fx, double steering
         return torques;
     }
 
-    // ③ バイク曲率半径の計算
+    // ③ 曲率半径の計算
     double absPhi = std::fabs(steeringAngle);
     double R      = lv / std::tan(absPhi);
     double R_in   = R - W/2.0;    // 内輪半径
     double R_out  = R + W/2.0;    // 外輪半径
 
-    // ④ 転がり比に応じたトルク配分
+    // ④ 内外輪トルク配分
     double tau_in  = tau_base * (R_in  / R);
     double tau_out = tau_base * (R_out / R);
 
-    // ⑤ 左右トルクをステア方向に合わせてセット
+    // ⑤ 左右どちらが内輪かでアサイン
     if (steeringAngle > 0) {
-        // 左折: 左が内輪 → 左に小さめトルク、右に大きめトルク
-        torques[0] = tau_in;
-        torques[1] = tau_out;
+        // 左折: 左が内輪
+        torques[0] = tau_in;   // 左後輪
+        torques[1] = tau_out;  // 右後輪
     } else {
-        // 右折: 右が内輪 → 左に大きめトルク、右に小さめトルク
-        torques[0] = tau_out;
-        torques[1] = tau_in;
+        // 右折: 右が内輪
+        torques[0] = tau_out;  // 左後輪
+        torques[1] = tau_in;   // 右後輪
     }
 
     return torques;
@@ -237,10 +320,10 @@ void getInputValue::ddrungeKutta(std::vector<double>& x_d, std::vector<double>& 
 void getInputValue::getU(std::vector<double>& x_old, int sr_j) {
     // --- 制御入力の計算 ---
     // 各内部関数を呼び出して制御入力を計算
-    Thetap = x_old[3] - atan2(dRdq[sr_j][1], dRdq[sr_j][0]);
     thetaT = atan2(dRdq[sr_j][1], dRdq[sr_j][0]);
+    Thetap = x_old[3] - thetaT;
+    
 
-    x_old[4] = x_old[4] - Thetap;
 
     U1(x_old, sr_j);
     U2(x_old, sr_j);
@@ -251,18 +334,9 @@ void getInputValue::getU(std::vector<double>& x_old, int sr_j) {
 void getInputValue::getXInput(std::vector<double>& x_old, std::vector<double>& x_input){
 	
 }
-// getter 関数
-// double getInputValue::getU4()  const { return u4; }
-// double getInputValue::getU5()  const { return u5; }
-// double getInputValue::getU6()  const { return u6; }
-// double getInputValue::getU7()  const { return u7; }
-// double getInputValue::getU8()  const { return u8; }
-// double getInputValue::getU9()  const { return u9; }
-// double getInputValue::getU10() const { return u10; }
-// double getInputValue::getU11() const { return u11; }
-// double getInputValue::getU12() const { return u12; }
 
-// --- 制御入力計算用内部関数 ---
+
+//--- 制御入力計算用内部関数 ---
 void getInputValue::U1(const std::vector<double>& x_old, int sr_j) {
 
 
@@ -273,54 +347,100 @@ void getInputValue::U1(const std::vector<double>& x_old, int sr_j) {
 
 
 void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
-
-	double dx2ds = 0.0;
-	double dx2dd = 0.0;
-	double dx2dthp = 0.0;
-	double dx2dphi = 0.0;
 	double a1;
 	double a2;
 
 	
-
-	//??lv?l?v?Z
-	double z1 = -sr.Cs1 * sr.d * tan(Thetap)
-		- sr.Cs * (1 - sr.d * sr.Cs) * ((1 + pow(sin(Thetap), 2)) / pow(cos(Thetap), 2))
-		+ pow((1 - sr.d * sr.Cs), 2) * tan(x_old[4]) / (lv * pow(cos(Thetap), 3));
-	double z2 = ((1 - sr.d * sr.Cs) * tan(Thetap)) / w1;
-	double z3 = sr.d / pow(w1, 2);
-	double a = -1.5;
+	double z21 = kinematics_solver_.Z_funcs[0]();
+	double z22 = kinematics_solver_.Z_funcs[1]();
+	double z23 = kinematics_solver_.Z_funcs[2]();
+	double a = -5.0;
 
 	P21 = 3 * a;
 	P22 = -3 * a * a;
 	P23 = a * a * a;
 
-	w2 = P21 * z1 + P22 * z2 + P23 * z3;
+	w2 = P21 * z21 + P22 * z22 + P23 * z23;
 
 
-	dx2ds = -sr.Cs2 * sr.d * tan(Thetap)
-		- sr.Cs1 * (1 - sr.d * sr.Cs) * ((1 + pow(sin(Thetap), 2)) / pow(cos(Thetap), 2))
-		+ sr.d * sr.Cs * sr.Cs1 * ((1 + pow(sin(Thetap), 2))) / pow(cos(Thetap), 2)
-		- sr.d * sr.Cs1 * (2 * (1 - sr.d * sr.Cs) * tan(x_old[4])) / (lv * pow(cos(Thetap), 3)) -sr.Cs-sr.d;
+	// dx2ds = kinematics_solver_.pd_Z2_funcs[4]();
 
-	dx2dd = -sr.Cs1 * tan(Thetap)
-		+ sr.Cs * sr.Cs * ((1 + pow(sin(Thetap), 2)) / pow(cos(Thetap), 2))
-		- (2 * (1 - sr.d * sr.Cs) * tan(x_old[4]) * sr.Cs) / (lv * pow(cos(Thetap), 3));
+	// dx2dd = kinematics_solver_.pd_Z2_funcs[5]();
 
+	// dx2dthp = kinematics_solver_.pd_Z2_funcs[6]();
 
-	dx2dthp = -sr.Cs1 * sr.d / pow(cos(Thetap), 2)
-		- sr.Cs * (1 - sr.d * sr.Cs) * 4 * sin(Thetap) / pow(cos(Thetap), 3)
-		+ 3 * (pow((1 - sr.d * sr.Cs), 2) * tan(x_old[4]) * sin(Thetap)) / (lv * pow(cos(Thetap), 4));
+	// dx2dphi = kinematics_solver_.pd_Z2_funcs[7]();
 
-	dx2dphi = pow((1 - sr.d * sr.Cs), 2) / (lv * pow(cos(Thetap), 3) * pow(cos(x_old[4]), 2));
+	a1 = kinematics_solver_.alpha_funcs[2]();
 
-	a1 = dx2ds + dx2dd * (1 - sr.d * sr.Cs) * tan(Thetap)
-		+ dx2dthp * ((tan(x_old[4]) * (1 - sr.d * sr.Cs)) / (lv * cos(Thetap)) - sr.Cs);
-
-	a2 = (lv * pow(cos(Thetap), 3) * pow(cos(x_old[4]), 2)) / pow((1 - sr.d * sr.Cs), 2);
+	a2 = kinematics_solver_.alpha_funcs[3](); 
 
 
 
-	u2 = a2 * (w2 - a1 * u1);
+	u2 = (w2 - a1 * w1)/a2;
+
+    std::cout << "u2 =" <<u2 << "\n\n";
 
 }
+
+// void getInputValue::U1(const std::vector<double>& x_old, int sr_j) {
+
+
+// 	u1 = ((1 - sr.d * sr.Cs) / cos(Thetap)) * w1;
+
+
+// }
+
+
+// void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
+
+// 	double dx2ds = 0.0;
+// 	double dx2dd = 0.0;
+// 	double dx2dthp = 0.0;
+// 	double dx2dphi = 0.0;
+// 	double a1;
+// 	double a2;
+
+	
+
+// 	//??lv?l?v?Z
+// 	double z1 = -sr.Cs1 * sr.d * tan(Thetap)
+// 		- sr.Cs * (1 - sr.d * sr.Cs) * ((1 + pow(sin(Thetap), 2)) / pow(cos(Thetap), 2))
+// 		+ pow((1 - sr.d * sr.Cs), 2) * tan(x_old[4]) / (lv * pow(cos(Thetap), 3));
+// 	double z2 = ((1 - sr.d * sr.Cs) * tan(Thetap)) / w1;
+// 	double z3 = sr.d / pow(w1, 2);
+// 	double a = -3.0;
+
+// 	P21 = 3 * a;
+// 	P22 = -3 * a * a;
+// 	P23 = a * a * a;
+
+// 	w2 = P21 * z1 + P22 * z2 + P23 * z3;
+
+
+// 	dx2ds = -sr.Cs2 * sr.d * tan(Thetap)
+// 		- sr.Cs1 * (1 - sr.d * sr.Cs) * ((1 + pow(sin(Thetap), 2)) / pow(cos(Thetap), 2))
+// 		+ sr.d * sr.Cs * sr.Cs1 * ((1 + pow(sin(Thetap), 2))) / pow(cos(Thetap), 2)
+// 		- sr.d * sr.Cs1 * (2 * (1 - sr.d * sr.Cs) * tan(x_old[4])) / (lv * pow(cos(Thetap), 3)) -sr.Cs-sr.d;
+
+// 	dx2dd = -sr.Cs1 * tan(Thetap)
+// 		+ sr.Cs * sr.Cs * ((1 + pow(sin(Thetap), 2)) / pow(cos(Thetap), 2))
+// 		- (2 * (1 - sr.d * sr.Cs) * tan(x_old[4]) * sr.Cs) / (lv * pow(cos(Thetap), 3));
+
+
+// 	dx2dthp = -sr.Cs1 * sr.d / pow(cos(Thetap), 2)
+// 		- sr.Cs * (1 - sr.d * sr.Cs) * 4 * sin(Thetap) / pow(cos(Thetap), 3)
+// 		+ 3 * (pow((1 - sr.d * sr.Cs), 2) * tan(x_old[4]) * sin(Thetap)) / (lv * pow(cos(Thetap), 4));
+
+// 	dx2dphi = pow((1 - sr.d * sr.Cs), 2) / (lv * pow(cos(Thetap), 3) * pow(cos(x_old[4]), 2));
+
+// 	a1 = dx2ds + dx2dd * (1 - sr.d * sr.Cs) * tan(Thetap)
+// 		+ dx2dthp * ((tan(x_old[4]) * (1 - sr.d * sr.Cs)) / (lv * cos(Thetap)) - sr.Cs);
+
+// 	a2 = (lv * pow(cos(Thetap), 3) * pow(cos(x_old[4]), 2)) / pow((1 - sr.d * sr.Cs), 2);
+
+
+
+// 	u2 = a2 * (w2 - a1 * u1);
+
+// }

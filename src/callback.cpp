@@ -97,9 +97,10 @@ void trueBodyLinkCallback(const nav_msgs::Odometry::ConstPtr& msg)
 
     // — u1_act の取得ロジック追加 —
     // body frame 前方速度 vx, 横方向速度 vy を取得
-    qdot_twist[0] = msg->twist.twist.linear.x;
-    qdot_twist[1] = msg->twist.twist.linear.y;
     qdot_twist[2] = msg->twist.twist.angular.z;
+    qdot_twist[0] = msg->twist.twist.linear.x + qdot_twist[2] * sin(yaw) * (lv/2);
+    qdot_twist[1] = msg->twist.twist.linear.y - qdot_twist[2] * cos(yaw) * (lv/2);
+    
     x_d[1] = qdot_twist[0];
     x_d[2] = qdot_twist[1];
     x_d[3] = qdot_twist[2];

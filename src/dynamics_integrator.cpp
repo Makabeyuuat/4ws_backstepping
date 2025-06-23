@@ -12,6 +12,18 @@
 #include <limits>
 #include <Eigen/Dense>
 #include <Eigen/SVD> 
+#include <Eigen/Core>   
+#include <iostream>
+
+// ここで IOFormat を定義しておく
+static const Eigen::IOFormat CleanFmt(
+    /*precision=*/6,
+    /*flags=*/Eigen::DontAlignCols,
+    /*coeffSeparator=*/", ",
+    /*rowSeparator=*/"\n",
+    /*rowPrefix=*/"[", 
+    /*rowSuffix=*/"]"
+);
 
 using namespace std;
 
@@ -34,18 +46,18 @@ Eigen::Matrix<double,4,1> DynamicsIntegrator::computeXAlpha(
     double u1,
     double u2)
     {
-        double x_pos      = x[0];
-        double y_pos      = x[1];
-        double thetap = x[2];
-        double phi    = x[3];
-        double xdot   = x_d[0];
-        double ydot   = x_d[1];
-        double thetapdot = x_d[2];
-        double phidot = x_d[3];
+        double x_pos      = x[1];
+        double y_pos      = x[2];
+        double thetap = x[3];
+        double phi    = x[4];
+        double xdot   = x_d[1];
+        double ydot   = x_d[2];
+        double thetapdot = x_d[3];
+        double phidot = x_d[4];
 
         // 実際の前進速度と前輪操舵角速度
         u1_act = xdot * cos(thetap) + ydot * sin(thetap);
-        u2_act = x_d[4];
+        u2_act = phidot;
         
         // 結果格納用ベクトル
         Eigen::Matrix<double,4,1> Xalpha;
@@ -67,7 +79,7 @@ Eigen::Matrix<double,4,1> DynamicsIntegrator::computeXAlpha(
         
         // 速度誤差
         double r_b1 = u1_act - u1;
-        double r_b2 = phidot - u2;
+        double r_b2 = u2_act - u2;
       
         //偏差ベクトル
         Eigen::Matrix<double,2,1> r_b;
@@ -77,7 +89,7 @@ Eigen::Matrix<double,4,1> DynamicsIntegrator::computeXAlpha(
         Eigen::Matrix<double,2,2> C;
         C << 
             10.0, 0.0,
-            0.0, 1.0;
+            0.0, 10.0;
             
         Eigen::Vector2d dot_C_rb = C*(r_b);
 
@@ -107,7 +119,7 @@ Eigen::Matrix<double,6,1> DynamicsIntegrator::computeAlpha(
     {
         Eigen::Matrix<double,6,1> alpha;
         //状態変数ベクトルの目標加速度 
-        Eigen::Matrix<double,4,1> Xalpha = computeXAlpha(x_old, x_dd, u1, u2);
+        Eigen::Matrix<double,4,1> Xalpha = computeXAlpha(x_old, x_d, u1, u2);
 
         asd = Xalpha(0);
         athetapd = Xalpha(2);
@@ -146,11 +158,12 @@ void DynamicsIntegrator::step(
         // ラムダの導出
         Eigen::Matrix<double,3,4> A3;
         A3 <<
-          kinematics_solver_.Axi_funcs[0](), kinematics_solver_.Axi_funcs[1](), kinematics_solver_.Axi_funcs[2](), kinematics_solver_.Axi_funcs[3](),
-          kinematics_solver_.Axi_funcs[4](), kinematics_solver_.Axi_funcs[5](), kinematics_solver_.Axi_funcs[6](), kinematics_solver_.Axi_funcs[7](),
-          kinematics_solver_.Axi_funcs[8](), kinematics_solver_.Axi_funcs[9](), kinematics_solver_.Axi_funcs[10](), kinematics_solver_.Axi_funcs[11]();
+          kinematics_solver_.Axi_funcs[0](), kinematics_solver_.Axi_funcs[6](), kinematics_solver_.Axi_funcs[12](), kinematics_solver_.Axi_funcs[18](),
+          kinematics_solver_.Axi_funcs[1](), kinematics_solver_.Axi_funcs[7](), kinematics_solver_.Axi_funcs[13](), kinematics_solver_.Axi_funcs[19](),
+          kinematics_solver_.Axi_funcs[2](), kinematics_solver_.Axi_funcs[8](), kinematics_solver_.Axi_funcs[14](), kinematics_solver_.Axi_funcs[20]();
 
-        // 運動方程式上位3行
+
+        //
         Eigen::Matrix3d M3;
         M3 <<
           kinematics_solver_.Mxi_funcs[0](), kinematics_solver_.Mxi_funcs[1](), kinematics_solver_.Mxi_funcs[2](),
@@ -168,17 +181,28 @@ void DynamicsIntegrator::step(
           kinematics_solver_.Kxi_funcs[0](), 
           kinematics_solver_.Kxi_funcs[1](),
           kinematics_solver_.Kxi_funcs[2]();
-        // 右辺 = -(M3*α3 + C3 + K3)
         
-        Eigen::Vector3d rhs = - (M3*alpha3 + C3 + K3);
+        Eigen::Vector3d rhs =  (M3*alpha3 + C3 * thetadot + K3);
         // COD による最小ノルム解
         Eigen::CompleteOrthogonalDecomposition<Eigen::Matrix<double,3,4>> cod(A3);
         Eigen::Vector4d lambda = cod.solve(rhs);
 
+        // Eigen :: MatrixXd transAxi = A3.transpose () ;
+        // Eigen :: VectorXd lambda = transAxi.completeOrthogonalDecomposition ().solve (M3*alpha3 + C3 * thetadot + K3);
+
         //駆動力計算
         Q_phi   = I_phi   * alpha(3);          
-        Q_psi_f = I_psif  * alpha(4) + wheelRadius * lambda(2);
-        Q_psi_r = I_psir  * alpha(5) + wheelRadius * lambda(3);
+        Q_psi_f = I_psif  * alpha(4) - wheelRadius * lambda(2);
+        Q_psi_r = I_psir  * alpha(5) - wheelRadius * lambda(3);
+
+        // std::cout << "lambda =\n" << lambda.transpose().format(CleanFmt) << "\n\n";
+        // std::cout << "u2act =" <<u2_act << "\n";
+        // std::cout << "u2 =" <<u2 << "\n\n";
+
+        // //駆動力 Q_phi
+        // std::cout << "Q_phi = " << Q_phi << "\n";
+        // std::cout << "Q_psi_f = " << Q_psi_f << "\n";
+        // std::cout << "Q_psi_r = " << Q_psi_r << "\n\n";
 
         // // --- 5) 全自由度動力学の解 ---
         // Eigen::Matrix<double,6,6> Mxi = Eigen::Matrix<double,6,6>::Zero();

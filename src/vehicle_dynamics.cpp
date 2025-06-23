@@ -99,31 +99,181 @@ int main(int argc, char** argv) {
 				+ 10 * d1Rydq1(By, qs, i) * d2Rxdq2(Bx, qs, i) * d3Rxdq3(Bx, qs, i) - 10 * d1Rydq1(By, qs, i) * d2Rydq2(By, qs, i) * d3Rydq3(By, qs, i)
 				+ 2 * Power(d1Rydq1(By, qs, i), 2) * d4Rydq4(By, qs, i))) / Power(Power(d1Rxdq1(Bx, qs, i), 2) + Power(d1Rydq1(By, qs, i), 2), 4.5);
 		
-		cs[i][3] = (-(Power(d1Rxdq1(Bx, qs, i),6)*(10*d3Rxdq3(Bx, qs, i)*d3Rxdq3(By, qs, i) + 5*d2Rxdq2(By, qs, i)*d4Rxdq4(Bx, qs, i) + 10*d2Rxdq2(Bx, qs, i)*d4Rxdq4(By, qs, i) + d1Rxdq1(By, qs, i)*d5Rxdq5(Bx, qs, i))) + 
-     				Power(d1Rxdq1(Bx, qs, i),2)*Power(d1Rxdq1(By, qs, i),2)*(486*Power(d2Rxdq2(Bx, qs, i),3)*d2Rxdq2(By, qs, i) - 86*d1Rxdq1(By, qs, i)*Power(d2Rxdq2(Bx, qs, i),2)*d3Rxdq3(Bx, qs, i) + 
-     				   d2Rxdq2(Bx, qs, i)*(-486*Power(d2Rxdq2(By, qs, i),3) + 128*d1Rxdq1(By, qs, i)*d2Rxdq2(By, qs, i)*d3Rxdq3(By, qs, i)) + 
-     				   d1Rxdq1(By, qs, i)*(34*Power(d2Rxdq2(By, qs, i),2)*d3Rxdq3(Bx, qs, i) + 15*d1Rxdq1(By, qs, i)*d2Rxdq2(By, qs, i)*d4Rxdq4(Bx, qs, i) + 
-     				      d1Rxdq1(By, qs, i)*(10*d3Rxdq3(Bx, qs, i)*d3Rxdq3(By, qs, i) - 3*d1Rxdq1(By, qs, i)*d5Rxdq5(Bx, qs, i)))) + 
-     				Power(d1Rxdq1(By, qs, i),4)*(-57*Power(d2Rxdq2(Bx, qs, i),3)*d2Rxdq2(By, qs, i) + 19*d1Rxdq1(By, qs, i)*Power(d2Rxdq2(Bx, qs, i),2)*d3Rxdq3(Bx, qs, i) + 
-     				   5*d2Rxdq2(Bx, qs, i)*(21*Power(d2Rxdq2(By, qs, i),3) - 12*d1Rxdq1(By, qs, i)*d2Rxdq2(By, qs, i)*d3Rxdq3(By, qs, i) + Power(d1Rxdq1(By, qs, i),2)*d4Rxdq4(By, qs, i)) + 
-     				   d1Rxdq1(By, qs, i)*(-45*Power(d2Rxdq2(By, qs, i),2)*d3Rxdq3(Bx, qs, i) + 10*d1Rxdq1(By, qs, i)*d2Rxdq2(By, qs, i)*d4Rxdq4(Bx, qs, i) + 
-     				      d1Rxdq1(By, qs, i)*(10*d3Rxdq3(Bx, qs, i)*d3Rxdq3(By, qs, i) - d1Rxdq1(By, qs, i)*d5Rxdq5(Bx, qs, i)))) - 
-     				Power(d1Rxdq1(Bx, qs, i),4)*(105*Power(d2Rxdq2(Bx, qs, i),3)*d2Rxdq2(By, qs, i) + 105*d1Rxdq1(By, qs, i)*Power(d2Rxdq2(Bx, qs, i),2)*d3Rxdq3(Bx, qs, i) + 
-     				   d2Rxdq2(Bx, qs, i)*(-57*Power(d2Rxdq2(By, qs, i),3) - 188*d1Rxdq1(By, qs, i)*d2Rxdq2(By, qs, i)*d3Rxdq3(By, qs, i) + 15*Power(d1Rxdq1(By, qs, i),2)*d4Rxdq4(By, qs, i)) + 
-     				   d1Rxdq1(By, qs, i)*(-79*Power(d2Rxdq2(By, qs, i),2)*d3Rxdq3(Bx, qs, i) + d1Rxdq1(By, qs, i)*(10*d3Rxdq3(Bx, qs, i)*d3Rxdq3(By, qs, i) + 3*d1Rxdq1(By, qs, i)*d5Rxdq5(Bx, qs, i)))) + 
-     				Power(d1Rxdq1(Bx, qs, i),7)*d5Rxdq5(By, qs, i) + Power(d1Rxdq1(Bx, qs, i),5)*(45*Power(d2Rxdq2(Bx, qs, i),2)*d3Rxdq3(By, qs, i) - 19*Power(d2Rxdq2(By, qs, i),2)*d3Rxdq3(By, qs, i) + 
-     				   15*d2Rxdq2(Bx, qs, i)*(4*d2Rxdq2(By, qs, i)*d3Rxdq3(Bx, qs, i) + d1Rxdq1(By, qs, i)*d4Rxdq4(Bx, qs, i)) + 
-     				   5*d1Rxdq1(By, qs, i)*(2*Power(d3Rxdq3(Bx, qs, i),2) - 2*Power(d3Rxdq3(By, qs, i),2) - 3*d2Rxdq2(By, qs, i)*d4Rxdq4(By, qs, i)) + 3*Power(d1Rxdq1(By, qs, i),2)*d5Rxdq5(By, qs, i)) + 
-     				d1Rxdq1(Bx, qs, i)*Power(d1Rxdq1(By, qs, i),3)*(-57*Power(d2Rxdq2(Bx, qs, i),4) - 105*Power(d2Rxdq2(By, qs, i),4) + 105*d1Rxdq1(By, qs, i)*Power(d2Rxdq2(By, qs, i),2)*d3Rxdq3(By, qs, i) + 
-     				   Power(d2Rxdq2(Bx, qs, i),2)*(486*Power(d2Rxdq2(By, qs, i),2) - 79*d1Rxdq1(By, qs, i)*d3Rxdq3(By, qs, i)) + 
-     				   d1Rxdq1(By, qs, i)*d2Rxdq2(Bx, qs, i)*(-188*d2Rxdq2(By, qs, i)*d3Rxdq3(Bx, qs, i) + 15*d1Rxdq1(By, qs, i)*d4Rxdq4(Bx, qs, i)) - 
-     				   15*Power(d1Rxdq1(By, qs, i),2)*d2Rxdq2(By, qs, i)*d4Rxdq4(By, qs, i) + Power(d1Rxdq1(By, qs, i),2)*
-     				    (10*Power(d3Rxdq3(Bx, qs, i),2) - 10*Power(d3Rxdq3(By, qs, i),2) + d1Rxdq1(By, qs, i)*d5Rxdq5(By, qs, i))) + 
-     				Power(d1Rxdq1(Bx, qs, i),3)*d1Rxdq1(By, qs, i)*(105*Power(d2Rxdq2(Bx, qs, i),4) + 57*Power(d2Rxdq2(By, qs, i),4) + 86*d1Rxdq1(By, qs, i)*Power(d2Rxdq2(By, qs, i),2)*d3Rxdq3(By, qs, i) - 
-     				   2*Power(d2Rxdq2(Bx, qs, i),2)*(243*Power(d2Rxdq2(By, qs, i),2) + 17*d1Rxdq1(By, qs, i)*d3Rxdq3(By, qs, i)) + 
-     				   2*d1Rxdq1(By, qs, i)*d2Rxdq2(Bx, qs, i)*(-64*d2Rxdq2(By, qs, i)*d3Rxdq3(Bx, qs, i) + 15*d1Rxdq1(By, qs, i)*d4Rxdq4(Bx, qs, i)) - 
-     				   30*Power(d1Rxdq1(By, qs, i),2)*d2Rxdq2(By, qs, i)*d4Rxdq4(By, qs, i) + Power(d1Rxdq1(By, qs, i),2)*
-     				    (20*Power(d3Rxdq3(Bx, qs, i),2) - 20*Power(d3Rxdq3(By, qs, i),2) + 3*d1Rxdq1(By, qs, i)*d5Rxdq5(By, qs, i))))/Power(Power(d1Rxdq1(Bx, qs, i),2) + Power(d1Rxdq1(By, qs, i),2),6);
+		cs[i][3] = (3*Power(d1Rydq1(By, qs, i)*d2Rxdq2(Bx, qs, i) - d1Rxdq1(Bx, qs, i)*d2Rydq2(By, qs, i),2)*
+					(Power(d1Rydq1(By, qs, i),2)*(3*d2Rxdq2(Bx, qs, i)*d2Rydq2(By, qs, i) - 
+  					   d1Rydq1(By, qs, i)*d3Rxdq3(Bx, qs, i)) - 
+  					Power(d1Rxdq1(Bx, qs, i),2)*(3*d2Rxdq2(Bx, qs, i)*d2Rydq2(By, qs, i) + 
+  					   d1Rydq1(By, qs, i)*d3Rxdq3(Bx, qs, i)) + 
+  					Power(d1Rxdq1(Bx, qs, i),3)*d3Rydq3(By, qs, i) + 
+  					d1Rxdq1(Bx, qs, i)*d1Rydq1(By, qs, i)*
+  					 (3*Power(d2Rxdq2(Bx, qs, i),2) - 3*Power(d2Rydq2(By, qs, i),2) + 
+  					   d1Rydq1(By, qs, i)*d3Rydq3(By, qs, i))))/
+  					  Power(Power(d1Rxdq1(Bx, qs, i),2) + Power(d1Rydq1(By, qs, i),2),6) + 
+  					 (3*Power(d1Rydq1(By, qs, i)*d2Rxdq2(Bx, qs, i) - d1Rxdq1(Bx, qs, i)*d2Rydq2(By, qs, i),2)*
+  					    (-(Power(d1Rxdq1(Bx, qs, i),4)*(4*d2Rydq2(By, qs, i)*d3Rxdq3(Bx, qs, i) + 
+  					           6*d2Rxdq2(Bx, qs, i)*d3Rydq3(By, qs, i) + d1Rydq1(By, qs, i)*d4Rxdq4(Bx, qs, i))) + 
+  					      Power(d1Rxdq1(Bx, qs, i),2)*d1Rydq1(By, qs, i)*
+  					       (-15*Power(d2Rxdq2(Bx, qs, i),3) + 
+  					         d2Rxdq2(Bx, qs, i)*(39*Power(d2Rydq2(By, qs, i),2) - 
+  					            2*d1Rydq1(By, qs, i)*d3Rydq3(By, qs, i)) + 
+  					         2*d1Rydq1(By, qs, i)*(d2Rydq2(By, qs, i)*d3Rxdq3(Bx, qs, i) - 
+  					            d1Rydq1(By, qs, i)*d4Rxdq4(Bx, qs, i))) + 
+  					      Power(d1Rydq1(By, qs, i),3)*(3*Power(d2Rxdq2(Bx, qs, i),3) + 
+  					         d2Rxdq2(Bx, qs, i)*(-15*Power(d2Rydq2(By, qs, i),2) + 
+  					            4*d1Rydq1(By, qs, i)*d3Rydq3(By, qs, i)) + 
+  					         d1Rydq1(By, qs, i)*(6*d2Rydq2(By, qs, i)*d3Rxdq3(Bx, qs, i) - 
+  					            d1Rydq1(By, qs, i)*d4Rxdq4(Bx, qs, i))) + 
+  					      Power(d1Rxdq1(Bx, qs, i),5)*d4Rydq4(By, qs, i) + 
+  					      d1Rxdq1(Bx, qs, i)*Power(d1Rydq1(By, qs, i),2)*
+  					       (-39*Power(d2Rxdq2(Bx, qs, i),2)*d2Rydq2(By, qs, i) + 15*Power(d2Rydq2(By, qs, i),3) + 
+  					         10*d1Rydq1(By, qs, i)*d2Rxdq2(Bx, qs, i)*d3Rxdq3(Bx, qs, i) - 
+  					         10*d1Rydq1(By, qs, i)*d2Rydq2(By, qs, i)*d3Rydq3(By, qs, i) + 
+  					         Power(d1Rydq1(By, qs, i),2)*d4Rydq4(By, qs, i)) + 
+  					      Power(d1Rxdq1(Bx, qs, i),3)*(15*Power(d2Rxdq2(Bx, qs, i),2)*d2Rydq2(By, qs, i) - 
+  					         3*Power(d2Rydq2(By, qs, i),3) + 
+  					         10*d1Rydq1(By, qs, i)*d2Rxdq2(Bx, qs, i)*d3Rxdq3(Bx, qs, i) - 
+  					         10*d1Rydq1(By, qs, i)*d2Rydq2(By, qs, i)*d3Rydq3(By, qs, i) + 
+  					         2*Power(d1Rydq1(By, qs, i),2)*d4Rydq4(By, qs, i))))/
+  					  Power(Power(d1Rxdq1(Bx, qs, i),2) + Power(d1Rydq1(By, qs, i),2),7.5) + 
+  					 (d1Rxdq1(Bx, qs, i)*(Power(d1Rydq1(By, qs, i),5)*
+  					       (13*Power(d2Rxdq2(Bx, qs, i),4) - 
+  					         3*Power(d1Rydq1(By, qs, i),2)*Power(d3Rxdq3(Bx, qs, i),2) + 
+  					         Power(d2Rxdq2(Bx, qs, i),2)*(-87*Power(d2Rydq2(By, qs, i),2) + 
+  					            16*d1Rydq1(By, qs, i)*d3Rydq3(By, qs, i)) + 
+  					         d2Rxdq2(Bx, qs, i)*(42*d1Rydq1(By, qs, i)*d2Rydq2(By, qs, i)*d3Rxdq3(Bx, qs, i) - 
+  					            4*Power(d1Rydq1(By, qs, i),2)*d4Rxdq4(Bx, qs, i))) - 
+  					      Power(d1Rxdq1(Bx, qs, i),7)*(10*d3Rxdq3(Bx, qs, i)*d3Rydq3(By, qs, i) + 
+  					         5*d2Rydq2(By, qs, i)*d4Rxdq4(Bx, qs, i) + 10*d2Rxdq2(Bx, qs, i)*d4Rydq4(By, qs, i) + 
+  					         d1Rydq1(By, qs, i)*d5Rxdq5(Bx, qs, i)) + 
+  					      Power(d1Rxdq1(Bx, qs, i),3)*Power(d1Rydq1(By, qs, i),2)*
+  					       (714*Power(d2Rxdq2(Bx, qs, i),3)*d2Rydq2(By, qs, i) - 
+  					         22*d1Rydq1(By, qs, i)*Power(d2Rxdq2(Bx, qs, i),2)*d3Rxdq3(Bx, qs, i) + 
+  					         d2Rxdq2(Bx, qs, i)*(-766*Power(d2Rydq2(By, qs, i),3) + 
+  					            108*d1Rydq1(By, qs, i)*d2Rydq2(By, qs, i)*d3Rydq3(By, qs, i) + 
+  					            8*Power(d1Rydq1(By, qs, i),2)*d4Rydq4(By, qs, i)) + 
+  					         d1Rydq1(By, qs, i)*(14*Power(d2Rydq2(By, qs, i),2)*d3Rxdq3(Bx, qs, i) + 
+  					            23*d1Rydq1(By, qs, i)*d2Rydq2(By, qs, i)*d4Rxdq4(Bx, qs, i) + 
+  					            d1Rydq1(By, qs, i)*(22*d3Rxdq3(Bx, qs, i)*d3Rydq3(By, qs, i) - 
+  					               3*d1Rydq1(By, qs, i)*d5Rxdq5(Bx, qs, i)))) + 
+  					      d1Rxdq1(Bx, qs, i)*Power(d1Rydq1(By, qs, i),4)*
+  					       (-301*Power(d2Rxdq2(Bx, qs, i),3)*d2Rydq2(By, qs, i) + 
+  					         83*d1Rydq1(By, qs, i)*Power(d2Rxdq2(Bx, qs, i),2)*d3Rxdq3(Bx, qs, i) + 
+  					         d2Rxdq2(Bx, qs, i)*(279*Power(d2Rydq2(By, qs, i),3) - 
+  					            134*d1Rydq1(By, qs, i)*d2Rydq2(By, qs, i)*d3Rydq3(By, qs, i) + 
+  					            9*Power(d1Rydq1(By, qs, i),2)*d4Rydq4(By, qs, i)) + 
+  					         d1Rydq1(By, qs, i)*(-87*Power(d2Rydq2(By, qs, i),2)*d3Rxdq3(Bx, qs, i) + 
+  					            14*d1Rydq1(By, qs, i)*d2Rydq2(By, qs, i)*d4Rxdq4(Bx, qs, i) + 
+  					            d1Rydq1(By, qs, i)*(16*d3Rxdq3(Bx, qs, i)*d3Rydq3(By, qs, i) - 
+  					               d1Rydq1(By, qs, i)*d5Rxdq5(Bx, qs, i)))) + 
+  					      Power(d1Rxdq1(Bx, qs, i),5)*(-105*Power(d2Rxdq2(Bx, qs, i),3)*d2Rydq2(By, qs, i) - 
+  					         105*d1Rydq1(By, qs, i)*Power(d2Rxdq2(Bx, qs, i),2)*d3Rxdq3(Bx, qs, i) + 
+  					         d2Rxdq2(Bx, qs, i)*(75*Power(d2Rydq2(By, qs, i),3) + 
+  					            242*d1Rydq1(By, qs, i)*d2Rydq2(By, qs, i)*d3Rydq3(By, qs, i) - 
+  					            11*Power(d1Rydq1(By, qs, i),2)*d4Rydq4(By, qs, i)) + 
+  					         d1Rydq1(By, qs, i)*(101*Power(d2Rydq2(By, qs, i),2)*d3Rxdq3(Bx, qs, i) + 
+  					            4*d1Rydq1(By, qs, i)*d2Rydq2(By, qs, i)*d4Rxdq4(Bx, qs, i) - 
+  					            d1Rydq1(By, qs, i)*(4*d3Rxdq3(Bx, qs, i)*d3Rydq3(By, qs, i) + 
+  					               3*d1Rydq1(By, qs, i)*d5Rxdq5(Bx, qs, i)))) + 
+  					      Power(d1Rxdq1(Bx, qs, i),8)*d5Rydq5(By, qs, i) + 
+  					      Power(d1Rxdq1(Bx, qs, i),6)*(45*Power(d2Rxdq2(Bx, qs, i),2)*d3Rydq3(By, qs, i) - 
+  					         25*Power(d2Rydq2(By, qs, i),2)*d3Rydq3(By, qs, i) + 
+  					         15*d2Rxdq2(Bx, qs, i)*(4*d2Rydq2(By, qs, i)*d3Rxdq3(Bx, qs, i) + 
+  					            d1Rydq1(By, qs, i)*d4Rxdq4(Bx, qs, i)) + 
+  					         d1Rydq1(By, qs, i)*(10*Power(d3Rxdq3(Bx, qs, i),2) - 13*Power(d3Rydq3(By, qs, i),2) - 
+  					            19*d2Rydq2(By, qs, i)*d4Rydq4(By, qs, i)) + 
+  					         3*Power(d1Rydq1(By, qs, i),2)*d5Rydq5(By, qs, i)) + 
+  					      Power(d1Rxdq1(Bx, qs, i),2)*Power(d1Rydq1(By, qs, i),3)*
+  					       (-162*Power(d2Rxdq2(Bx, qs, i),4) - 192*Power(d2Rydq2(By, qs, i),4) + 
+  					         163*d1Rydq1(By, qs, i)*Power(d2Rydq2(By, qs, i),2)*d3Rydq3(By, qs, i) + 
+  					         3*Power(d2Rxdq2(Bx, qs, i),2)*
+  					          (322*Power(d2Rydq2(By, qs, i),2) - 37*d1Rydq1(By, qs, i)*d3Rydq3(By, qs, i)) + 
+  					         d1Rydq1(By, qs, i)*d2Rxdq2(Bx, qs, i)*
+  					          (-232*d2Rydq2(By, qs, i)*d3Rxdq3(Bx, qs, i) + 
+  					            7*d1Rydq1(By, qs, i)*d4Rxdq4(Bx, qs, i)) - 
+  					         19*Power(d1Rydq1(By, qs, i),2)*d2Rydq2(By, qs, i)*d4Rydq4(By, qs, i) + 
+  					         Power(d1Rydq1(By, qs, i),2)*(4*Power(d3Rxdq3(Bx, qs, i),2) - 
+  					            13*Power(d3Rydq3(By, qs, i),2) + d1Rydq1(By, qs, i)*d5Rydq5(By, qs, i))) + 
+  					      Power(d1Rxdq1(Bx, qs, i),4)*d1Rydq1(By, qs, i)*
+  					       (105*Power(d2Rxdq2(Bx, qs, i),4) + 88*Power(d2Rydq2(By, qs, i),4) + 
+  					         138*d1Rydq1(By, qs, i)*Power(d2Rydq2(By, qs, i),2)*d3Rydq3(By, qs, i) - 
+  					         Power(d2Rxdq2(Bx, qs, i),2)*(627*Power(d2Rydq2(By, qs, i),2) + 
+  					            82*d1Rydq1(By, qs, i)*d3Rydq3(By, qs, i)) + 
+  					         2*d1Rydq1(By, qs, i)*d2Rxdq2(Bx, qs, i)*
+  					          (-107*d2Rydq2(By, qs, i)*d3Rxdq3(Bx, qs, i) + 
+  					            13*d1Rydq1(By, qs, i)*d4Rxdq4(Bx, qs, i)) - 
+  					         38*Power(d1Rydq1(By, qs, i),2)*d2Rydq2(By, qs, i)*d4Rydq4(By, qs, i) + 
+  					         Power(d1Rydq1(By, qs, i),2)*(17*Power(d3Rxdq3(Bx, qs, i),2) - 
+  					            26*Power(d3Rydq3(By, qs, i),2) + 3*d1Rydq1(By, qs, i)*d5Rydq5(By, qs, i)))))/
+  					  Power(Power(d1Rxdq1(Bx, qs, i),2) + Power(d1Rydq1(By, qs, i),2),7) - 
+  					 (d1Rydq1(By, qs, i)*(Power(d1Rxdq1(Bx, qs, i),6)*
+  					       (16*Power(d2Rydq2(By, qs, i),2)*d3Rxdq3(Bx, qs, i) + 
+  					         d2Rydq2(By, qs, i)*(42*d2Rxdq2(Bx, qs, i)*d3Rydq3(By, qs, i) + 
+  					            9*d1Rydq1(By, qs, i)*d4Rxdq4(Bx, qs, i)) + 
+  					         d1Rydq1(By, qs, i)*(16*d3Rxdq3(Bx, qs, i)*d3Rydq3(By, qs, i) + 
+  					            14*d2Rxdq2(Bx, qs, i)*d4Rydq4(By, qs, i) + d1Rydq1(By, qs, i)*d5Rxdq5(Bx, qs, i)))\
+  					       + Power(d1Rydq1(By, qs, i),5)*(75*Power(d2Rxdq2(Bx, qs, i),3)*d2Rydq2(By, qs, i) - 
+  					         25*d1Rydq1(By, qs, i)*Power(d2Rxdq2(Bx, qs, i),2)*d3Rxdq3(Bx, qs, i) - 
+  					         5*d2Rxdq2(Bx, qs, i)*(21*Power(d2Rydq2(By, qs, i),3) - 
+  					            12*d1Rydq1(By, qs, i)*d2Rydq2(By, qs, i)*d3Rydq3(By, qs, i) + 
+  					            Power(d1Rydq1(By, qs, i),2)*d4Rydq4(By, qs, i)) + 
+  					         d1Rydq1(By, qs, i)*(45*Power(d2Rydq2(By, qs, i),2)*d3Rxdq3(Bx, qs, i) - 
+  					            10*d1Rydq1(By, qs, i)*d2Rydq2(By, qs, i)*d4Rxdq4(Bx, qs, i) + 
+  					            d1Rydq1(By, qs, i)*(-10*d3Rxdq3(Bx, qs, i)*d3Rydq3(By, qs, i) + 
+  					               d1Rydq1(By, qs, i)*d5Rxdq5(Bx, qs, i)))) + 
+  					      Power(d1Rxdq1(Bx, qs, i),2)*Power(d1Rydq1(By, qs, i),3)*
+  					       (-766*Power(d2Rxdq2(Bx, qs, i),3)*d2Rydq2(By, qs, i) + 
+  					         138*d1Rydq1(By, qs, i)*Power(d2Rxdq2(Bx, qs, i),2)*d3Rxdq3(Bx, qs, i) + 
+  					         d2Rxdq2(Bx, qs, i)*(714*Power(d2Rydq2(By, qs, i),3) - 
+  					            214*d1Rydq1(By, qs, i)*d2Rydq2(By, qs, i)*d3Rydq3(By, qs, i) + 
+  					            4*Power(d1Rydq1(By, qs, i),2)*d4Rydq4(By, qs, i)) + 
+  					         d1Rydq1(By, qs, i)*(-82*Power(d2Rydq2(By, qs, i),2)*d3Rxdq3(Bx, qs, i) - 
+  					            11*d1Rydq1(By, qs, i)*d2Rydq2(By, qs, i)*d4Rxdq4(Bx, qs, i) + 
+  					            d1Rydq1(By, qs, i)*(-4*d3Rxdq3(Bx, qs, i)*d3Rydq3(By, qs, i) + 
+  					               3*d1Rydq1(By, qs, i)*d5Rxdq5(Bx, qs, i)))) + 
+  					      Power(d1Rxdq1(Bx, qs, i),4)*d1Rydq1(By, qs, i)*
+  					       (279*Power(d2Rxdq2(Bx, qs, i),3)*d2Rydq2(By, qs, i) + 
+  					         163*d1Rydq1(By, qs, i)*Power(d2Rxdq2(Bx, qs, i),2)*d3Rxdq3(Bx, qs, i) + 
+  					         d2Rxdq2(Bx, qs, i)*(-301*Power(d2Rydq2(By, qs, i),3) - 
+  					            232*d1Rydq1(By, qs, i)*d2Rydq2(By, qs, i)*d3Rydq3(By, qs, i) + 
+  					            23*Power(d1Rydq1(By, qs, i),2)*d4Rydq4(By, qs, i)) + 
+  					         d1Rydq1(By, qs, i)*(-111*Power(d2Rydq2(By, qs, i),2)*d3Rxdq3(Bx, qs, i) + 
+  					            8*d1Rydq1(By, qs, i)*d2Rydq2(By, qs, i)*d4Rxdq4(Bx, qs, i) + 
+  					            d1Rydq1(By, qs, i)*(22*d3Rxdq3(Bx, qs, i)*d3Rydq3(By, qs, i) + 
+  					               3*d1Rydq1(By, qs, i)*d5Rxdq5(Bx, qs, i)))) - 
+  					      Power(d1Rxdq1(Bx, qs, i),7)*(3*Power(d3Rydq3(By, qs, i),2) + 
+  					         4*d2Rydq2(By, qs, i)*d4Rydq4(By, qs, i) + d1Rydq1(By, qs, i)*d5Rydq5(By, qs, i)) + 
+  					      Power(d1Rxdq1(Bx, qs, i),3)*Power(d1Rydq1(By, qs, i),2)*
+  					       (-192*Power(d2Rxdq2(Bx, qs, i),4) - 162*Power(d2Rydq2(By, qs, i),4) - 
+  					         22*d1Rydq1(By, qs, i)*Power(d2Rydq2(By, qs, i),2)*d3Rydq3(By, qs, i) + 
+  					         14*Power(d2Rxdq2(Bx, qs, i),2)*
+  					          (69*Power(d2Rydq2(By, qs, i),2) + d1Rydq1(By, qs, i)*d3Rydq3(By, qs, i)) + 
+  					         2*d1Rydq1(By, qs, i)*d2Rxdq2(Bx, qs, i)*
+  					          (54*d2Rydq2(By, qs, i)*d3Rxdq3(Bx, qs, i) - 19*d1Rydq1(By, qs, i)*d4Rxdq4(Bx, qs, i))
+  					           + 26*Power(d1Rydq1(By, qs, i),2)*d2Rydq2(By, qs, i)*d4Rydq4(By, qs, i) + 
+  					         Power(d1Rydq1(By, qs, i),2)*(-26*Power(d3Rxdq3(Bx, qs, i),2) + 
+  					            17*Power(d3Rydq3(By, qs, i),2) - 3*d1Rydq1(By, qs, i)*d5Rydq5(By, qs, i))) + 
+  					      d1Rxdq1(Bx, qs, i)*Power(d1Rydq1(By, qs, i),4)*
+  					       (88*Power(d2Rxdq2(Bx, qs, i),4) + 105*Power(d2Rydq2(By, qs, i),4) - 
+  					         105*d1Rydq1(By, qs, i)*Power(d2Rydq2(By, qs, i),2)*d3Rydq3(By, qs, i) + 
+  					         Power(d2Rxdq2(Bx, qs, i),2)*(-627*Power(d2Rydq2(By, qs, i),2) + 
+  					            101*d1Rydq1(By, qs, i)*d3Rydq3(By, qs, i)) + 
+  					         d1Rydq1(By, qs, i)*d2Rxdq2(Bx, qs, i)*
+  					          (242*d2Rydq2(By, qs, i)*d3Rxdq3(Bx, qs, i) - 
+  					            19*d1Rydq1(By, qs, i)*d4Rxdq4(Bx, qs, i)) + 
+  					         15*Power(d1Rydq1(By, qs, i),2)*d2Rydq2(By, qs, i)*d4Rydq4(By, qs, i) - 
+  					         Power(d1Rydq1(By, qs, i),2)*(13*Power(d3Rxdq3(Bx, qs, i),2) - 
+  					            10*Power(d3Rydq3(By, qs, i),2) + d1Rydq1(By, qs, i)*d5Rydq5(By, qs, i))) - 
+  					      Power(d1Rxdq1(Bx, qs, i),5)*(-13*Power(d2Rydq2(By, qs, i),4) - 
+  					         83*d1Rydq1(By, qs, i)*Power(d2Rydq2(By, qs, i),2)*d3Rydq3(By, qs, i) + 
+  					         87*Power(d2Rxdq2(Bx, qs, i),2)*
+  					          (Power(d2Rydq2(By, qs, i),2) + d1Rydq1(By, qs, i)*d3Rydq3(By, qs, i)) + 
+  					         d1Rydq1(By, qs, i)*d2Rxdq2(Bx, qs, i)*
+  					          (134*d2Rydq2(By, qs, i)*d3Rxdq3(Bx, qs, i) + 
+  					            19*d1Rydq1(By, qs, i)*d4Rxdq4(Bx, qs, i)) - 
+  					         7*Power(d1Rydq1(By, qs, i),2)*d2Rydq2(By, qs, i)*d4Rydq4(By, qs, i) + 
+  					         Power(d1Rydq1(By, qs, i),2)*(13*Power(d3Rxdq3(Bx, qs, i),2) - 
+  					            4*Power(d3Rydq3(By, qs, i),2) + 3*d1Rydq1(By, qs, i)*d5Rydq5(By, qs, i)))))/
+  					  Power(Power(d1Rxdq1(Bx, qs, i),2) + Power(d1Rydq1(By, qs, i),2),7);
 	}
 
 	
@@ -137,7 +287,7 @@ int main(int argc, char** argv) {
     // vehicle1.publishSteeringCommand(x_old[4],x_old[4]);
     // vehicle1.publishWheelCommand(v1, v1);
 	// 各車両へ steering コマンドと車輪のトルクコマンドを送信
-    vehicle1.publishSteeringCommand(x_old[4],x_old[4]);
+    vehicle1.publishSteeringCommand(Q_phi,Q_phi);
     vehicle1.publishWheelCommand(torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
 
 
@@ -186,7 +336,7 @@ int main(int argc, char** argv) {
         // vehicle1.publishSteeringCommand(x_old[4],x_old[4]);
         // vehicle1.publishWheelCommand(omega_rear[0], omega_rear[1]);
 		// 各車両へ steering コマンドと車輪のトルクコマンドを送信
-		vehicle1.publishSteeringCommand(x_old[4],x_old[4]);
+		vehicle1.publishSteeringCommand(Q_phi, Q_phi);
 		vehicle1.publishWheelCommand(torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
 
 		// ループレートを維持

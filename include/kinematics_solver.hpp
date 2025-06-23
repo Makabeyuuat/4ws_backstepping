@@ -62,6 +62,9 @@ public:
     double calc_pd_Z2_pd_X_2_1_(); double calc_pd_Z2_pd_X_2_2_(); double calc_pd_Z2_pd_X_2_3_(); double calc_pd_Z2_pd_X_2_4_();
     double calc_pd_Z2_pd_X_3_1_(); double calc_pd_Z2_pd_X_3_2_(); double calc_pd_Z2_pd_X_3_3_(); double calc_pd_Z2_pd_X_3_4_();
 
+    //Z21,22,23の計算
+    double calc_Z_2_1_(); double calc_Z_2_2_(); double calc_Z_2_3_();
+
     //状態変数ベクトル
     double calc_SX_1_1_(); double calc_SX_1_2_(); double calc_SX_2_1_(); double calc_SX_2_2_();
     double calc_SX_3_1_(); double calc_SX_3_2_(); double calc_SX_4_1_(); double calc_SX_4_2_();
@@ -167,15 +170,12 @@ public:
             [this](){ return calc_pd_W_pd_X_2_3_(); },
             [this](){ return calc_pd_W_pd_X_2_4_(); }
         };
-        // Z_funcs = {
-        //     [this](){ return calc_Z_1_1_(); },
-        //     [this](){ return calc_Z_1_2_(); },
-        //     [this](){ return calc_Z_1_3_(); },
-        //     [this](){ return calc_Z_2_1_(); },
-        //     [this](){ return calc_Z_2_2_(); },
-        //     [this](){ return calc_Z_2_3_(); }double calc_Z_1_1_(); double calc_Z_1_2_(); double calc_Z_1_3_(); double calc_Z_2_1_(); double calc_Z_2_2_(); double calc_Z_2_3_();
+        Z_funcs = {
+            [this](){ return calc_Z_2_1_(); },
+            [this](){ return calc_Z_2_2_(); },
+            [this](){ return calc_Z_2_3_(); }
 
-        // };
+        };
         pd_Z2_funcs = {
             [this](){ return calc_pd_Z2_pd_X_1_1_(); },
             [this](){ return calc_pd_Z2_pd_X_1_2_(); },

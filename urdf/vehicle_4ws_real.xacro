@@ -404,6 +404,7 @@
   <parent link="new_hinge_1"/>
   <child link="new_wheel_1"/>
   <dynamics damping="${front_wheel_joint_damping}" friction="${front_wheel_joint_friction}"/>
+  <limit effort="500" velocity="500"/>
   <axis xyz="0.0 1.0 -0.0"/>
 </joint>
 
@@ -412,7 +413,7 @@
   <parent link="new_hinge_2"/>
   <child link="new_wheel_2"/>
   <dynamics damping="${wheel_joint_damping}" friction="${wheel_joint_friction}"/>
-  <limit effort="100" velocity="100"/>
+  <limit effort="500" velocity="500"/>
   <axis xyz="0.0 1.0 -0.0"/>
 </joint>
 
@@ -430,6 +431,7 @@
   <parent link="new_hinge_3"/>
   <child link="new_wheel_3"/>
   <dynamics damping="${front_wheel_joint_damping}" friction="${front_wheel_joint_friction}"/>
+  <limit effort="500" velocity="500"/>
   <axis xyz="0.0 1.0 -0.0"/>
 </joint>
 
@@ -438,7 +440,7 @@
   <parent link="new_hinge_4"/>
   <child link="new_wheel_4"/>
   <dynamics damping="${wheel_joint_damping}" friction="${wheel_joint_friction}"/>
-  <limit effort="100" velocity="100"/>
+  <limit effort="500" velocity="500"/>
   <axis xyz="0.0 1.0 -0.0"/>
 </joint>
 

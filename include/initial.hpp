@@ -90,7 +90,6 @@ inline double k2 = 2.0;
 
 
 //制御入力の係数
-inline double z21, z22;
 inline double alpha21, alpha22;
 
 

@@ -5,9 +5,11 @@
 #include <cmath>
 #include <array>
 #include <functional>
+#include "kinematics_solver.hpp"
 
 
 class getInputValue {
+    
 public:
     // 各状態の微分方程式右辺関数のポインタ型
     using FunctionPtr = double(*)(const std::vector<double>&);
@@ -43,6 +45,8 @@ private:
     // differential_equations.hpp で定義された配列をコピー
     std::vector<FunctionPtr> fAllVec;
     std::vector<FunctionPtr> fdAllVec;
+
+    KinematicsSolver kinematics_solver_;
 
     // ここから内部で制御入力を計算する関数群
 

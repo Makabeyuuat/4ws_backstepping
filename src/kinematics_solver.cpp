@@ -1057,6 +1057,30 @@ ret = P21*calc_pd_Z2_pd_X_1_4_() + P22*calc_pd_Z2_pd_X_2_4_() + P23*calc_pd_Z2_p
 return ret;
 }
 
+
+
+//Z21,22,23とその偏微分の計算
+double KinematicsSolver::calc_Z_2_1_()
+{
+double ret;
+ret = Power(1 - sr.Cs*sr.d,2)*Power(Sec(thetaT),3)*(-((sr.Cs*Cos(thetaT))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv) - sr.Cs*(1 - sr.Cs*sr.d)*Power(Tan(thetaT),2) - sr.d*Tan(thetaT)*sr.Cs1;
+return ret;
+}
+
+double KinematicsSolver::calc_Z_2_2_()
+{
+double ret;
+ret = (1 - sr.Cs*sr.d)*Tan(thetaT);
+return ret;
+}
+
+double KinematicsSolver::calc_Z_2_3_()
+{
+double ret;
+ret = sr.d;
+return ret;
+}
+
 double KinematicsSolver::calc_pd_Z2_pd_X_1_1_()
 {
 double ret;
@@ -1156,3 +1180,6 @@ ret = ((w1*calc_alpha_2_1_() - w2)*(calc_d_SX_d_t_4_1_()*calc_pd_alpha2_pd_X_2_4
     + calc_pd_W_pd_X_2_4_()) + calc_d_SX_d_t_3_1_()*(-(w1*calc_pd_alpha2_pd_X_1_3_()) + calc_pd_W_pd_X_2_3_()) - w1*calc_d_SX_d_t_2_1_()*calc_pd_alpha2_pd_X_1_2_() + calc_d_SX_d_t_2_1_()*calc_pd_W_pd_X_2_2_() - w1*calc_d_SX_d_t_1_1_()*calc_pd_alpha2_pd_X_1_1_() + calc_d_SX_d_t_1_1_()*calc_pd_W_pd_X_2_1_()))/Power(calc_alpha_2_2_(),2);
 return ret;
 }
+
+
+
