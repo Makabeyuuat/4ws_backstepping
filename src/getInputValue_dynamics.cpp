@@ -347,8 +347,6 @@ void getInputValue::U1(const std::vector<double>& x_old, int sr_j) {
 
 
 void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
-	double a1;
-	double a2;
 
 	
 	double z21 = kinematics_solver_.Z_funcs[0]();
@@ -371,15 +369,17 @@ void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
 
 	// dx2dphi = kinematics_solver_.pd_Z2_funcs[7]();
 
-	a1 = kinematics_solver_.alpha_funcs[2]();
+	alpha21 = kinematics_solver_.alpha_funcs[2]();
 
-	a2 = kinematics_solver_.alpha_funcs[3](); 
+	alpha22 = kinematics_solver_.alpha_funcs[3](); 
 
+    
 
+	u2 = (w2 - alpha21 * w1)/alpha22;
 
-	u2 = (w2 - a1 * w1)/a2;
-
-    std::cout << "u2 =" <<u2 << "\n\n";
+    std::cout << "z21=" << z21 << ", z22=" << z22 << ", z23=" << z23 << "\n";
+    std::cout << "alpha21=" << alpha21 << ", alpha22=" << alpha22 << ", w2=" << w2 << "\n";
+    std::cout << "u1 =" <<u1 << ", u2 =" <<u2 << "\n\n";
 
 }
 

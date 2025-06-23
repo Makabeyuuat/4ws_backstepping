@@ -128,9 +128,9 @@ inline double I_phi = 0.021551;        // ステア軸慣性
 inline double I_psif = 0.053334;        // 前輪 1 本あたり回転慣性
 inline double I_psir = 0.053334;        // 後輪 1 本あたり回転慣性
 inline double wheelRadius = 0.15;          // 後輪半径
-inline double Q_phi;
-inline double Q_psi_f;
-inline double Q_psi_r;
+inline double Q_phi = 0.0;
+inline double Q_psi_f = 0.0;
+inline double Q_psi_r = 0.0;
 inline double nu1 = 0.0;
 inline double nu2 = 0.0;
 inline double u1_act = 0.0; 

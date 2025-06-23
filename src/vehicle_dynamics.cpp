@@ -396,6 +396,7 @@ Search searchPP(std::vector<double>& x) {
 					sr.Cs = cs[i][0];
 					sr.Cs1 = cs[i][1];
 					sr.Cs2 = cs[i][2];
+					sr.Cs3 = cs[i][3];
 					sr.j = i;
 				}
 		}
@@ -415,6 +416,7 @@ Search searchPP(std::vector<double>& x) {
 					sr.Cs = cs[i][0];
 					sr.Cs1 = cs[i][1];
 					sr.Cs2 = cs[i][2];
+					sr.Cs3 = cs[i][3];
 					sr.j = i;
 				}
 			}
@@ -435,6 +437,7 @@ Search searchPP(std::vector<double>& x) {
 					sr.Cs = cs[i][0];
 					sr.Cs1 = cs[i][1];
 					sr.Cs2 = cs[i][2];
+					sr.Cs3 = cs[i][3];
 					sr.j = i;
 				}
 			}
