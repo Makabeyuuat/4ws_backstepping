@@ -2,6 +2,8 @@
 #include "initial.hpp" 
 #include "mathFunc.h"        // 数学関数のヘッダーファイル
 #include <array>
+#include <iostream>
+
 
 using namespace std;
 
@@ -23,14 +25,20 @@ double KinematicsSolver::calc_alpha_2_1_()
 {
 double ret;
 ret = -2*sr.d*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*sr.Cs1 + sr.Cs*sr.d*Power(Tan(Thetap),2)*sr.Cs1 - (1 - sr.Cs*sr.d)*Power(Tan(Thetap),2)*sr.Cs1 + Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap)*sr.d*sr.Cs1)/Power(1 - sr.Cs*sr.d,2)) - (Cos(Thetap)*sr.Cs1)/(1 - sr.Cs*sr.d)) + (1 - sr.Cs*sr.d)*Sec(Thetap)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*(-(sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),2)*Tan(Thetap)) + 3*Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap) - sr.d*Power(Sec(Thetap),2)*sr.Cs1) + (1 - sr.Cs*sr.d)*Tan(Thetap)*(-(Power(sr.Cs,2)*Power(Sec(Thetap),2)) - 2*sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv) + Power(sr.Cs,2)*Power(Tan(Thetap),2) - Tan(Thetap)*sr.Cs1) - sr.d*Tan(Thetap)*sr.Cs2;
+
+// for (size_t i = 0; i < x_old.size(); ++i) {
+//   std::cout << "x_old["<< i << "] = " << x_old[i] << "\n";
+// }
+// std::cout << "Thetap=" << Thetap << ", thetaT=" << thetaT
+//           << ", u1_act=" << u1_act << ", u2_act=" << u2_act << "\n";
 return ret;
 }
 
 double KinematicsSolver::calc_alpha_2_2_()
 {
-double ret;
-ret = (Power(1 - sr.Cs*sr.d,2)*Power(Sec(x_old[4]),2)*Power(Sec(Thetap),3))/lv;
-return ret;
+    double ret;
+    ret = (Power(1 - sr.Cs*sr.d,2)*Power(Sec(x_old[4]),2)*Power(Sec(Thetap),3))/lv;
+    return ret;
 }
 
 double KinematicsSolver::calc_aqd_1_()
