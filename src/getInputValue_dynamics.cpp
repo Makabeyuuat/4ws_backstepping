@@ -314,16 +314,13 @@ void getInputValue::ddrungeKutta(std::vector<double>& x_d, std::vector<double>& 
             // ... 更新結果を x_new に格納 
             x_d[i] = x_newd[i];
         }
-          
 }
 
 void getInputValue::getU(std::vector<double>& x_old, int sr_j) {
     // --- 制御入力の計算 ---
     // 各内部関数を呼び出して制御入力を計算
     thetaT = atan2(dRdq[sr_j][1], dRdq[sr_j][0]);
-    Thetap = x_old[3] - thetaT;
-    
-
+    ::Thetap = x_old[3] - thetaT;
 
     U1(x_old, sr_j);
     U2(x_old, sr_j);
@@ -361,25 +358,16 @@ void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
 	w2 = P21 * z21 + P22 * z22 + P23 * z23;
 
 
-	// dx2ds = kinematics_solver_.pd_Z2_funcs[4]();
-
-	// dx2dd = kinematics_solver_.pd_Z2_funcs[5]();
-
-	// dx2dthp = kinematics_solver_.pd_Z2_funcs[6]();
-
-	// dx2dphi = kinematics_solver_.pd_Z2_funcs[7]();
-
 	alpha21 = kinematics_solver_.alpha_funcs[2]();
-
 	alpha22 = kinematics_solver_.alpha_funcs[3](); 
 
     
 
 	u2 = (w2 - alpha21 * w1)/alpha22;
 
-    std::cout << "z21=" << z21 << ", z22=" << z22 << ", z23=" << z23 << "\n";
-    std::cout << "alpha21=" << alpha21 << ", alpha22=" << alpha22 << ", w2=" << w2 << "\n";
-    std::cout << "u1 =" <<u1 << ", u2 =" <<u2 << "\n\n";
+    // std::cout << "z21=" << z21 << ", z22=" << z22 << ", z23=" << z23 << "\n";
+    // std::cout << "alpha21=" << alpha21 << ", alpha22=" << alpha22 << ", w2=" << w2 << "\n";
+    // std::cout << "u1 =" <<u1 << ", u2 =" <<u2 << "\n\n";
 
 }
 

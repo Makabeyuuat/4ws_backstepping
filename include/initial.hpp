@@ -8,9 +8,9 @@
 
 #define PAI 3.14159265358979323846
 #define PSdist 300
-#define GRAV 9.8
+#define GRAV 9.80665
 #define vehicle_inertia_coef 0.14824039
-inline constexpr int BEZIER_ORDER = 3; 
+inline constexpr int BEZIER_ORDER = 4; 
 //inline constexpr int BEZIER_ORDER = 15; 
 inline constexpr int Dim = 4;
 inline constexpr int  Q = 100001;  //曲線の分割数PAI
@@ -20,8 +20,8 @@ inline constexpr double DEG2RAD = 180.0 / PAI;
 inline bool got_body_pose = false;
 inline bool got_steering_pose = false;
 //３次のベジェ曲線
-inline double Bx[BEZIER_ORDER + 1] = { -6.5, 3.0, -3.0, 6.5 };
-inline double By[BEZIER_ORDER + 1] = { -1.0, -1.0, 1.0, 1.0 };
+inline double Bx[BEZIER_ORDER + 1] = { -6.5, 3.0, -3.0, 6.5 ,7.0};
+inline double By[BEZIER_ORDER + 1] = { -1.0, -1.0, 1.0, 1.0 , 1.0};
 
 //inline double Bx[BEZIER_ORDER + 1]  = { -7.0 ,-7.0, -7.0, -7.0, -7.0,-5.5, -4.0, -2.5, -1.0, 0.5, 2.0, -1.0, 0.5, 2.0, 3.5, 5.0 };
 //inline double By[BEZIER_ORDER + 1] = { 0.0 ,-1.0, -2.0, -3.0, -7.0, -7.0, -7.0, -7.0, -7.0, -7.0, -7.0, 2.0, 2.0, 2.0, 2.0, 2.0 };
@@ -107,8 +107,7 @@ inline double vx = 0.0;
 inline double vy = 0.0;
 inline double dynamic_v = 0.0;
 inline double yaw_rate = 0.0;
-inline double M_mass = 376.64;
-inline double I_theta = vehicle_inertia_coef * 418.647558; 
+
 inline double rho = 0.0 * DEG2RAD;
 inline double phidot = 0.0;
 inline double q_twist[6] = {0.0};
@@ -122,12 +121,14 @@ extern Eigen::Map<Eigen::Matrix<double,6,1>> qdot_map;
 extern Eigen::Map<Eigen::Matrix<double,6,1>> qddot_map;
 inline double dymanic_v = 0.0;
 
-inline double m_b = 376.64;          // 車体質量
-inline double m_w = 4.63972;        // 前輪 1 本あたり質量
-inline double I_phi = 0.021551;        // ステア軸慣性
-inline double I_psif = 0.053334;        // 前輪 1 本あたり回転慣性
-inline double I_psir = 0.053334;        // 後輪 1 本あたり回転慣性
-inline double wheelRadius = 0.15;          // 後輪半径
+inline double M_mass = 376.64;
+inline double m_b = 376.64;
+inline double m_w = 4.63972*2;
+inline double I_theta = vehicle_inertia_coef * 418.647558;
+inline double I_phi = 0.021551 + 0.029034;
+inline double I_psif = 0.053334;        
+inline double I_psir = 0.053334;        
+inline double wheelRadius = 0.155;          
 inline double Q_phi = 0.0;
 inline double Q_psi_f = 0.0;
 inline double Q_psi_r = 0.0;
@@ -137,6 +138,11 @@ inline double u1_act = 0.0;
 inline double u2_act = 0.0; 
 inline double asd = 0.0;
 inline double athetapd = 0.0;
+
+//誤差平均
+inline double roop_sum = 0.0;
+inline double d_sum = 0.0;
+inline double d_ave = 0.0;
 // 初期値設定関数
 // 引数: t, dt, x0, x_new
 void initial(double &t, double &dt);

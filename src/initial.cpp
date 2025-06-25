@@ -13,7 +13,7 @@ void initial(double &t, double &dt) {
    
     t = 66.8;
     dt = 0.01;
-    w1 = 0.2;
+    w1 = 0.1;
 
     
 

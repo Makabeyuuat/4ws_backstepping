@@ -40,6 +40,8 @@ void jointStateCallback(const sensor_msgs::JointState::ConstPtr& msg)
 
         // …既存の revolute ジョイント処理…
         if (msg->name[i] == "front_right_steering") {
+            x_old[4] = pos;  // 前輪のステアリング角度
+            q_twist[3] = pos;  // 前輪のステアリング角
             phidot = vel;
             qdot_twist[3] = phidot;
             x_d[4] = phidot;
@@ -126,8 +128,9 @@ void trueV1FrontLeftSteeringCallback(const nav_msgs::Odometry::ConstPtr& msg)
 
     true_steering = yaw;
 
-    q_twist[3] = true_steering - true_body_yaw;
-    x_old[4] = q_twist[3];
+    // q_twist[3] = true_steering - true_body_yaw;
+    // x_old[4] = q_twist[3];
+    // std::cout << "x_old[4] =" <<x_old[4] << ",  true_body_yaw=" <<true_body_yaw << ", true_steering"  << true_steering << "\n\n";
     got_steering_pose = true;
 
     

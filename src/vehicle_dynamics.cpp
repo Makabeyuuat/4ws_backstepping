@@ -283,13 +283,21 @@ int main(int argc, char** argv) {
 
 	//全探索
 	searchP(x_old);
-	// // 各車両へ steering コマンドと車輪の回転速度コマンドを送信
-    // vehicle1.publishSteeringCommand(x_old[4],x_old[4]);
-    // vehicle1.publishWheelCommand(v1, v1);
+
+	//制御入力を計算し、それらをルンゲクッタ法で更新
+	getInputValue.getU(x_old, sr.j);
+	integrator.step(q_map, qdot_map, u1, u2);
+	getInputValue.ddrungeKutta(x_d, x_dd);
+	getInputValue.rungeKutta(x_old, x_d);
+
+
 	// 各車両へ steering コマンドと車輪のトルクコマンドを送信
     vehicle1.publishSteeringCommand(Q_phi,Q_phi);
     vehicle1.publishWheelCommand(torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
 
+	//誤差平均
+	roop_sum ++;
+	d_sum += std::abs(sr.d);
 
 
 	//Gazeboのフィードバックをもとに計算
@@ -300,6 +308,10 @@ int main(int argc, char** argv) {
 	
 		//部分探索
 		searchPP(x_old);
+
+		roop_sum ++;
+		d_sum += std::abs(sr.d);
+		d_ave = d_sum / roop_sum;
 	
 		//制御入力を計算し、それらをルンゲクッタ法で更新
 		getInputValue.getU(x_old, sr.j);
@@ -309,28 +321,30 @@ int main(int argc, char** argv) {
 
 		
 	
-	
-		//デバッグ用ログ出力
-    	ROS_INFO_THROTTLE(1.0, "x_old = [%.3f, %.3f, %.3f, %.3f, %.3f]",
-    	    x_old[0], x_old[1], x_old[2], x_old[3], x_old[4]);
 
-    	ROS_INFO_THROTTLE(1.0, "sr: j=%d, Psx=%.3f, Psy=%.3f, d=%.3f, Cs=%.3f",
-    	    sr.j, sr.Psx, sr.Psy, sr.d, sr.Cs);
+		//デバッグ用ログ出力
+    	// ROS_INFO_THROTTLE(1.0, "x_old = [%.3f, %.3f, %.3f, %.3f, %.3f]",
+    	//     x_old[0], x_old[1], x_old[2], x_old[3], x_old[4]);
+
+    	ROS_INFO_THROTTLE(0.01, "sr: j=%d, Psx=%.3f, Psy=%.3f, d=%.3f, Cs=%.6f, dCs1=%.6f, dCs2=%.6f, dCs3=%.6f, d_ave=%.6f",
+    	    sr.j, sr.Psx, sr.Psy, sr.d, sr.Cs, sr.Cs1, sr.Cs2, sr.Cs3, d_ave);
 
     	// ROS_INFO_THROTTLE(1.0, "cmd: steering=%.3f, omega_rear=[%.3f, %.3f]",
     	//     x_old[4], omega_rear[0], omega_rear[1]);
 		
-		ROS_INFO_THROTTLE(1.0, "x_dd: x_dd=%.3f, y_dd=%.3f, theta_dd=%.3f",
-		    x_dd[1], x_dd[2],x_dd[3]);
+		// ROS_INFO_THROTTLE(1.0, "x_dd: x_dd=%.3f, y_dd=%.3f, theta_dd=%.3f",
+		//     x_dd[1], x_dd[2],x_dd[3]);
 		
-		ROS_INFO_THROTTLE(1.0, "x_d: x_d=%.3f, y_d=%.3f, theta_d=%.3f",
-		    x_d[1], x_d[2],x_d[3]);
+		// ROS_INFO_THROTTLE(1.0, "x_d: x_d=%.3f, y_d=%.3f, theta_d=%.3f",
+		//     x_d[1], x_d[2],x_d[3]);
 
-		ROS_INFO_THROTTLE(1.0, "nu: nu1=%.3f, nu2=%.3f",
-		    nu1, nu2);
+		// ROS_INFO_THROTTLE(1.0, "nu: nu1=%.3f, nu2=%.3f",
+		//     nu1, nu2);
 
-		ROS_INFO_THROTTLE(1.0, "Torque: front_left=%.3f, front_right=%.3f, rear_left=%.3f, rear_right=%.3f\n",
-		    torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
+		ROS_INFO_THROTTLE(0.01, "Torque: front_left=%.3f, front_right=%.3f, rear_left=%.3f, rear_right=%.3f, Q_phi=%.3f\n",
+		    torque_front[0], torque_front[1], torque_rear[0], torque_rear[1], Q_phi);
+		
+		
 
 		// // 各車両へ steering コマンドと車輪の回転速度コマンドを送信
         // vehicle1.publishSteeringCommand(x_old[4],x_old[4]);
@@ -368,6 +382,7 @@ Search searchP(std::vector<double>& x) {
 				sr.Cs = cs[i][0];
 				sr.Cs1 = cs[i][1];
 				sr.Cs2 = cs[i][2];
+				sr.Cs3 = cs[i][3];
 				sr.j = i;
 			}
 		}
@@ -387,7 +402,7 @@ Search searchPP(std::vector<double>& x) {
 
 			dist = sqrt(pow((x[1] - R[i][0]), 2) + pow((x[2] - R[i][1]), 2));
 
-			if (-0.0001 < dot && dot < 0.0001) {
+			if (-0.001 < dot && dot < 0.001) {
 				if (dist < dist0) {
 					dist0 = dist;
 					sr.Psx = R[i][0];
@@ -407,7 +422,7 @@ Search searchPP(std::vector<double>& x) {
 
 			dist = sqrt(pow((x[1] - R[i][0]), 2) + pow((x[2] - R[i][1]), 2));
 
-			if (-0.0001 < dot && dot < 0.0001) {
+			if (-0.001 < dot && dot < 0.001) {
 				if (dist < dist0) {
 					dist0 = dist;
 					sr.Psx = R[i][0];
@@ -428,7 +443,7 @@ Search searchPP(std::vector<double>& x) {
 
 			dist = sqrt(pow((x[1] - R[i][0]), 2) + pow((x[2] - R[i][1]), 2));
 
-			if (-0.0001 < dot && dot < 0.0001) {
+			if (-0.001 < dot && dot < 0.001) {
 				if (dist < dist0) {
 					dist0 = dist;
 					sr.Psx = R[i][0];

@@ -41,6 +41,112 @@ double KinematicsSolver::calc_alpha_2_2_()
     return ret;
 }
 
+//Z21,22,23とその偏微分の計算
+double KinematicsSolver::calc_Z_2_1_()
+{
+double ret;
+ret = Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv) - sr.Cs*(1 - sr.Cs*sr.d)*Power(Tan(Thetap),2) - sr.d*Tan(Thetap)*sr.Cs1;
+return ret;
+}
+
+double KinematicsSolver::calc_Z_2_2_()
+{
+double ret;
+ret = (1 - sr.Cs*sr.d)*Tan(Thetap);
+return ret;
+}
+
+double KinematicsSolver::calc_Z_2_3_()
+{
+double ret;
+ret = sr.d;
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z2_pd_X_1_1_()
+{
+double ret;
+ret = -2*sr.d*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*sr.Cs1 + sr.Cs*sr.d*Power(Tan(Thetap),2)*sr.Cs1 - (1 - sr.Cs*sr.d)*Power(Tan(Thetap),2)*sr.Cs1 + Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap)*sr.d*sr.Cs1)/Power(1 - sr.Cs*sr.d,2)) - (Cos(Thetap)*sr.Cs1)/(1 - sr.Cs*sr.d)) - sr.d*Tan(Thetap)*sr.Cs2;
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z2_pd_X_1_2_()
+{
+double ret;
+ret = -(Power(sr.Cs,2)*Power(Sec(Thetap),2)) - 2*sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv) + Power(sr.Cs,2)*Power(Tan(Thetap),2) - Tan(Thetap)*sr.Cs1;
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z2_pd_X_1_3_()
+{
+double ret;
+ret = -(sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),2)*Tan(Thetap)) + 3*Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap) - sr.d*Power(Sec(Thetap),2)*sr.Cs1;
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z2_pd_X_1_4_()
+{
+double ret;
+ret = (Power(1 - sr.Cs*sr.d,2)*Power(Sec(x_old[4]),2)*Power(Sec(Thetap),3))/lv;
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z2_pd_X_2_1_()
+{
+double ret;
+ret = -(sr.d*Tan(Thetap)*sr.Cs1);
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z2_pd_X_2_2_()
+{
+double ret;
+ret = -(sr.Cs*Tan(Thetap));
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z2_pd_X_2_3_()
+{
+double ret;
+ret = (1 - sr.Cs*sr.d)*Power(Sec(Thetap),2);
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z2_pd_X_2_4_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z2_pd_X_3_1_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z2_pd_X_3_2_()
+{
+double ret;
+ret = 1;
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z2_pd_X_3_3_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z2_pd_X_3_4_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
 double KinematicsSolver::calc_aqd_1_()
 {
 double ret;
@@ -1067,111 +1173,7 @@ return ret;
 
 
 
-//Z21,22,23とその偏微分の計算
-double KinematicsSolver::calc_Z_2_1_()
-{
-double ret;
-ret = Power(1 - sr.Cs*sr.d,2)*Power(Sec(thetaT),3)*(-((sr.Cs*Cos(thetaT))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv) - sr.Cs*(1 - sr.Cs*sr.d)*Power(Tan(thetaT),2) - sr.d*Tan(thetaT)*sr.Cs1;
-return ret;
-}
 
-double KinematicsSolver::calc_Z_2_2_()
-{
-double ret;
-ret = (1 - sr.Cs*sr.d)*Tan(thetaT);
-return ret;
-}
-
-double KinematicsSolver::calc_Z_2_3_()
-{
-double ret;
-ret = sr.d;
-return ret;
-}
-
-double KinematicsSolver::calc_pd_Z2_pd_X_1_1_()
-{
-double ret;
-ret = -2*sr.d*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*sr.Cs1 + sr.Cs*sr.d*Power(Tan(Thetap),2)*sr.Cs1 - (1 - sr.Cs*sr.d)*Power(Tan(Thetap),2)*sr.Cs1 + Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap)*sr.d*sr.Cs1)/Power(1 - sr.Cs*sr.d,2)) - (Cos(Thetap)*sr.Cs1)/(1 - sr.Cs*sr.d)) - sr.d*Tan(Thetap)*sr.Cs2;
-return ret;
-}
-
-double KinematicsSolver::calc_pd_Z2_pd_X_1_2_()
-{
-double ret;
-ret = -(Power(sr.Cs,2)*Power(Sec(Thetap),2)) - 2*sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv) + Power(sr.Cs,2)*Power(Tan(Thetap),2) - Tan(Thetap)*sr.Cs1;
-return ret;
-}
-
-double KinematicsSolver::calc_pd_Z2_pd_X_1_3_()
-{
-double ret;
-ret = -(sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),2)*Tan(Thetap)) + 3*Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap) - sr.d*Power(Sec(Thetap),2)*sr.Cs1;
-return ret;
-}
-
-double KinematicsSolver::calc_pd_Z2_pd_X_1_4_()
-{
-double ret;
-ret = (Power(1 - sr.Cs*sr.d,2)*Power(Sec(x_old[4]),2)*Power(Sec(Thetap),3))/lv;
-return ret;
-}
-
-double KinematicsSolver::calc_pd_Z2_pd_X_2_1_()
-{
-double ret;
-ret = -(sr.d*Tan(Thetap)*sr.Cs1);
-return ret;
-}
-
-double KinematicsSolver::calc_pd_Z2_pd_X_2_2_()
-{
-double ret;
-ret = -(sr.Cs*Tan(Thetap));
-return ret;
-}
-
-double KinematicsSolver::calc_pd_Z2_pd_X_2_3_()
-{
-double ret;
-ret = (1 - sr.Cs*sr.d)*Power(Sec(Thetap),2);
-return ret;
-}
-
-double KinematicsSolver::calc_pd_Z2_pd_X_2_4_()
-{
-double ret;
-ret = 0;
-return ret;
-}
-
-double KinematicsSolver::calc_pd_Z2_pd_X_3_1_()
-{
-double ret;
-ret = 0;
-return ret;
-}
-
-double KinematicsSolver::calc_pd_Z2_pd_X_3_2_()
-{
-double ret;
-ret = 1;
-return ret;
-}
-
-double KinematicsSolver::calc_pd_Z2_pd_X_3_3_()
-{
-double ret;
-ret = 0;
-return ret;
-}
-
-double KinematicsSolver::calc_pd_Z2_pd_X_3_4_()
-{
-double ret;
-ret = 0;
-return ret;
-}
 
 //目標速度の時間微分
 double KinematicsSolver::calc_pd_ud_pd_t_1_()
