@@ -353,7 +353,7 @@ int main(int argc, char** argv) {
         // vehicle1.publishSteeringCommand(x_old[4],x_old[4]);
         // vehicle1.publishWheelCommand(omega_rear[0], omega_rear[1]);
 		// 各車両へ steering コマンドと車輪のトルクコマンドを送信
-		vehicle1.publishSteeringCommand(Q_phi, Q_phi);
+		vehicle1.publishSteeringCommand(Q_phi/2.0, Q_phi/2.0);
 		vehicle1.publishWheelCommand(torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
 
 		// ループレートを維持

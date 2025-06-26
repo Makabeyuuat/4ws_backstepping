@@ -396,7 +396,7 @@
   <child link="new_hinge_1"/>
   <dynamics damping="${front_steering_damping}" friction="${front_steering_friction}"/>
   <axis xyz="0.0 0.0 1.0"/>
-  <limit upper="1.047" lower="-1.047" effort="100" velocity="100"/>
+  <limit upper="1.57" lower="-1.57" effort="200" velocity="200"/>
 </joint>
 
 <joint name="front_right_wheel" type="continuous">
@@ -423,7 +423,7 @@
   <child link="new_hinge_3"/>
   <dynamics damping="${front_steering_damping}" friction="${front_steering_friction}"/>
   <axis xyz="0.0 0.0 1.0"/>
-  <limit upper="1.047" lower="-1.047" effort="100" velocity="100"/>
+  <limit upper="1.57" lower="-1.57" effort="200" velocity="200"/>
 </joint>
 
 <joint name="front_left_wheel" type="continuous">
