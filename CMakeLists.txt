@@ -72,6 +72,7 @@ add_executable(vehicle_dynamics_controller
   src/getInputValue_dynamics.cpp
   src/dynamics_integrator.cpp
   src/kinematics_solver.cpp
+  src/csvLogger.cpp
 )
 target_link_libraries(vehicle_dynamics_controller
   ${catkin_LIBRARIES}

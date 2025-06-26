@@ -13,6 +13,7 @@
 #include "getInputValue_dynamics.hpp"
 #include "dynamics_integrator.hpp"
 #include "pidTau.hpp"
+#include "csvLogger.hpp"
 
 using namespace std;
 
@@ -30,6 +31,9 @@ int main(int argc, char** argv) {
     ros::Subscriber joint_state_sub    = nh.subscribe("/vehicle_4ws/joint_states", 10, jointStateCallback);
     ros::Subscriber true_bodylink_sub = nh.subscribe("/vehicle_4ws/true_body_link", 10, trueBodyLinkCallback);
 	ros::Subscriber front_left_steering_sub = nh.subscribe("/vehicle_4ws/true_front_left_steering_link", 10, trueV1FrontLeftSteeringCallback);
+
+	// 100000 になったら自動クローズ
+	CSVLogger logger("/home/yutamakabe/catkin_ws/src/vehicle_backstepping/data/data_log.csv", 100000);
 
 
 	PIDGains driveGains{400.0, 40.0, 0.01};  // (Kp, Ki, Kd)
@@ -323,27 +327,26 @@ int main(int argc, char** argv) {
 	
 
 		//デバッグ用ログ出力
-    	// ROS_INFO_THROTTLE(1.0, "x_old = [%.3f, %.3f, %.3f, %.3f, %.3f]",
-    	//     x_old[0], x_old[1], x_old[2], x_old[3], x_old[4]);
+    	ROS_INFO_THROTTLE(1.0, "x_old = [%.3f, %.3f, %.3f, %.3f, %.3f]",
+    	    x_old[0], x_old[1], x_old[2], x_old[3], x_old[4]);
 
     	ROS_INFO_THROTTLE(0.01, "sr: j=%d, Psx=%.3f, Psy=%.3f, d=%.3f, Cs=%.6f, dCs1=%.6f, dCs2=%.6f, dCs3=%.6f, d_ave=%.6f",
     	    sr.j, sr.Psx, sr.Psy, sr.d, sr.Cs, sr.Cs1, sr.Cs2, sr.Cs3, d_ave);
-
-    	// ROS_INFO_THROTTLE(1.0, "cmd: steering=%.3f, omega_rear=[%.3f, %.3f]",
-    	//     x_old[4], omega_rear[0], omega_rear[1]);
 		
-		// ROS_INFO_THROTTLE(1.0, "x_dd: x_dd=%.3f, y_dd=%.3f, theta_dd=%.3f",
-		//     x_dd[1], x_dd[2],x_dd[3]);
 		
-		// ROS_INFO_THROTTLE(1.0, "x_d: x_d=%.3f, y_d=%.3f, theta_d=%.3f",
-		//     x_d[1], x_d[2],x_d[3]);
+		ROS_INFO_THROTTLE(1.0, "x_d: x_d=%.3f, y_d=%.3f, theta_d=%.3f",
+		    x_d[1], x_d[2],x_d[3]);
 
-		// ROS_INFO_THROTTLE(1.0, "nu: nu1=%.3f, nu2=%.3f",
-		//     nu1, nu2);
+		ROS_INFO_THROTTLE(1.0, "nu: nu1=%.3f, nu2=%.3f",
+		    nu1, nu2);
 
 		ROS_INFO_THROTTLE(0.01, "Torque: front_left=%.3f, front_right=%.3f, rear_left=%.3f, rear_right=%.3f, Q_phi=%.3f\n",
 		    torque_front[0], torque_front[1], torque_rear[0], torque_rear[1], Q_phi);
 		
+
+
+		// ROS_INFO_THROTTLE(1.0, "x_dd: x_dd=%.3f, y_dd=%.3f, theta_dd=%.3f",
+		//     x_dd[1], x_dd[2],x_dd[3]);
 		
 
 		// // 各車両へ steering コマンドと車輪の回転速度コマンドを送信
@@ -354,6 +357,7 @@ int main(int argc, char** argv) {
 		vehicle1.publishWheelCommand(torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
 
 		// ループレートを維持
+		logger.logData();
 		loop_rate.sleep();
 	}
 	return 0;
