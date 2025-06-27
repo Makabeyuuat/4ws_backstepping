@@ -13,6 +13,7 @@ set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type")
 ## catkinのマクロとライブラリを検索
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  roslib 
   rospy
   tf2_ros
   tf2_geometry_msgs  # 正しいパッケージ名
@@ -20,7 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## パッケージを宣言
 catkin_package(
-  CATKIN_DEPENDS roscpp rospy tf2_ros tf2_geometry_msgs
+  CATKIN_DEPENDS roscpp rospy tf2_ros tf2_geometry_msgs roslib
 )
 
 ## ヘッダ検索パスを追加

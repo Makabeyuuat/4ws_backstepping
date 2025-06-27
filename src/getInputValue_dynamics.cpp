@@ -29,7 +29,7 @@ getInputValue::getInputValue(double h)
 {}
 
 array<double,2> getInputValue::computeRearWheelOmegas(double speed, double steeringAngle) {
-    const double W = 0.04;            // トレッド幅[m]
+    const double W = 0.05;            // トレッド幅[m]
     array<double,2> omegas;
 
     if (fabs(steeringAngle) < 1e-6) {
@@ -61,7 +61,7 @@ array<double,2> getInputValue::computeRearWheelOmegas(double speed, double steer
 
 //入力が力の場合
 // array<double,2> getInputValue::computeFrontWheelTorque(double Fx, double steeringAngle) {
-//     const double W           = 0.04;  // 前輪トレッド幅 [m]
+//     const double W           = 0.05;  // 前輪トレッド幅 [m]
 //     array<double,2> torques;
 
 //     // ① 前進力 → ホイールトルクに変換（２輪で均等分担）
@@ -99,7 +99,7 @@ array<double,2> getInputValue::computeRearWheelOmegas(double speed, double steer
 // }
 
 // array<double,2> getInputValue::computeRearWheelTorque(double Fx, double steeringAngle) {
-//     const double W           = 0.04;  // トレッド幅 [m]
+//     const double W           = 0.05;  // トレッド幅 [m]
 //     array<double,2> torques;
 
 //     // ① 前進力 → ホイールトルクに変換（２輪で均等分担）
@@ -138,7 +138,7 @@ array<double,2> getInputValue::computeRearWheelOmegas(double speed, double steer
 
 // 入力がトルクの場合
 std::array<double,2> getInputValue::computeFrontWheelTorque(double Q, double steeringAngle) {
-    const double W = 0.04;  // 前輪トレッド幅 [m]
+    const double W = 0.05;  // 前輪トレッド幅 [m]
     std::array<double,2> torques;
 
     // ① 入力 Q (Nm) をまず均等に半分ずつ分担
@@ -176,7 +176,7 @@ std::array<double,2> getInputValue::computeFrontWheelTorque(double Q, double ste
 }
 
 std::array<double,2> getInputValue::computeRearWheelTorque(double Q, double steeringAngle) {
-    const double W = 0.04;  // 後輪トレッド幅 [m]
+    const double W = 0.05;  // 後輪トレッド幅 [m]
     std::array<double,2> torques;
 
     // ① 入力 Q (Nm) をまず均等に分担

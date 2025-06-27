@@ -121,14 +121,19 @@ extern Eigen::Map<Eigen::Matrix<double,6,1>> qdot_map;
 extern Eigen::Map<Eigen::Matrix<double,6,1>> qddot_map;
 inline double dymanic_v = 0.0;
 
+
+inline double m_wheel = 4.63972;
+inline double m_hinge = 4.884144703315957;
 inline double M_mass = 376.64;
 inline double m_b = 376.64;
-inline double m_w = 4.63972*2;
+inline double m_w = 2*(m_wheel + m_hinge);
 inline double I_theta = vehicle_inertia_coef * 418.647558;
-inline double I_phi = (0.021551 + 0.029034)*2;
+inline double I_wheel = 0.029034;
+inline double I_hinge = 0.021551;
+inline double I_phi = 2*(I_wheel + I_hinge);
 inline double I_psif = 0.053334;        
 inline double I_psir = 0.053334;        
-inline double wheelRadius = 0.155;          
+inline double wheelRadius = 0.153;          
 inline double Q_phi = 0.0;
 inline double Q_psi_f = 0.0;
 inline double Q_psi_r = 0.0;
@@ -138,6 +143,7 @@ inline double u1_act = 0.0;
 inline double u2_act = 0.0; 
 inline double asd = 0.0;
 inline double athetapd = 0.0;
+inline Eigen::Vector4d lamda_data = Eigen::Vector4d::Zero();
 
 //誤差平均
 inline double roop_sum = 0.0;

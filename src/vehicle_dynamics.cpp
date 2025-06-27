@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <float.h>
+#include <ctime>
+#include <sstream>
+#include <iostream>
 #include "initial.hpp"
 #include "mathFunc.h"		// 数学関数のヘッダーファイル
 #include "Bezier.h"			// Bezier 曲線の関数
@@ -14,6 +17,7 @@
 #include "dynamics_integrator.hpp"
 #include "pidTau.hpp"
 #include "csvLogger.hpp"
+#include <ros/package.h>
 
 using namespace std;
 
@@ -32,8 +36,13 @@ int main(int argc, char** argv) {
     ros::Subscriber true_bodylink_sub = nh.subscribe("/vehicle_4ws/true_body_link", 10, trueBodyLinkCallback);
 	ros::Subscriber front_left_steering_sub = nh.subscribe("/vehicle_4ws/true_front_left_steering_link", 10, trueV1FrontLeftSteeringCallback);
 
-	// 100000 になったら自動クローズ
-	CSVLogger logger("/home/yutamakabe/catkin_ws/src/vehicle_backstepping/data/data_log.csv", 100000);
+	//データファイル作成
+	// ディレクトリだけ渡す (末尾に '/' は不要)
+  	std::string pkg = ros::package::getPath("vehicle_backstepping");
+  	std::string data_dir = pkg + "/data";
+
+  	CSVLogger logger(data_dir, 100000);
+
 
 
 	PIDGains driveGains{400.0, 40.0, 0.01};  // (Kp, Ki, Kd)
@@ -296,7 +305,7 @@ int main(int argc, char** argv) {
 
 
 	// 各車両へ steering コマンドと車輪のトルクコマンドを送信
-    vehicle1.publishSteeringCommand(Q_phi,Q_phi);
+    vehicle1.publishSteeringCommand(Q_phi/2.0,Q_phi/2.0);
     vehicle1.publishWheelCommand(torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
 
 	//誤差平均

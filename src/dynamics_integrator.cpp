@@ -187,6 +187,8 @@ void DynamicsIntegrator::step(
         Eigen::CompleteOrthogonalDecomposition<Eigen::Matrix<double,3,4>> cod(A3);
         Eigen::Vector4d lambda = cod.solve(rhs);
 
+        lamda_data = lambda;
+
         // Eigen :: MatrixXd transAxi = A3.transpose () ;
         // Eigen :: VectorXd lambda = transAxi.completeOrthogonalDecomposition ().solve (M3*alpha3 + C3 * thetadot + K3);
 

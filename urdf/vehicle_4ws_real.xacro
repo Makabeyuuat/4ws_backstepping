@@ -210,13 +210,9 @@
   </visual>
   <collision>
     
-    <!-- <origin xyz="-0.450031 0.34248 -0.150215" rpy="0 0 0"/> -->
-    <!-- <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/new_wheel_1.stl" scale="0.001 0.001 0.001"/>
-    </geometry> -->
     <origin xyz="0 0 0" rpy="1.57 0 0"/>
     <geometry>
-      <cylinder radius="0.155" length="0.05"/>
+      <cylinder radius="0.153" length="0.05"/>
     </geometry>
 
     <!-- ここから SDF の surface/friction -->
@@ -259,7 +255,7 @@
     </geometry> -->
     <origin xyz="0 0 0" rpy="1.57 0 0"/>
     <geometry>
-      <cylinder radius="0.155" length="0.05"/>
+      <cylinder radius="0.153" length="0.05"/>
     </geometry>
 
     <!-- ここから SDF の surface/friction -->
@@ -304,7 +300,7 @@
     </geometry> -->
     <origin xyz="0 0 0" rpy="1.57 0 0"/>
     <geometry>
-      <cylinder radius="0.155" length="0.05"/>
+      <cylinder radius="0.153" length="0.05"/>
     </geometry>
 
     <!-- ここから SDF の surface/friction -->
@@ -347,7 +343,7 @@
     </geometry> -->
     <origin xyz="0 0 0" rpy="1.57 0 0"/>
     <geometry>
-      <cylinder radius="0.155" length="0.05"/>
+      <cylinder radius="0.153" length="0.05"/>
     </geometry>
 
     <!-- ここから SDF の surface/friction -->

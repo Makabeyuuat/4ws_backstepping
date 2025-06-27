@@ -5,6 +5,9 @@
 #include <string>
 #include <ros/ros.h>
 #include <vector>
+#include <ctime>
+#include <sstream>
+#include <iomanip>
 
 class CSVLogger {
 public:
@@ -20,6 +23,9 @@ private:
   std::ofstream csv_;
   bool         closed_;
   int          close_threshold_;
+
+  /// 起動時刻から "YYYYMMDD_HHMMSS" のタイムスタンプを返す
+  static std::string makeTimeStamp();
 };
 
 #endif // CSV_LOGGER_H

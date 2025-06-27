@@ -6,14 +6,14 @@ Vehicle::Vehicle(ros::NodeHandle& nh, const std::string& vehicle_id) : vehicle_i
     std::string ns = "/vehicle_4ws/";
 
     // 車輪用パブリッシャーの初期化
-    front_left_wheel_pub = nh.advertise<std_msgs::Float64>(ns + "front_left_wheel_velocity_controller/command", 1);
-    front_right_wheel_pub = nh.advertise<std_msgs::Float64>(ns + "front_right_wheel_velocity_controller/command", 1);
-    rear_left_wheel_pub = nh.advertise<std_msgs::Float64>(ns + "rear_left_wheel_velocity_controller/command", 1);
-    rear_right_wheel_pub = nh.advertise<std_msgs::Float64>(ns + "rear_right_wheel_velocity_controller/command", 1);
+    front_left_wheel_pub = nh.advertise<std_msgs::Float64>(ns + "front_left_wheel_velocity_controller/command", 10);
+    front_right_wheel_pub = nh.advertise<std_msgs::Float64>(ns + "front_right_wheel_velocity_controller/command", 10);
+    rear_left_wheel_pub = nh.advertise<std_msgs::Float64>(ns + "rear_left_wheel_velocity_controller/command", 10);
+    rear_right_wheel_pub = nh.advertise<std_msgs::Float64>(ns + "rear_right_wheel_velocity_controller/command", 10);
 
     // STEERING用パブリッシャーの初期化
-    front_left_steering_pub = nh.advertise<std_msgs::Float64>(ns + "front_left_steering_position_controller/command", 1);
-    front_right_steering_pub = nh.advertise<std_msgs::Float64>(ns + "front_right_steering_position_controller/command", 1);
+    front_left_steering_pub = nh.advertise<std_msgs::Float64>(ns + "front_left_steering_position_controller/command", 10);
+    front_right_steering_pub = nh.advertise<std_msgs::Float64>(ns + "front_right_steering_position_controller/command", 10);
 }
 
 // 各steeringジョイントへ指令値を送信するメソッド
