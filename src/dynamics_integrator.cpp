@@ -183,17 +183,17 @@ void DynamicsIntegrator::step(
         // ラムダの導出
         Eigen::Matrix<double,3,4> A3;
         A3 <<
-          kinematics_solver_.Axi_funcs[0](), kinematics_solver_.Axi_funcs[6](), kinematics_solver_.Axi_funcs[12](), kinematics_solver_.Axi_funcs[18](),
-          kinematics_solver_.Axi_funcs[1](), kinematics_solver_.Axi_funcs[7](), kinematics_solver_.Axi_funcs[13](), kinematics_solver_.Axi_funcs[19](),
-          kinematics_solver_.Axi_funcs[2](), kinematics_solver_.Axi_funcs[8](), kinematics_solver_.Axi_funcs[14](), kinematics_solver_.Axi_funcs[20]();
+          kinematics_solver_.Axi_funcs[0](), kinematics_solver_.Axi_funcs[7](), kinematics_solver_.Axi_funcs[14](), kinematics_solver_.Axi_funcs[21](),
+          kinematics_solver_.Axi_funcs[1](), kinematics_solver_.Axi_funcs[8](), kinematics_solver_.Axi_funcs[15](), kinematics_solver_.Axi_funcs[22](),
+          kinematics_solver_.Axi_funcs[2](), kinematics_solver_.Axi_funcs[9](), kinematics_solver_.Axi_funcs[16](), kinematics_solver_.Axi_funcs[23]();
 
 
         //
         Eigen::Matrix3d M3;
         M3 <<
           kinematics_solver_.Mxi_funcs[0](), kinematics_solver_.Mxi_funcs[1](), kinematics_solver_.Mxi_funcs[2](),
-          kinematics_solver_.Mxi_funcs[6](), kinematics_solver_.Mxi_funcs[7](), kinematics_solver_.Mxi_funcs[8](),
-          kinematics_solver_.Mxi_funcs[12](), kinematics_solver_.Mxi_funcs[13](), kinematics_solver_.Mxi_funcs[14]();
+          kinematics_solver_.Mxi_funcs[7](), kinematics_solver_.Mxi_funcs[8](), kinematics_solver_.Mxi_funcs[9](),
+          kinematics_solver_.Mxi_funcs[14](), kinematics_solver_.Mxi_funcs[15](), kinematics_solver_.Mxi_funcs[16]();
 
         Eigen::Vector3d C3;
         C3 <<
@@ -218,9 +218,10 @@ void DynamicsIntegrator::step(
         // Eigen :: VectorXd lambda = transAxi.completeOrthogonalDecomposition ().solve (M3*alpha3 + C3 * thetadot + K3);
 
         //駆動力計算
-        Q_phi   = I_phi   * alpha(3);          
-        Q_psi_f = I_psif  * alpha(4) - wheelRadius * lambda(2);
-        Q_psi_r = I_psir  * alpha(5) - wheelRadius * lambda(3);
+        Q_phiR   = I_phiR  * alpha(3);
+        Q_varphiR = I_varphiR  * alpha(4) - wheelRadius * lambda(2);
+        Q_phiF = I_phiR   * alpha(5);
+        Q_varphiF = I_varphiF  * alpha(6) - wheelRadius * lambda(3);
 
         // std::cout << "lambda =\n" << lambda.transpose().format(CleanFmt) << "\n\n";
         // std::cout << "u2act =" <<u2_act << "\n";
@@ -263,6 +264,9 @@ void DynamicsIntegrator::step(
         x_dd[2] = 0.0;
         x_dd[3] = 0.0;
         x_dd[4] = 0.0;
+        x_dd[5] = 0.0;
+        x_dd[6] = 0.0;
+        x_dd[7] = 0.0;
       }
 
 
