@@ -21,94 +21,137 @@ ret = 0;
 return ret;
 }
 
+double KinematicsSolver::calc_alpha_1_3_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+
 double KinematicsSolver::calc_alpha_2_1_()
 {
 double ret;
-ret = -2*sr.d*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*sr.Cs1 + sr.Cs*sr.d*Power(Tan(Thetap),2)*sr.Cs1 - (1 - sr.Cs*sr.d)*Power(Tan(Thetap),2)*sr.Cs1 + Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap)*sr.d*sr.Cs1)/Power(1 - sr.Cs*sr.d,2)) - (Cos(Thetap)*sr.Cs1)/(1 - sr.Cs*sr.d)) + (1 - sr.Cs*sr.d)*Sec(Thetap)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*(-(sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),2)*Tan(Thetap)) + 3*Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap) - sr.d*Power(Sec(Thetap),2)*sr.Cs1) + (1 - sr.Cs*sr.d)*Tan(Thetap)*(-(Power(sr.Cs,2)*Power(Sec(Thetap),2)) - 2*sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv) + Power(sr.Cs,2)*Power(Tan(Thetap),2) - Tan(Thetap)*sr.Cs1) - sr.d*Tan(Thetap)*sr.Cs2;
-
-// for (size_t i = 0; i < x_old.size(); ++i) {
-//   std::cout << "x_old["<< i << "] = " << x_old[i] << "\n";
-// }
-// std::cout << "Thetap=" << Thetap << ", thetaT=" << thetaT
-//           << ", u1_act=" << u1_act << ", u2_act=" << u2_act << "\n";
+ret = Power(1 - c(s(t))*d(t),2)*Power(Sec(phi1(t) + thetap(t)),3)*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv) - c(s(t))*(1 - c(s(t))*d(t))*Power(Tan(phi1(t) + thetap(t)),2) - d(t)*Tan(phi1(t) + thetap(t))*sr.Cs1;
 return ret;
 }
 
 double KinematicsSolver::calc_alpha_2_2_()
 {
-    double ret;
-    ret = (Power(1 - sr.Cs*sr.d,2)*Power(Sec(x_old[4]),2)*Power(Sec(Thetap),3))/lv;
-    return ret;
+double ret;
+ret = (1 - c(s(t))*d(t))*Power(Sec(phi1(t) + thetap(t)),2);
+return ret;
+}
+
+double KinematicsSolver::calc_alpha_2_3_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_alpha_3_1_()
+{
+double ret;
+ret = (1 - c(s(t))*d(t))*(-(Power(c(s(t)),2)/(1 - c(s(t))*d(t))) - c(s(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv))*Tan(phi1(t) + thetap(t)) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*(c(s(t))*Tan(phi1(t) + thetap(t)) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))) - d(t)*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*sr.Cs1 + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t))*d(t)*sr.Cs1)/Power(1 - c(s(t))*d(t),2)) - (Cos(phi1(t) + thetap(t))*sr.Cs1)/(1 - c(s(t))*d(t)));
+return ret;
+}
+
+double KinematicsSolver::calc_alpha_3_2_()
+{
+double ret;
+ret = (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*((Cos(phi1(t) - phi2(t))*Sec(phi1(t)))/lv + (c(s(t))*Sin(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t)) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t))*Tan(phi1(t)))/lv) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t));
+return ret;
+}
+
+double KinematicsSolver::calc_alpha_3_3_()
+{
+double ret;
+ret = -((Cos(phi1(t) - phi2(t))*(1 - c(s(t))*d(t))*Sec(phi1(t))*Sec(phi1(t) + thetap(t)))/lv);
+return ret;
 }
 
 //Z21,22,23とその偏微分の計算
 double KinematicsSolver::calc_Z_2_1_()
 {
 double ret;
-ret = Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv) - sr.Cs*(1 - sr.Cs*sr.d)*Power(Tan(Thetap),2) - sr.d*Tan(Thetap)*sr.Cs1;
+ret = (1 - c(s(t))*d(t))*Tan(phi1(t) + thetap(t));
 return ret;
 }
 
 double KinematicsSolver::calc_Z_2_2_()
 {
 double ret;
-ret = (1 - sr.Cs*sr.d)*Tan(Thetap);
+ret = d(t);
 return ret;
 }
 
-double KinematicsSolver::calc_Z_2_3_()
+double KinematicsSolver::calc_Z_3_1_()
 {
 double ret;
-ret = sr.d;
+ret = (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv);
+return ret;
+}
+
+double KinematicsSolver::calc_Z_3_2_()
+{
+double ret;
+ret = thetap(t);
 return ret;
 }
 
 double KinematicsSolver::calc_pd_Z2_pd_X_1_1_()
 {
-double ret;
-ret = -2*sr.d*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*sr.Cs1 + sr.Cs*sr.d*Power(Tan(Thetap),2)*sr.Cs1 - (1 - sr.Cs*sr.d)*Power(Tan(Thetap),2)*sr.Cs1 + Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap)*sr.d*sr.Cs1)/Power(1 - sr.Cs*sr.d,2)) - (Cos(Thetap)*sr.Cs1)/(1 - sr.Cs*sr.d)) - sr.d*Tan(Thetap)*sr.Cs2;
+ret = -(d(t)*Tan(phi1(t) + thetap(t))*sr.Cs1);
 return ret;
 }
 
 double KinematicsSolver::calc_pd_Z2_pd_X_1_2_()
 {
 double ret;
-ret = -(Power(sr.Cs,2)*Power(Sec(Thetap),2)) - 2*sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv) + Power(sr.Cs,2)*Power(Tan(Thetap),2) - Tan(Thetap)*sr.Cs1;
+ret = -(c(s(t))*Tan(phi1(t) + thetap(t)));
 return ret;
 }
 
 double KinematicsSolver::calc_pd_Z2_pd_X_1_3_()
 {
 double ret;
-ret = -(sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),2)*Tan(Thetap)) + 3*Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap) - sr.d*Power(Sec(Thetap),2)*sr.Cs1;
+ret = (1 - c(s(t))*d(t))*Power(Sec(phi1(t) + thetap(t)),2);
 return ret;
 }
 
 double KinematicsSolver::calc_pd_Z2_pd_X_1_4_()
 {
 double ret;
-ret = (Power(1 - sr.Cs*sr.d,2)*Power(Sec(x_old[4]),2)*Power(Sec(Thetap),3))/lv;
+ret = (1 - c(s(t))*d(t))*Power(Sec(phi1(t) + thetap(t)),2);
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z2_pd_X_1_5_()
+{
+double ret;
+ret = 0;
 return ret;
 }
 
 double KinematicsSolver::calc_pd_Z2_pd_X_2_1_()
 {
 double ret;
-ret = -(sr.d*Tan(Thetap)*sr.Cs1);
+ret = 0;
 return ret;
 }
 
 double KinematicsSolver::calc_pd_Z2_pd_X_2_2_()
 {
 double ret;
-ret = -(sr.Cs*Tan(Thetap));
+ret = 1;
 return ret;
 }
 
 double KinematicsSolver::calc_pd_Z2_pd_X_2_3_()
 {
 double ret;
-ret = (1 - sr.Cs*sr.d)*Power(Sec(Thetap),2);
+ret = 0;
 return ret;
 }
 
@@ -119,52 +162,105 @@ ret = 0;
 return ret;
 }
 
-double KinematicsSolver::calc_pd_Z2_pd_X_3_1_()
+double KinematicsSolver::calc_pd_Z2_pd_X_2_5_()
 {
 double ret;
 ret = 0;
 return ret;
 }
 
-double KinematicsSolver::calc_pd_Z2_pd_X_3_2_()
+double KinematicsSolver::calc_pd_Z3_pd_X_1_1_()
+{
+double ret;
+ret = -(d(t)*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*sr.Cs1) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t))*d(t)*sr.Cs1)/Power(1 - c(s(t))*d(t),2)) - (Cos(phi1(t) + thetap(t))*sr.Cs1)/(1 - c(s(t))*d(t)));
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z3_pd_X_1_2_()
+{
+double ret;
+ret = -(Power(c(s(t)),2)/(1 - c(s(t))*d(t))) - c(s(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv);
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z3_pd_X_1_3_()
+{
+double ret;
+ret = c(s(t))*Tan(phi1(t) + thetap(t)) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t));
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z3_pd_X_1_4_()
+{
+double ret;
+ret = (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*((Cos(phi1(t) - phi2(t))*Sec(phi1(t)))/lv + (c(s(t))*Sin(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t)) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t))*Tan(phi1(t)))/lv) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t));
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z3_pd_X_1_5_()
+{
+double ret;
+ret = -((Cos(phi1(t) - phi2(t))*(1 - c(s(t))*d(t))*Sec(phi1(t))*Sec(phi1(t) + thetap(t)))/lv);
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_Z3_pd_X_2_1_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z3_pd_X_2_2_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_pd_Z3_pd_X_2_3_()
 {
 double ret;
 ret = 1;
 return ret;
 }
 
-double KinematicsSolver::calc_pd_Z2_pd_X_3_3_()
+
+double KinematicsSolver::calc_pd_Z3_pd_X_2_4_()
 {
 double ret;
 ret = 0;
 return ret;
 }
 
-double KinematicsSolver::calc_pd_Z2_pd_X_3_4_()
+
+double KinematicsSolver::calc_pd_Z3_pd_X_2_5_()
 {
 double ret;
 ret = 0;
 return ret;
 }
+
 
 double KinematicsSolver::calc_aqd_1_()
 {
 double ret;
-ret = Cos(Thetap + thetaT)*nu1 - Sin(Thetap + thetaT)*u1_act*(sr.Cs*calc_d_SX_d_t_1_1_() + calc_d_SX_d_t_3_1_());
+ret = Cos(phiR(t) + thetap(t) + thetat(t))*nu1(t) - Sin(phiR(t) + thetap(t) + thetat(t))*uact1(t)*(uact2(t) + c(s(t))*(calc_SX_1_1_()*u1) + (calc_SX_3_1_()*u1));
 return ret;
 }
 
 double KinematicsSolver::calc_aqd_2_()
 {
 double ret;
-ret = nu1*Sin(Thetap + thetaT) + Cos(Thetap + thetaT)*u1_act*(sr.Cs*calc_d_SX_d_t_1_1_() + calc_d_SX_d_t_3_1_());
+ret = nu1(t)*Sin(phiR(t) + thetap(t) + thetat(t)) + Cos(phiR(t) + thetap(t) + thetat(t))*uact1(t)*(uact2(t) + c(s(t))*(calc_SX_1_1_()*u1) + (calc_SX_3_1_()*u1));
 return ret;
 }
 
 double KinematicsSolver::calc_aqd_3_()
 {
 double ret;
-ret = athetapd + asd*sr.Cs + sr.Cs1*Power(calc_d_SX_d_t_1_1_(),2);
+ret = athetapd + asd*c(s(t)) + sr.Cs1*Power((calc_SX_1_1_()*u1),2);
 return ret;
 }
 
@@ -178,35 +274,42 @@ return ret;
 double KinematicsSolver::calc_aqd_5_()
 {
 double ret;
-ret = (Cos(q_map(3))*nu1 - Sin(q_map(3))*u1_act*u2_act)/wheelRadius;
+ret = (Cos(phiR(t))*nu1(t) - Sin(phiR(t))*uact1(t)*uact2(t))/RADIUS;
 return ret;
 }
 
 double KinematicsSolver::calc_aqd_6_()
 {
 double ret;
-ret = nu1/wheelRadius;
+ret = nu3(t);
+return ret;
+}
+
+double KinematicsSolver::calc_aqd_7_()
+{
+double ret;
+ret = (Cos(phiF(t))*nu1(t) - Sin(phiF(t))*uact1(t)*uact3(t))/RADIUS;
 return ret;
 }
 
 double KinematicsSolver::calc_Axi_1_1_()
 {
 double ret;
-ret = Sin(q_map(3) + q_map(2));
+ret = Sin(phiF(t) + theta0);
 return ret;
 }
 
 double KinematicsSolver::calc_Axi_1_2_()
 {
 double ret;
-ret = -Cos(q_map(3) + q_map(2));
+ret = -Cos(phiF(t) + theta0);
 return ret;
 }
 
 double KinematicsSolver::calc_Axi_1_3_()
 {
 double ret;
-ret = -(lv*Cos(q_map(3)));
+ret = -(LENGTH*Cos(phi2(t)));
 return ret;
 }
 
@@ -231,17 +334,24 @@ ret = 0;
 return ret;
 }
 
+double KinematicsSolver::calc_Axi_1_7_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
 double KinematicsSolver::calc_Axi_2_1_()
 {
 double ret;
-ret = Sin(q_map(2));
+ret = Sin(phiR(t) + theta0);
 return ret;
 }
 
 double KinematicsSolver::calc_Axi_2_2_()
 {
 double ret;
-ret = -Cos(q_map(2));
+ret = -Cos(phiR(t) + theta0);
 return ret;
 }
 
@@ -273,17 +383,24 @@ ret = 0;
 return ret;
 }
 
+double KinematicsSolver::calc_Axi_2_7_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
 double KinematicsSolver::calc_Axi_3_1_()
 {
 double ret;
-ret = -Cos(q_map(3) + q_map(2));
+ret = -Cos(phiR(t) + theta0);
 return ret;
 }
 
 double KinematicsSolver::calc_Axi_3_2_()
 {
 double ret;
-ret = -Sin(q_map(3) + q_map(2));
+ret = -Sin(phiR(t) + theta0);
 return ret;
 }
 
@@ -315,17 +432,24 @@ ret = 0;
 return ret;
 }
 
+double KinematicsSolver::calc_Axi_3_7_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
 double KinematicsSolver::calc_Axi_4_1_()
 {
 double ret;
-ret = -Cos(q_map(2));
+ret = -Cos(phiF(t) + theta0);
 return ret;
 }
 
 double KinematicsSolver::calc_Axi_4_2_()
 {
 double ret;
-ret = -Sin(q_map(2));
+ret = -Sin(phiF(t) + theta0);
 return ret;
 }
 
@@ -353,7 +477,14 @@ return ret;
 double KinematicsSolver::calc_Axi_4_6_()
 {
 double ret;
-ret = wheelRadius;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_Axi_4_7_()
+{
+double ret;
+ret = RADIUS;
 return ret;
 }
 
@@ -374,7 +505,7 @@ return ret;
 double KinematicsSolver::calc_Cxi_1_3_()
 {
 double ret;
-ret = -(lv*(m_b + 2*m_w)*Cos(q_map(2))*x_d[2]);
+ret = -(LENGTH*(MASSCAR + 2*MASSWHEEL)*Cos(theta0)*x_d[3]);
 return ret;
 }
 
@@ -399,6 +530,13 @@ ret = 0;
 return ret;
 }
 
+double KinematicsSolver::calc_Cxi_1_7_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
 double KinematicsSolver::calc_Cxi_2_1_()
 {
 double ret;
@@ -416,7 +554,7 @@ return ret;
 double KinematicsSolver::calc_Cxi_2_3_()
 {
 double ret;
-ret = -(lv*(m_b + 2*m_w)*Sin(q_map(2))*x_d[2]);
+ret = -(LENGTH*(MASSCAR + 2*MASSWHEEL)*Sin(theta0)*x_d[3]);
 return ret;
 }
 
@@ -435,6 +573,13 @@ return ret;
 }
 
 double KinematicsSolver::calc_Cxi_2_6_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_Cxi_2_7_()
 {
 double ret;
 ret = 0;
@@ -477,6 +622,13 @@ return ret;
 }
 
 double KinematicsSolver::calc_Cxi_3_6_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_Cxi_3_7_()
 {
 double ret;
 ret = 0;
@@ -526,6 +678,13 @@ ret = 0;
 return ret;
 }
 
+double KinematicsSolver::calc_Cxi_4_7_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
 double KinematicsSolver::calc_Cxi_5_1_()
 {
 double ret;
@@ -562,6 +721,13 @@ return ret;
 }
 
 double KinematicsSolver::calc_Cxi_5_6_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_Cxi_5_7_()
 {
 double ret;
 ret = 0;
@@ -610,10 +776,67 @@ ret = 0;
 return ret;
 }
 
+double KinematicsSolver::calc_Cxi_6_7_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_Cxi_7_1_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_Cxi_7_2_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+
+double KinematicsSolver::calc_Cxi_7_3_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_Cxi_7_4_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_Cxi_7_5_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_Cxi_7_6_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_Cxi_7_7_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
 double KinematicsSolver::calc_SX_1_1_()
 {
 double ret;
-ret = Cos(Thetap)/(1 - sr.Cs*sr.d);
+ret = Cos(phi1(t) + thetap(t))/(1 - c(s(t))*d(t));
 return ret;
 }
 
@@ -624,10 +847,17 @@ ret = 0;
 return ret;
 }
 
+double KinematicsSolver::calc_SX_1_3_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
 double KinematicsSolver::calc_SX_2_1_()
 {
 double ret;
-ret = Sin(Thetap);
+ret = Sin(phi1(t) + thetap(t));
 return ret;
 }
 
@@ -639,14 +869,28 @@ ret = 0;
 return ret;
 }
 
+double KinematicsSolver::calc_SX_2_3_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
 double KinematicsSolver::calc_SX_3_1_()
 {
 double ret;
-ret = -((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv;
+ret = -((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv;
 return ret;
 }
 
 double KinematicsSolver::calc_SX_3_2_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_SX_3_3_()
 {
 double ret;
 ret = 0;
@@ -667,10 +911,38 @@ ret = 1;
 return ret;
 }
 
+double KinematicsSolver::calc_SX_4_3_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_SX_5_1_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_SX_5_2_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_SX_5_3_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
 double KinematicsSolver::calc_d_SX_d_t_1_1_()
 {
 double ret;
-ret = -((Sin(Thetap)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*u1_act)/(1 - sr.Cs*sr.d)) - (Cos(Thetap)*(-(sr.Cs*Sin(Thetap)*u1_act) - (Cos(Thetap)*sr.d*u1_act*sr.Cs1)/(1 - sr.Cs*sr.d)))/Power(1 - sr.Cs*sr.d,2);
+ret = -((Sin(phi1(t) + thetap(t))*((-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*u1(t) + u2(t)))/(1 - c(s(t))*d(t))) - (Cos(phi1(t) + thetap(t))*(-(c(s(t))*Sin(phi1(t) + thetap(t))*u1(t)) - (Cos(phi1(t) + thetap(t))*d(t)*u1(t)*sr.Cs1)/(1 - c(s(t))*d(t))))/Power(1 - c(s(t))*d(t),2);
 return ret;
 }
 
@@ -681,11 +953,18 @@ ret = 0;
 return ret;
 }
 
+double KinematicsSolver::calc_d_SX_d_t_1_3_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
 double KinematicsSolver::calc_d_SX_d_t_2_1_()
 {
 double ret;
-ret = Cos(Thetap)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*u1_act;
-return ret;
+ret = Cos(phi1(t) + thetap(t))*((-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*u1(t) + u2(t));
+return ret
 }
 
 double KinematicsSolver::calc_d_SX_d_t_2_2_()
@@ -695,14 +974,29 @@ ret = 0;
 return ret;
 }
 
+double KinematicsSolver::calc_d_SX_d_t_2_3_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+
 double KinematicsSolver::calc_d_SX_d_t_3_1_()
 {
 double ret;
-ret = (sr.Cs*Sin(Thetap)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*u1_act)/(1 - sr.Cs*sr.d) + (Power(Sec(x_old[4]),2)*u2_act)/lv - (Power(Cos(Thetap),2)*u1_act*sr.Cs1)/Power(1 - sr.Cs*sr.d,2) + (sr.Cs*Cos(Thetap)*(-(sr.Cs*Sin(Thetap)*u1_act) - (Cos(Thetap)*sr.d*u1_act*sr.Cs1)/(1 - sr.Cs*sr.d)))/Power(1 - sr.Cs*sr.d,2);
+ret = (Sec(phi1(t))*Sin(phi1(t) - phi2(t))*Tan(phi1(t))*u2(t))/lv + (c(s(t))*Sin(phi1(t) + thetap(t))*((-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*u1(t) + u2(t)))/(1 - c(s(t))*d(t)) + (Cos(phi1(t) - phi2(t))*Sec(phi1(t))*(u2(t) - u3(t)))/lv - (Power(Cos(phi1(t) + thetap(t)),2)*u1(t)*sr.Cs1)/Power(1 - c(s(t))*d(t),2) + (c(s(t))*Cos(phi1(t) + thetap(t))*(-(c(s(t))*Sin(phi1(t) + thetap(t))*u1(t)) - (Cos(phi1(t) + thetap(t))*d(t)*u1(t)*sr.Cs1)/(1 - c(s(t))*d(t))))/Power(1 - c(s(t))*d(t),2);
 return ret;
 }
 
 double KinematicsSolver::calc_d_SX_d_t_3_2_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_d_SX_d_t_3_3_()
 {
 double ret;
 ret = 0;
@@ -722,6 +1016,35 @@ double ret;
 ret = 0;
 return ret;
 }
+
+double KinematicsSolver::calc_d_SX_d_t_4_3_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_d_SX_d_t_5_1_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_d_SX_d_t_5_2_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_d_SX_d_t_5_3_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
 
 double KinematicsSolver::calc_Kxi_1_()
 {
@@ -759,6 +1082,13 @@ return ret;
 }
 
 double KinematicsSolver::calc_Kxi_6_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_Kxi_7_()
 {
 double ret;
 ret = 0;
@@ -807,6 +1137,13 @@ ret = 0;
 return ret;
 }
 
+double KinematicsSolver::calc_Mxi_1_7_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
 double KinematicsSolver::calc_Mxi_2_1_()
 {
 double ret;
@@ -849,6 +1186,14 @@ ret = 0;
 return ret;
 }
 
+double KinematicsSolver::calc_Mxi_2_7_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+
 double KinematicsSolver::calc_Mxi_3_1_()
 {
 double ret;
@@ -885,6 +1230,13 @@ return ret;
 }
 
 double KinematicsSolver::calc_Mxi_3_6_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_Mxi_3_7_()
 {
 double ret;
 ret = 0;
@@ -933,6 +1285,13 @@ ret = 0;
 return ret;
 }
 
+double KinematicsSolver::calc_Mxi_4_7_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
 double KinematicsSolver::calc_Mxi_5_1_()
 {
 double ret;
@@ -964,7 +1323,7 @@ return ret;
 double KinematicsSolver::calc_Mxi_5_5_()
 {
 double ret;
-ret = I_psif;
+ret = IvarphiR;;
 return ret;
 }
 
@@ -974,6 +1333,14 @@ double ret;
 ret = 0;
 return ret;
 }
+
+double KinematicsSolver::calc_Mxi_5_7_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
 
 double KinematicsSolver::calc_Mxi_6_1_()
 {
@@ -1013,88 +1380,324 @@ return ret;
 double KinematicsSolver::calc_Mxi_6_6_()
 {
 double ret;
-ret = I_psir;
+ret = IphiF;
+return ret;
+}
+
+double KinematicsSolver::calc_Mxi_6_7_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+
+double KinematicsSolver::calc_Mxi_7_1_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+
+double KinematicsSolver::calc_Mxi_7_2_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_Mxi_7_3_()
+{
+double ret;
+ret = 0;
+return ret;
+}       
+
+double KinematicsSolver::calc_Mxi_7_4_()
+{
+double ret;
+ret = 0;             
+return ret;
+}
+
+double KinematicsSolver::calc_Mxi_7_5_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_Mxi_7_6_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+double KinematicsSolver::calc_Mxi_7_7_()
+{
+double ret;
+ret = IvarphiF;
 return ret;
 }
 
 double KinematicsSolver::calc_pd_alpha2_pd_X_1_1_()
 {
 double ret;
-ret = 2*Power(sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Power(sr.Cs1,2) + 2*sr.d*Power(Tan(Thetap),2)*Power(sr.Cs1,2) - 4*sr.d*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*sr.Cs1*(-((sr.Cs*Cos(Thetap)*sr.d*sr.Cs1)/Power(1 - sr.Cs*sr.d,2)) - (Cos(Thetap)*sr.Cs1)/(1 - sr.Cs*sr.d)) - sr.d*Sec(Thetap)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*sr.Cs1*(-(sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),2)*Tan(Thetap)) + 3*Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap) - sr.d*Power(Sec(Thetap),2)*sr.Cs1) + (1 - sr.Cs*sr.d)*Sec(Thetap)*(-((sr.Cs*Cos(Thetap)*sr.d*sr.Cs1)/Power(1 - sr.Cs*sr.d,2)) - (Cos(Thetap)*sr.Cs1)/(1 - sr.Cs*sr.d))*(-(sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),2)*Tan(Thetap)) + 3*Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap) - sr.d*Power(Sec(Thetap),2)*sr.Cs1) - sr.d*Tan(Thetap)*sr.Cs1*(-(Power(sr.Cs,2)*Power(Sec(Thetap),2)) - 2*sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv) + Power(sr.Cs,2)*Power(Tan(Thetap),2) - Tan(Thetap)*sr.Cs1) - 2*sr.d*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*sr.Cs2 + sr.Cs*sr.d*Power(Tan(Thetap),2)*sr.Cs2 - (1 - sr.Cs*sr.d)*Power(Tan(Thetap),2)*sr.Cs2 + Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*((-2*sr.Cs*Cos(Thetap)*Power(sr.d,2)*Power(sr.Cs1,2))/Power(1 - sr.Cs*sr.d,3) - (2*Cos(Thetap)*sr.d*Power(sr.Cs1,2))/Power(1 - sr.Cs*sr.d,2) - (sr.Cs*Cos(Thetap)*sr.d*sr.Cs2)/Power(1 - sr.Cs*sr.d,2) - (Cos(Thetap)*sr.Cs2)/(1 - sr.Cs*sr.d)) + (1 - sr.Cs*sr.d)*Sec(Thetap)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*(sr.Cs*sr.d*Power(Sec(Thetap),2)*Tan(Thetap)*sr.Cs1 - (1 - sr.Cs*sr.d)*Power(Sec(Thetap),2)*Tan(Thetap)*sr.Cs1 - 6*sr.d*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap)*sr.Cs1 + 3*Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*Tan(Thetap)*(-((sr.Cs*Cos(Thetap)*sr.d*sr.Cs1)/Power(1 - sr.Cs*sr.d,2)) - (Cos(Thetap)*sr.Cs1)/(1 - sr.Cs*sr.d)) - sr.d*Power(Sec(Thetap),2)*sr.Cs2) + (1 - sr.Cs*sr.d)*Tan(Thetap)*(-2*sr.Cs*Power(Sec(Thetap),2)*sr.Cs1 + 2*sr.Cs*sr.d*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*sr.Cs1 - 2*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*sr.Cs1 + 2*sr.Cs*Power(Tan(Thetap),2)*sr.Cs1 - 2*sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap)*sr.d*sr.Cs1)/Power(1 - sr.Cs*sr.d,2)) - (Cos(Thetap)*sr.Cs1)/(1 - sr.Cs*sr.d)) - Tan(Thetap)*sr.Cs2) - sr.d*Tan(Thetap)*sr.Cs3;
+ret = -2*d(t)*(1 - c(s(t))*d(t))*Power(Sec(phi1(t) + thetap(t)),3)*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*sr.Cs1 + c(s(t))*d(t)*Power(Tan(phi1(t) + thetap(t)),2)*sr.Cs1 - (1 - c(s(t))*d(t))*Power(Tan(phi1(t) + thetap(t)),2)*sr.Cs1 + Power(1 - c(s(t))*d(t),2)*Power(Sec(phi1(t) + thetap(t)),3)*(-((c(s(t))*Cos(phi1(t) + thetap(t))*d(t)*sr.Cs1)/Power(1 - c(s(t))*d(t),2)) - (Cos(phi1(t) + thetap(t))*sr.Cs1)/(1 - c(s(t))*d(t))) - d(t)*Tan(phi1(t) + thetap(t))*sr.Cs2;
 return ret;
 }
 
 double KinematicsSolver::calc_pd_alpha2_pd_X_1_2_()
 {
 double ret;
-ret = (1 - sr.Cs*sr.d)*((2*Power(sr.Cs,3)*Power(Sec(Thetap),2))/(1 - sr.Cs*sr.d) + 2*Power(sr.Cs,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv))*Tan(Thetap) + (2*Power(sr.Cs,2)*sr.d*Power(Sec(Thetap),2)*sr.Cs1)/(1 - sr.Cs*sr.d) + 2*sr.Cs*sr.d*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*sr.Cs1 - 2*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*sr.Cs1 + 2*sr.Cs*Power(Tan(Thetap),2)*sr.Cs1 + Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*((-2*Power(sr.Cs,2)*Cos(Thetap)*sr.d*sr.Cs1)/Power(1 - sr.Cs*sr.d,3) - (2*sr.Cs*Cos(Thetap)*sr.Cs1)/Power(1 - sr.Cs*sr.d,2)) - 2*sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap)*sr.d*sr.Cs1)/Power(1 - sr.Cs*sr.d,2)) - (Cos(Thetap)*sr.Cs1)/(1 - sr.Cs*sr.d)) + (1 - sr.Cs*sr.d)*Sec(Thetap)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*(-2*Power(sr.Cs,2)*Power(Sec(Thetap),2)*Tan(Thetap) - 6*sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap) - Power(Sec(Thetap),2)*sr.Cs1) - (Power(sr.Cs,2)*(-(sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),2)*Tan(Thetap)) + 3*Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap) - sr.d*Power(Sec(Thetap),2)*sr.Cs1))/(1 - sr.Cs*sr.d) - sr.Cs*Sec(Thetap)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*(-(sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),2)*Tan(Thetap)) + 3*Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap) - sr.d*Power(Sec(Thetap),2)*sr.Cs1) - sr.Cs*Tan(Thetap)*(-(Power(sr.Cs,2)*Power(Sec(Thetap),2)) - 2*sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv) + Power(sr.Cs,2)*Power(Tan(Thetap),2) - Tan(Thetap)*sr.Cs1) - Tan(Thetap)*sr.Cs2;
+ret = -(Power(c(s(t)),2)*Power(Sec(phi1(t) + thetap(t)),2)) - 2*c(s(t))*(1 - c(s(t))*d(t))*Power(Sec(phi1(t) + thetap(t)),3)*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv) + Power(c(s(t)),2)*Power(Tan(phi1(t) + thetap(t)),2) - Tan(phi1(t) + thetap(t))*sr.Cs1;
 return ret;
 }
 
 double KinematicsSolver::calc_pd_alpha2_pd_X_1_3_()
 {
 double ret;
-ret = -2*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),2)*Tan(Thetap)*sr.Cs1 - 6*sr.d*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap)*sr.Cs1 + 3*Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*Tan(Thetap)*(-((sr.Cs*Cos(Thetap)*sr.d*sr.Cs1)/Power(1 - sr.Cs*sr.d,2)) - (Cos(Thetap)*sr.Cs1)/(1 - sr.Cs*sr.d)) + (1 - sr.Cs*sr.d)*Tan(Thetap)*(-2*Power(sr.Cs,2)*Power(Sec(Thetap),2)*Tan(Thetap) - 6*sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap) - Power(Sec(Thetap),2)*sr.Cs1) + sr.Cs*Tan(Thetap)*(-(sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),2)*Tan(Thetap)) + 3*Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap) - sr.d*Power(Sec(Thetap),2)*sr.Cs1) + (1 - sr.Cs*sr.d)*Sec(Thetap)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap)*(-(sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),2)*Tan(Thetap)) + 3*Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap) - sr.d*Power(Sec(Thetap),2)*sr.Cs1) + Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*((sr.Cs*sr.d*Sin(Thetap)*sr.Cs1)/Power(1 - sr.Cs*sr.d,2) + (Sin(Thetap)*sr.Cs1)/(1 - sr.Cs*sr.d)) + (1 - sr.Cs*sr.d)*Power(Sec(Thetap),2)*(-(Power(sr.Cs,2)*Power(Sec(Thetap),2)) - 2*sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv) + Power(sr.Cs,2)*Power(Tan(Thetap),2) - Tan(Thetap)*sr.Cs1) + (1 - sr.Cs*sr.d)*Sec(Thetap)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*(-(sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),4)) + 3*Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),5)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv) + sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),2)*Power(Tan(Thetap),2) + 9*Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Power(Tan(Thetap),2) - 2*sr.d*Power(Sec(Thetap),2)*Tan(Thetap)*sr.Cs1) - sr.d*Power(Sec(Thetap),2)*sr.Cs2;
+ret = -(c(s(t))*(1 - c(s(t))*d(t))*Power(Sec(phi1(t) + thetap(t)),2)*Tan(phi1(t) + thetap(t))) + 3*Power(1 - c(s(t))*d(t),2)*Power(Sec(phi1(t) + thetap(t)),3)*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t)) - d(t)*Power(Sec(phi1(t) + thetap(t)),2)*sr.Cs1;
 return ret;
 }
 
 double KinematicsSolver::calc_pd_alpha2_pd_X_1_4_()
 {
 double ret;
-ret = (-2*sr.Cs*Power(1 - sr.Cs*sr.d,2)*Power(Sec(x_old[4]),2)*Power(Sec(Thetap),3)*Tan(Thetap))/lv + (3*Power(1 - sr.Cs*sr.d,3)*Power(Sec(x_old[4]),2)*Power(Sec(Thetap),4)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap))/lv - (2*sr.d*(1 - sr.Cs*sr.d)*Power(Sec(x_old[4]),2)*Power(Sec(Thetap),3)*sr.Cs1)/lv + ((1 - sr.Cs*sr.d)*Power(Sec(x_old[4]),2)*Sec(Thetap)*(-(sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(Thetap),2)*Tan(Thetap)) + 3*Power(1 - sr.Cs*sr.d,2)*Power(Sec(Thetap),3)*(-((sr.Cs*Cos(Thetap))/(1 - sr.Cs*sr.d)) + Tan(x_old[4])/lv)*Tan(Thetap) - sr.d*Power(Sec(Thetap),2)*sr.Cs1))/lv;
+ret = Power(1 - c(s(t))*d(t),2)*Power(Sec(phi1(t) + thetap(t)),3)*((Cos(phi1(t) - phi2(t))*Sec(phi1(t)))/lv + (c(s(t))*Sin(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t)) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t))*Tan(phi1(t)))/lv) - 2*c(s(t))*(1 - c(s(t))*d(t))*Power(Sec(phi1(t) + thetap(t)),2)*Tan(phi1(t) + thetap(t)) + 3*Power(1 - c(s(t))*d(t),2)*Power(Sec(phi1(t) + thetap(t)),3)*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t)) - d(t)*Power(Sec(phi1(t) + thetap(t)),2)*sr.Cs1;
 return ret;
 }
+
+double KinematicsSolver::calc_pd_alpha2_pd_X_1_5_()
+{
+double ret;
+ret = -((Cos(phi1(t) - phi2(t))*Power(1 - c(s(t))*d(t),2)*Sec(phi1(t))*Power(Sec(phi1(t) + thetap(t)),3))/lv);
+return ret;
+}
+
 
 double KinematicsSolver::calc_pd_alpha2_pd_X_2_1_()
 {
 double ret;
-ret = (-2*sr.d*(1 - sr.Cs*sr.d)*Power(Sec(x_old[4]),2)*Power(Sec(Thetap),3)*sr.Cs1)/lv;
+ret = -(d(t)*Power(Sec(phi1(t) + thetap(t)),2)*sr.Cs1);
 return ret;
 }
 
 double KinematicsSolver::calc_pd_alpha2_pd_X_2_2_()
 {
 double ret;
-ret = (-2*sr.Cs*(1 - sr.Cs*sr.d)*Power(Sec(x_old[4]),2)*Power(Sec(Thetap),3))/lv;
+ret = -(c(s(t))*Power(Sec(phi1(t) + thetap(t)),2));
 return ret;
 }
 
 double KinematicsSolver::calc_pd_alpha2_pd_X_2_3_()
 {
 double ret;
-ret = (3*Power(1 - sr.Cs*sr.d,2)*Power(Sec(x_old[4]),2)*Power(Sec(Thetap),3)*Tan(Thetap))/lv;
+ret = 2*(1 - c(s(t))*d(t))*Power(Sec(phi1(t) + thetap(t)),2)*Tan(phi1(t) + thetap(t));
 return ret;
 }
 
 double KinematicsSolver::calc_pd_alpha2_pd_X_2_4_()
 {
 double ret;
-ret = (2*Power(1 - sr.Cs*sr.d,2)*Power(Sec(x_old[4]),2)*Power(Sec(Thetap),3)*Tan(x_old[4]))/lv;
+ret = 2*(1 - c(s(t))*d(t))*Power(Sec(phi1(t) + thetap(t)),2)*Tan(phi1(t) + thetap(t));
 return ret;
 }
+
+
+double KinematicsSolver::calc_pd_alpha2_pd_X_2_5_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_alpha2_pd_X_3_1_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_alpha2_pd_X_3_2_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_alpha2_pd_X_3_3_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_alpha2_pd_X_3_4_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_alpha2_pd_X_3_5_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_alpha3_pd_X_1_1_()
+{
+double ret;
+ret = -(d(t)*(-(Power(c(s(t)),2)/(1 - c(s(t))*d(t))) - c(s(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv))*Tan(phi1(t) + thetap(t))*sr.Cs1) - d(t)*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*(c(s(t))*Tan(phi1(t) + thetap(t)) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t)))*sr.Cs1 + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(c(s(t))*Tan(phi1(t) + thetap(t)) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t)))*(-((c(s(t))*Cos(phi1(t) + thetap(t))*d(t)*sr.Cs1)/Power(1 - c(s(t))*d(t),2)) - (Cos(phi1(t) + thetap(t))*sr.Cs1)/(1 - c(s(t))*d(t))) - 2*d(t)*Sec(phi1(t) + thetap(t))*sr.Cs1*(-((c(s(t))*Cos(phi1(t) + thetap(t))*d(t)*sr.Cs1)/Power(1 - c(s(t))*d(t),2)) - (Cos(phi1(t) + thetap(t))*sr.Cs1)/(1 - c(s(t))*d(t))) + (1 - c(s(t))*d(t))*Tan(phi1(t) + thetap(t))*(-((Power(c(s(t)),2)*d(t)*sr.Cs1)/Power(1 - c(s(t))*d(t),2)) - (2*c(s(t))*sr.Cs1)/(1 - c(s(t))*d(t)) - Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*sr.Cs1 - c(s(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t))*d(t)*sr.Cs1)/Power(1 - c(s(t))*d(t),2)) - (Cos(phi1(t) + thetap(t))*sr.Cs1)/(1 - c(s(t))*d(t)))) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*(Tan(phi1(t) + thetap(t))*sr.Cs1 - d(t)*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))*sr.Cs1 + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*Tan(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t))*d(t)*sr.Cs1)/Power(1 - c(s(t))*d(t),2)) - (Cos(phi1(t) + thetap(t))*sr.Cs1)/(1 - c(s(t))*d(t)))) - d(t)*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*sr.Cs2 + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*((-2*c(s(t))*Cos(phi1(t) + thetap(t))*Power(d(t),2)*Power(sr.Cs1,2))/Power(1 - c(s(t))*d(t),3) - (2*Cos(phi1(t) + thetap(t))*d(t)*Power(sr.Cs1,2))/Power(1 - c(s(t))*d(t),2) - (c(s(t))*Cos(phi1(t) + thetap(t))*d(t)*sr.Cs2)/Power(1 - c(s(t))*d(t),2) - (Cos(phi1(t) + thetap(t))*sr.Cs2)/(1 - c(s(t))*d(t)));
+return ret;
+}
+
+double KinematicsSolver::calc_pd_alpha3_pd_X_1_2_()
+{
+double ret;
+ret = -(c(s(t))*(-(Power(c(s(t)),2)/(1 - c(s(t))*d(t))) - c(s(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv))*Tan(phi1(t) + thetap(t))) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*(-((Power(c(s(t)),2)*Tan(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) - c(s(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))) - (Power(c(s(t)),2)*(c(s(t))*Tan(phi1(t) + thetap(t)) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))))/(1 - c(s(t))*d(t)) - c(s(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*(c(s(t))*Tan(phi1(t) + thetap(t)) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))) + (Power(c(s(t)),2)*d(t)*sr.Cs1)/Power(1 - c(s(t))*d(t),2) - Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*sr.Cs1 + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*((-2*Power(c(s(t)),2)*Cos(phi1(t) + thetap(t))*d(t)*sr.Cs1)/Power(1 - c(s(t))*d(t),3) - (2*c(s(t))*Cos(phi1(t) + thetap(t))*sr.Cs1)/Power(1 - c(s(t))*d(t),2)) - c(s(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t))*d(t)*sr.Cs1)/Power(1 - c(s(t))*d(t),2)) - (Cos(phi1(t) + thetap(t))*sr.Cs1)/(1 - c(s(t))*d(t)));
+return ret;
+}
+
+double KinematicsSolver::calc_pd_alpha3_pd_X_1_3_()
+{
+double ret;
+ret = (1 - c(s(t))*d(t))*Power(Sec(phi1(t) + thetap(t)),2)*(-(Power(c(s(t)),2)/(1 - c(s(t))*d(t))) - c(s(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)) + (1 - c(s(t))*d(t))*Tan(phi1(t) + thetap(t))*(-((Power(c(s(t)),2)*Tan(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) - c(s(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))) + c(s(t))*Tan(phi1(t) + thetap(t))*(c(s(t))*Tan(phi1(t) + thetap(t)) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))*(c(s(t))*Tan(phi1(t) + thetap(t)) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*(c(s(t))*Power(Sec(phi1(t) + thetap(t)),2) + (1 - c(s(t))*d(t))*Power(Sec(phi1(t) + thetap(t)),3)*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv) + c(s(t))*Power(Tan(phi1(t) + thetap(t)),2) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Power(Tan(phi1(t) + thetap(t)),2)) - (c(s(t))*d(t)*Tan(phi1(t) + thetap(t))*sr.Cs1)/(1 - c(s(t))*d(t)) - d(t)*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))*sr.Cs1 + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*Tan(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t))*d(t)*sr.Cs1)/Power(1 - c(s(t))*d(t),2)) - (Cos(phi1(t) + thetap(t))*sr.Cs1)/(1 - c(s(t))*d(t))) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*((c(s(t))*d(t)*Sin(phi1(t) + thetap(t))*sr.Cs1)/Power(1 - c(s(t))*d(t),2) + (Sin(phi1(t) + thetap(t))*sr.Cs1)/(1 - c(s(t))*d(t)));
+return ret;
+}
+
+double KinematicsSolver::calc_pd_alpha3_pd_X_1_4_()
+{
+double ret;
+ret = (1 - c(s(t))*d(t))*Power(Sec(phi1(t) + thetap(t)),2)*(-(Power(c(s(t)),2)/(1 - c(s(t))*d(t))) - c(s(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)) + (1 - c(s(t))*d(t))*Tan(phi1(t) + thetap(t))*(-(c(s(t))*Sec(phi1(t) + thetap(t))*((Cos(phi1(t) - phi2(t))*Sec(phi1(t)))/lv + (c(s(t))*Sin(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t)) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t))*Tan(phi1(t)))/lv)) - c(s(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*((Cos(phi1(t) - phi2(t))*Sec(phi1(t)))/lv + (c(s(t))*Sin(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t)) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t))*Tan(phi1(t)))/lv)*(c(s(t))*Tan(phi1(t) + thetap(t)) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))*(c(s(t))*Tan(phi1(t) + thetap(t)) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*(c(s(t))*Power(Sec(phi1(t) + thetap(t)),2) + (1 - c(s(t))*d(t))*Power(Sec(phi1(t) + thetap(t)),3)*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*((Cos(phi1(t) - phi2(t))*Sec(phi1(t)))/lv + (c(s(t))*Sin(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t)) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t))*Tan(phi1(t)))/lv)*Tan(phi1(t) + thetap(t)) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Power(Tan(phi1(t) + thetap(t)),2)) - d(t)*Sec(phi1(t) + thetap(t))*((Cos(phi1(t) - phi2(t))*Sec(phi1(t)))/lv + (c(s(t))*Sin(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t)) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t))*Tan(phi1(t)))/lv)*sr.Cs1 - d(t)*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))*sr.Cs1 + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*Tan(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t))*d(t)*sr.Cs1)/Power(1 - c(s(t))*d(t),2)) - (Cos(phi1(t) + thetap(t))*sr.Cs1)/(1 - c(s(t))*d(t))) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*((c(s(t))*d(t)*Sin(phi1(t) + thetap(t))*sr.Cs1)/Power(1 - c(s(t))*d(t),2) + (Sin(phi1(t) + thetap(t))*sr.Cs1)/(1 - c(s(t))*d(t)));
+return ret;
+}
+
+double KinematicsSolver::calc_pd_alpha3_pd_X_1_5_()
+{
+double ret;
+ret = (c(s(t))*Cos(phi1(t) - phi2(t))*(1 - c(s(t))*d(t))*Sec(phi1(t))*Sec(phi1(t) + thetap(t))*Tan(phi1(t) + thetap(t)))/lv - (Cos(phi1(t) - phi2(t))*Power(1 - c(s(t))*d(t),2)*Sec(phi1(t))*Power(Sec(phi1(t) + thetap(t)),2)*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t)))/lv - (Cos(phi1(t) - phi2(t))*(1 - c(s(t))*d(t))*Sec(phi1(t))*Sec(phi1(t) + thetap(t))*(c(s(t))*Tan(phi1(t) + thetap(t)) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))))/lv + (Cos(phi1(t) - phi2(t))*d(t)*Sec(phi1(t))*Sec(phi1(t) + thetap(t))*sr.Cs1)/lv;
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_alpha3_pd_X_2_1_()
+{
+double ret;
+ret = -(d(t)*Sec(phi1(t) + thetap(t))*((Cos(phi1(t) - phi2(t))*Sec(phi1(t)))/lv + (c(s(t))*Sin(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t)) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t))*Tan(phi1(t)))/lv)*sr.Cs1) - d(t)*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t))*sr.Cs1 + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*Tan(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t))*d(t)*sr.Cs1)/Power(1 - c(s(t))*d(t),2)) - (Cos(phi1(t) + thetap(t))*sr.Cs1)/(1 - c(s(t))*d(t))) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*((c(s(t))*d(t)*Sin(phi1(t) + thetap(t))*sr.Cs1)/Power(1 - c(s(t))*d(t),2) + (Sin(phi1(t) + thetap(t))*sr.Cs1)/(1 - c(s(t))*d(t)));
+return ret;
+}
+
+double KinematicsSolver::calc_pd_alpha3_pd_X_2_2_()
+{
+double ret;
+ret = -(c(s(t))*Sec(phi1(t) + thetap(t))*((Cos(phi1(t) - phi2(t))*Sec(phi1(t)))/lv + (c(s(t))*Sin(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t)) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t))*Tan(phi1(t)))/lv)) - c(s(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Tan(phi1(t) + thetap(t));
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_alpha3_pd_X_2_3_()
+{
+double ret;
+ret = c(s(t)) + (1 - c(s(t))*d(t))*Power(Sec(phi1(t) + thetap(t)),3)*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*((Cos(phi1(t) - phi2(t))*Sec(phi1(t)))/lv + (c(s(t))*Sin(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t)) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t))*Tan(phi1(t)))/lv)*Tan(phi1(t) + thetap(t)) + c(s(t))*Power(Tan(phi1(t) + thetap(t)),2) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Power(Tan(phi1(t) + thetap(t)),2);
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_alpha3_pd_X_2_4_()
+{
+double ret;
+ret = (1 - c(s(t))*d(t))*Power(Sec(phi1(t) + thetap(t)),3)*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t)) - (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv + (Power(Sec(phi1(t)),3)*Sin(phi1(t) - phi2(t)))/lv + (2*Cos(phi1(t) - phi2(t))*Sec(phi1(t))*Tan(phi1(t)))/lv + (Sec(phi1(t))*Sin(phi1(t) - phi2(t))*Power(Tan(phi1(t)),2))/lv) + 2*(1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*((Cos(phi1(t) - phi2(t))*Sec(phi1(t)))/lv + (c(s(t))*Sin(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t)) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t))*Tan(phi1(t)))/lv)*Tan(phi1(t) + thetap(t)) + (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*(-((c(s(t))*Cos(phi1(t) + thetap(t)))/(1 - c(s(t))*d(t))) + (Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv)*Power(Tan(phi1(t) + thetap(t)),2);
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_alpha3_pd_X_2_5_()
+{
+double ret;
+ret = (1 - c(s(t))*d(t))*Sec(phi1(t) + thetap(t))*((Sec(phi1(t))*Sin(phi1(t) - phi2(t)))/lv - (Cos(phi1(t) - phi2(t))*Sec(phi1(t))*Tan(phi1(t)))/lv) - (Cos(phi1(t) - phi2(t))*(1 - c(s(t))*d(t))*Sec(phi1(t))*Sec(phi1(t) + thetap(t))*Tan(phi1(t) + thetap(t)))/lv;
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_alpha3_pd_X_3_1_()
+{
+double ret;
+ret = (Cos(phi1(t) - phi2(t))*d(t)*Sec(phi1(t))*Sec(phi1(t) + thetap(t))*sr.Cs1)/lv;
+return ret;
+}
+
+double KinematicsSolver::calc_pd_alpha3_pd_X_3_2_()
+{
+double ret;
+ret = (c(s(t))*Cos(phi1(t) - phi2(t))*Sec(phi1(t))*Sec(phi1(t) + thetap(t)))/lv;
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_alpha3_pd_X_3_3_()
+{
+double ret;
+ret = -((Cos(phi1(t) - phi2(t))*(1 - c(s(t))*d(t))*Sec(phi1(t))*Sec(phi1(t) + thetap(t))*Tan(phi1(t) + thetap(t)))/lv);
+return ret;
+}
+
+double KinematicsSolver::calc_pd_alpha3_pd_X_3_4_()
+{
+double ret;
+ret = ((1 - c(s(t))*d(t))*Sec(phi1(t))*Sec(phi1(t) + thetap(t))*Sin(phi1(t) - phi2(t)))/lv - (Cos(phi1(t) - phi2(t))*(1 - c(s(t))*d(t))*Sec(phi1(t))*Sec(phi1(t) + thetap(t))*Tan(phi1(t)))/lv - (Cos(phi1(t) - phi2(t))*(1 - c(s(t))*d(t))*Sec(phi1(t))*Sec(phi1(t) + thetap(t))*Tan(phi1(t) + thetap(t)))/lv;
+return ret;
+}
+
+double KinematicsSolver::calc_pd_alpha3_pd_X_3_5_()
+{
+double ret;
+ret = -(((1 - c(s(t))*d(t))*Sec(phi1(t))*Sec(phi1(t) + thetap(t))*Sin(phi1(t) - phi2(t)))/lv);
+return ret;
+}
+
+
+
 
 double KinematicsSolver::calc_pd_G11_pd_X_1_()
 {
 double ret;
-ret = (Cos(Thetap)*sr.d*sr.Cs1)/Power(1 - sr.Cs*sr.d,2);
+ret = (Cos(phi1(t) + thetap(t))*d(t)*sr.Cs1)/Power(1 - c(s(t))*d(t),2);
 return ret;
 }
 
 double KinematicsSolver::calc_pd_G11_pd_X_2_()
 {
 double ret;
-ret = (sr.Cs*Cos(Thetap))/Power(1 - sr.Cs*sr.d,2);
+ret = (c(s(t))*Cos(phi1(t) + thetap(t)))/Power(1 - c(s(t))*d(t),2);
 return ret;
 }
 
 double KinematicsSolver::calc_pd_G11_pd_X_3_()
 {
 double ret;
-ret = -(Sin(Thetap)/(1 - sr.Cs*sr.d));
+ret = -(Sin(phi1(t) + thetap(t))/(1 - c(s(t))*d(t)));
 return ret;
 }
 
 double KinematicsSolver::calc_pd_G11_pd_X_4_()
+{
+double ret;
+ret = -(Sin(phi1(t) + thetap(t))/(1 - c(s(t))*d(t)));
+return ret;
+}
+
+double KinematicsSolver::calc_pd_G11_pd_X_5_()
 {
 double ret;
 ret = 0;
@@ -1111,7 +1714,14 @@ return ret;
 double KinematicsSolver::calc_pd_W_pd_t_2_()
 {
 double ret;
-ret = u2_act*(P21*calc_pd_Z2_pd_X_1_4_() + P22*calc_pd_Z2_pd_X_2_4_() + P23*calc_pd_Z2_pd_X_3_4_()) + u1_act*((P21*Tan(x_old[4])*calc_pd_Z2_pd_X_1_3_())/lv + (P22*Tan(x_old[4])*calc_pd_Z2_pd_X_2_3_())/lv + (P23*Tan(x_old[4])*calc_pd_Z2_pd_X_3_3_())/lv + (sr.Cs*Cos(Thetap)*(P21*calc_pd_Z2_pd_X_1_3_() + P22*calc_pd_Z2_pd_X_2_3_() + P23*calc_pd_Z2_pd_X_3_3_()))/(-1 + sr.Cs*sr.d) + P21*Sin(Thetap)*calc_pd_Z2_pd_X_1_2_() + P22*Sin(Thetap)*calc_pd_Z2_pd_X_2_2_() + P23*Sin(Thetap)*calc_pd_Z2_pd_X_3_2_() + (P21*Cos(Thetap)*calc_pd_Z2_pd_X_1_1_())/(1 - sr.Cs*sr.d) + (P22*Cos(Thetap)*calc_pd_Z2_pd_X_2_1_())/(1 - sr.Cs*sr.d) + (P23*Cos(Thetap)*calc_pd_Z2_pd_X_3_1_())/(1 - sr.Cs*sr.d));
+ret = ((k1*k2*Z22 - k1*k2*Pattern(d,Blank(d))(t) - Pattern(ddotd,Blank(d))(t) - k1*Pattern(dotd,Blank(d))(t) - k2*Pattern(dotd,Blank(d))(t))*a0_dot + a0*(k1*k2*Derivative(1)(Pattern(d,Blank(d)))(t) + Derivative(1)(Pattern(ddotd,Blank(d)))(t) + (k1 + k2)*Derivative(1)(Pattern(dotd,Blank(d)))(t)))/Power(a0,2);
+return ret;
+}
+
+double KinematicsSolver::calc_pd_W_pd_t_3_()
+{
+double ret;
+ret = ((-Pattern(ddotthetap,Blank(d))(t) - (k3 + k4)*Pattern(dotthetap,Blank(d))(t) + k3*k4*(Z32 - Pattern(thetap,Blank(d))(t)))*a0_dot + a0*(Derivative(1)(Pattern(ddotthetap,Blank(d)))(t) + (k3 + k4)*Derivative(1)(Pattern(dotthetap,Blank(d)))(t) + k3*k4*Derivative(1)(Pattern(thetap,Blank(d)))(t)))/Power(a0,2);
 return ret;
 }
 
@@ -1143,34 +1753,87 @@ ret = 0;
 return ret;
 }
 
+
+double KinematicsSolver::calc_pd_W_pd_X_1_5_()
+{
+double ret;
+ret = 0;
+return ret;
+}
+
 double KinematicsSolver::calc_pd_W_pd_X_2_1_()
 {
 double ret;
-ret = P21*calc_pd_Z2_pd_X_1_1_() + P22*calc_pd_Z2_pd_X_2_1_() + P23*calc_pd_Z2_pd_X_3_1_();
+ret = -((k1 + k2)*calc_pd_Z2_pd_X_1_1_()) - (k1*k2*calc_pd_Z2_pd_X_2_1_())/a0;
 return ret;
 }
 
 double KinematicsSolver::calc_pd_W_pd_X_2_2_()
 {
 double ret;
-ret = P21*calc_pd_Z2_pd_X_1_2_() + P22*calc_pd_Z2_pd_X_2_2_() + P23*calc_pd_Z2_pd_X_3_2_();
+ret = -((k1 + k2)*calc_pd_Z2_pd_X_1_2_()) - (k1*k2*calc_pd_Z2_pd_X_2_2_())/a0;
 return ret;
 }
 
 double KinematicsSolver::calc_pd_W_pd_X_2_3_()
 {
 double ret;
-ret = P21*calc_pd_Z2_pd_X_1_3_() + P22*calc_pd_Z2_pd_X_2_3_() + P23*calc_pd_Z2_pd_X_3_3_();
+ret = -((k1 + k2)*calc_pd_Z2_pd_X_1_3_()) - (k1*k2*calc_pd_Z2_pd_X_2_3_())/a0;
 return ret;
 }
 
 double KinematicsSolver::calc_pd_W_pd_X_2_4_()
 {
 double ret;
-ret = P21*calc_pd_Z2_pd_X_1_4_() + P22*calc_pd_Z2_pd_X_2_4_() + P23*calc_pd_Z2_pd_X_3_4_();
+ret = -((k1 + k2)*calc_pd_Z2_pd_X_1_4_()) - (k1*k2*calc_pd_Z2_pd_X_2_4_())/a0;
 return ret;
 }
 
+double KinematicsSolver::calc_pd_W_pd_X_2_5_()
+{
+double ret;
+ret = -((k1 + k2)*calc_pd_Z2_pd_X_1_5_()) - (k1*k2*calc_pd_Z2_pd_X_2_5_())/a0;
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_W_pd_X_3_1_()
+{
+double ret;
+ret = -((k3 + k4)*calc_pd_Z3_pd_X_1_1_()) - (k3*k4*calc_pd_Z3_pd_X_2_1_())/a0;
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_W_pd_X_3_2_()
+{
+double ret;
+ret = -((k3 + k4)*calc_pd_Z3_pd_X_1_2_()) - (k3*k4*calc_pd_Z3_pd_X_2_2_())/a0;
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_W_pd_X_3_3_()
+{
+double ret;
+ret = -((k3 + k4)*calc_pd_Z3_pd_X_1_3_()) - (k3*k4*calc_pd_Z3_pd_X_2_3_())/a0;
+return ret;
+}
+
+double KinematicsSolver::calc_pd_W_pd_X_3_4_()
+{
+double ret;
+ret = -((k3 + k4)*calc_pd_Z3_pd_X_1_4_()) - (k3*k4*calc_pd_Z3_pd_X_2_4_())/a0;
+return ret;
+}
+
+
+double KinematicsSolver::calc_pd_W_pd_X_3_5_()
+{
+double ret;
+ret = -((k3 + k4)*calc_pd_Z3_pd_X_1_5_()) - (k3*k4*calc_pd_Z3_pd_X_2_5_())/a0;
+return ret;
+}
 
 
 
@@ -1179,15 +1842,25 @@ return ret;
 double KinematicsSolver::calc_pd_ud_pd_t_1_()
 {
 double ret;
-ret = -((w1*(calc_d_SX_d_t_4_1_()*calc_pd_G11_pd_X_4_() + calc_d_SX_d_t_3_1_()*calc_pd_G11_pd_X_3_() + calc_d_SX_d_t_2_1_()*calc_pd_G11_pd_X_2_() + calc_d_SX_d_t_1_1_() * calc_pd_G11_pd_X_1_()))/Power(calc_SX_1_1_(),2));
+ret = -((W1*(x_d[5]*calc_pd_G11_pd_X_5_() + x_d[4]*calc_pd_G11_pd_X_4_() + (calc_SX_3_1_()*u1)*calc_pd_G11_pd_X_3_() + (calc_SX_2_1_()*u1)*calc_pd_G11_pd_X_2_() + (calc_SX_1_1_()*u1)*calc_pd_G11_pd_X_1_()))/Power(calc_SX_1_1_(),2));
 return ret;
 }
 
 double KinematicsSolver::calc_pd_ud_pd_t_2_()
 {
 double ret;
-ret = ((w1*calc_alpha_2_1_() - w2)*(calc_d_SX_d_t_4_1_()*calc_pd_alpha2_pd_X_2_4_() + calc_d_SX_d_t_3_1_()*calc_pd_alpha2_pd_X_2_3_() + calc_d_SX_d_t_2_1_()*calc_pd_alpha2_pd_X_2_2_() + calc_d_SX_d_t_1_1_()*calc_pd_alpha2_pd_X_2_1_()) + calc_alpha_2_2_()*(calc_d_SX_d_t_4_1_()*(-(w1*calc_pd_alpha2_pd_X_1_4_()) 
-    + calc_pd_W_pd_X_2_4_()) + calc_d_SX_d_t_3_1_()*(-(w1*calc_pd_alpha2_pd_X_1_3_()) + calc_pd_W_pd_X_2_3_()) - w1*calc_d_SX_d_t_2_1_()*calc_pd_alpha2_pd_X_1_2_() + calc_d_SX_d_t_2_1_()*calc_pd_W_pd_X_2_2_() - w1*calc_d_SX_d_t_1_1_()*calc_pd_alpha2_pd_X_1_1_() + calc_d_SX_d_t_1_1_()*calc_pd_W_pd_X_2_1_()))/Power(calc_alpha_2_2_(),2);
+ret = (-((calc_alpha_3_3_()*(W1*calc_alpha_2_1_() - w2) + calc_alpha_2_3_()*(-(W1*calc_alpha_3_1_()) + w3))*(-(calc_alpha_3_3_()*(x_d[5]*calc_pd_alpha2_pd_X_2_5_() + x_d[4]*calc_pd_alpha2_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_2_1_())) + calc_alpha_3_2_()*(x_d[5]*calc_pd_alpha2_pd_X_3_5_() + x_d[4]*calc_pd_alpha2_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_3_1_()) + calc_alpha_2_3_()*(x_d[5]*calc_pd_alpha3_pd_X_2_5_() + x_d[4]*calc_pd_alpha3_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_2_1_()) - calc_alpha_2_2_()*(x_d[5]*calc_pd_alpha3_pd_X_3_5_() 
+        + x_d[4]*calc_pd_alpha3_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_3_1_()))) + (calc_alpha_2_3_()*calc_alpha_3_2_() - calc_alpha_2_2_()*calc_alpha_3_3_())*((-(W1*calc_alpha_3_1_()) + w3)*(x_d[5]*calc_pd_alpha2_pd_X_3_5_() + x_d[4]*calc_pd_alpha2_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_3_1_()) + (W1*calc_alpha_2_1_() - w2)*(x_d[5]*calc_pd_alpha3_pd_X_3_5_() + x_d[4]*calc_pd_alpha3_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_3_1_()) + calc_alpha_3_3_()*(x_d[5]*(W1*calc_pd_alpha2_pd_X_1_5_() - calc_pd_W_pd_X_2_5_()) + x_d[4]*(W1*calc_pd_alpha2_pd_X_1_4_() 
+        - calc_pd_W_pd_X_2_4_()) + W1*(calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_1_3_() - (calc_SX_3_1_()*u1)*calc_pd_W_pd_X_2_3_() + W1*(calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_1_2_() - (calc_SX_2_1_()*u1)*calc_pd_W_pd_X_2_2_() + W1*(calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_1_1_() - (calc_SX_1_1_()*u1)*calc_pd_W_pd_X_2_1_()) + calc_alpha_2_3_()*(x_d[5]*calc_pd_W_pd_X_3_5_() + x_d[4]*calc_pd_W_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_W_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_W_pd_X_3_2_() - W1*(x_d[5]*calc_pd_alpha3_pd_X_1_5_() + x_d[4]*calc_pd_alpha3_pd_X_1_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_1_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_1_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_1_1_()) + (calc_SX_1_1_()*u1)*calc_pd_W_pd_X_3_1_())))/Power(calc_alpha_2_3_()*calc_alpha_3_2_() - calc_alpha_2_2_()*calc_alpha_3_3_(),2);
+return ret;
+}
+
+double KinematicsSolver::calc_pd_ud_pd_t_3_()
+{
+double ret;
+ret = (-((calc_alpha_3_2_()*(-(W1*calc_alpha_2_1_()) + w2) + calc_alpha_2_2_()*(W1*calc_alpha_3_1_() - w3))*(-(calc_alpha_3_3_()*(x_d[5]*calc_pd_alpha2_pd_X_2_5_() + x_d[4]*calc_pd_alpha2_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_2_1_())) + calc_alpha_3_2_()*(x_d[5]*calc_pd_alpha2_pd_X_3_5_() + x_d[4]*calc_pd_alpha2_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_3_1_()) + calc_alpha_2_3_()*(x_d[5]*calc_pd_alpha3_pd_X_2_5_() + x_d[4]*calc_pd_alpha3_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_2_1_()) - calc_alpha_2_2_()*(x_d[5]*calc_pd_alpha3_pd_X_3_5_() + x_d[4]*calc_pd_alpha3_pd_X_3_4_() 
+        + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_3_1_()))) + (calc_alpha_2_3_()*calc_alpha_3_2_() - calc_alpha_2_2_()*calc_alpha_3_3_())*((W1*calc_alpha_3_1_() - w3)*(x_d[5]*calc_pd_alpha2_pd_X_2_5_() + x_d[4]*calc_pd_alpha2_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_2_1_()) + (-(W1*calc_alpha_2_1_()) + w2)*(x_d[5]*calc_pd_alpha3_pd_X_2_5_() + x_d[4]*calc_pd_alpha3_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_2_1_()) + calc_alpha_3_2_()*(x_d[5]*calc_pd_W_pd_X_2_5_() + x_d[4]*calc_pd_W_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_W_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_W_pd_X_2_2_() - W1*(x_d[5]*calc_pd_alpha2_pd_X_1_5_() 
+        + x_d[4]*calc_pd_alpha2_pd_X_1_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_1_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_1_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_1_1_()) + (calc_SX_1_1_()*u1)*calc_pd_W_pd_X_2_1_()) + calc_alpha_2_2_()*(x_d[5]*(W1*calc_pd_alpha3_pd_X_1_5_() - calc_pd_W_pd_X_3_5_()) + x_d[4]*(W1*calc_pd_alpha3_pd_X_1_4_() - calc_pd_W_pd_X_3_4_()) + W1*(calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_1_3_() - (calc_SX_3_1_()*u1)*calc_pd_W_pd_X_3_3_() + W1*(calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_1_2_() - (calc_SX_2_1_()*u1)*calc_pd_W_pd_X_3_2_() + W1*(calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_1_1_() - (calc_SX_1_1_()*u1)*calc_pd_W_pd_X_3_1_())))/Power(calc_alpha_2_3_()*calc_alpha_3_2_() - calc_alpha_2_2_()*calc_alpha_3_3_(),2);
 return ret;
 }
 

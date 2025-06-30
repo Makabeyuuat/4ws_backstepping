@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.2)
 # CMP0048: project()でVERSIONを管理するポリシーをNEWに設定
 cmake_policy(SET CMP0048 NEW)
-project(vehicle_backstepping VERSION 0.0.1)
+project(4ws_backstepping VERSION 0.0.1)
 
 ## C++11を有効化
 add_compile_options(-std=c++11)
@@ -63,7 +63,7 @@ include_directories(
 
 ## 実行ファイルの定義
 add_executable(vehicle_dynamics_controller
-  src/vehicle_dynamics.cpp
+  src/4ws_dynamics.cpp
   src/vehicle.cpp
   src/callback.cpp
   src/Bezier.cpp

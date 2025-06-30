@@ -12,7 +12,7 @@
 #define vehicle_inertia_coef 0.14824039
 inline constexpr int BEZIER_ORDER = 4; 
 //inline constexpr int BEZIER_ORDER = 15; 
-inline constexpr int Dim = 4;
+inline constexpr int Dim = 5;  //状態変数の次元
 inline constexpr int  Q = 100001;  //曲線の分割数PAI
 inline constexpr double RAD2DEG = 180.0 / PAI;
 inline constexpr double DEG2RAD = 180.0 / PAI;
@@ -73,11 +73,13 @@ inline double	h, t_max;
 
 //input
 //制御入力
-inline double  w1;
-inline double  w2;
+inline double w1;
+inline double w2;
+inline double w3;
 inline double P21, P22, P23;
-//inline double a0 = 0.2;
-inline double u1, u2;
+inline double a0 = 0.2;
+inline double a0_dot = 0.0;
+inline double u1, u2, u3;
 inline double v1, v2;
 inline double thetaT = 0.0;
 inline double Thetap = 0.0;
@@ -86,11 +88,13 @@ inline double Thetap = 0.0;
 //フィードバック関数
 inline double k1 = 2.0;
 inline double k2 = 2.0;
-
+inline double k3 = 2.0;
+inline double k4 = 2.0;
 
 
 //制御入力の係数
-inline double alpha21, alpha22;
+inline double alpha21, alpha22, alpha23;
+inline double alpha31, alpha32, alpha33;
 
 
 
@@ -109,16 +113,15 @@ inline double dynamic_v = 0.0;
 inline double yaw_rate = 0.0;
 
 inline double rho = 0.0 * DEG2RAD;
-inline double phidot = 0.0;
-inline double q_twist[6] = {0.0};
-inline double qdot_twist[6] = {0.0};
-inline double Tau1 = 0.0;
-inline double Tau2 = 0.0;
+inline double phiF_dot = 0.0;
+inline double phiR_dot = 0.0;
+inline double q_twist[7] = {0.0};
+inline double qdot_twist[7] = {0.0};
 inline std::vector<double> x_d = std::vector<double>(Dim + 1, 0.0);
 inline std::vector<double> x_dd = std::vector<double>(Dim + 1, 0.0);
-extern Eigen::Map<Eigen::Matrix<double,6,1>> q_map;
-extern Eigen::Map<Eigen::Matrix<double,6,1>> qdot_map;
-extern Eigen::Map<Eigen::Matrix<double,6,1>> qddot_map;
+extern Eigen::Map<Eigen::Matrix<double,7,1>> q_map;
+extern Eigen::Map<Eigen::Matrix<double,7,1>> qdot_map;
+extern Eigen::Map<Eigen::Matrix<double,7,1>> qddot_map;
 inline double dymanic_v = 0.0;
 
 
@@ -130,17 +133,21 @@ inline double m_w = 2*(m_wheel + m_hinge);
 inline double I_theta = vehicle_inertia_coef * 418.647558;
 inline double I_wheel = 0.029034;
 inline double I_hinge = 0.021551;
-inline double I_phi = 2*(I_wheel + I_hinge);
-inline double I_psif = 0.053334;        
-inline double I_psir = 0.053334;        
+inline double I_phiF = 2*(I_wheel + I_hinge);
+inline double I_phiR = 2*(I_wheel + I_hinge);
+inline double I_varphiF = 0.053334;        
+inline double I_varphiR = 0.053334;        
 inline double wheelRadius = 0.153;          
-inline double Q_phi = 0.0;
-inline double Q_psi_f = 0.0;
-inline double Q_psi_r = 0.0;
+inline double Q_phiF = 0.0;
+inline double Q_phi_R = 0.0;
+inline double Q_varphiF = 0.0;
+inline double Q_varphiR = 0.0;
 inline double nu1 = 0.0;
 inline double nu2 = 0.0;
+inline double nu3 = 0.0;
 inline double u1_act = 0.0; 
 inline double u2_act = 0.0; 
+inline double u3_act = 0.0;
 inline double asd = 0.0;
 inline double athetapd = 0.0;
 inline Eigen::Vector4d lamda_data = Eigen::Vector4d::Zero();

@@ -324,6 +324,7 @@ void getInputValue::getU(std::vector<double>& x_old, int sr_j) {
 
     U1(x_old, sr_j);
     U2(x_old, sr_j);
+    U2(x_old, sr_j);
 
 
 }
@@ -371,64 +372,9 @@ void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
 
 }
 
-// void getInputValue::U1(const std::vector<double>& x_old, int sr_j) {
-
-
-// 	u1 = ((1 - sr.d * sr.Cs) / cos(Thetap)) * w1;
-
-
-// }
-
-
-// void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
-
-// 	double dx2ds = 0.0;
-// 	double dx2dd = 0.0;
-// 	double dx2dthp = 0.0;
-// 	double dx2dphi = 0.0;
-// 	double a1;
-// 	double a2;
-
-	
-
-// 	//??lv?l?v?Z
-// 	double z1 = -sr.Cs1 * sr.d * tan(Thetap)
-// 		- sr.Cs * (1 - sr.d * sr.Cs) * ((1 + pow(sin(Thetap), 2)) / pow(cos(Thetap), 2))
-// 		+ pow((1 - sr.d * sr.Cs), 2) * tan(x_old[4]) / (lv * pow(cos(Thetap), 3));
-// 	double z2 = ((1 - sr.d * sr.Cs) * tan(Thetap)) / w1;
-// 	double z3 = sr.d / pow(w1, 2);
-// 	double a = -3.0;
-
-// 	P21 = 3 * a;
-// 	P22 = -3 * a * a;
-// 	P23 = a * a * a;
-
-// 	w2 = P21 * z1 + P22 * z2 + P23 * z3;
-
-
-// 	dx2ds = -sr.Cs2 * sr.d * tan(Thetap)
-// 		- sr.Cs1 * (1 - sr.d * sr.Cs) * ((1 + pow(sin(Thetap), 2)) / pow(cos(Thetap), 2))
-// 		+ sr.d * sr.Cs * sr.Cs1 * ((1 + pow(sin(Thetap), 2))) / pow(cos(Thetap), 2)
-// 		- sr.d * sr.Cs1 * (2 * (1 - sr.d * sr.Cs) * tan(x_old[4])) / (lv * pow(cos(Thetap), 3)) -sr.Cs-sr.d;
-
-// 	dx2dd = -sr.Cs1 * tan(Thetap)
-// 		+ sr.Cs * sr.Cs * ((1 + pow(sin(Thetap), 2)) / pow(cos(Thetap), 2))
-// 		- (2 * (1 - sr.d * sr.Cs) * tan(x_old[4]) * sr.Cs) / (lv * pow(cos(Thetap), 3));
-
-
-// 	dx2dthp = -sr.Cs1 * sr.d / pow(cos(Thetap), 2)
-// 		- sr.Cs * (1 - sr.d * sr.Cs) * 4 * sin(Thetap) / pow(cos(Thetap), 3)
-// 		+ 3 * (pow((1 - sr.d * sr.Cs), 2) * tan(x_old[4]) * sin(Thetap)) / (lv * pow(cos(Thetap), 4));
-
-// 	dx2dphi = pow((1 - sr.d * sr.Cs), 2) / (lv * pow(cos(Thetap), 3) * pow(cos(x_old[4]), 2));
-
-// 	a1 = dx2ds + dx2dd * (1 - sr.d * sr.Cs) * tan(Thetap)
-// 		+ dx2dthp * ((tan(x_old[4]) * (1 - sr.d * sr.Cs)) / (lv * cos(Thetap)) - sr.Cs);
-
-// 	a2 = (lv * pow(cos(Thetap), 3) * pow(cos(x_old[4]), 2)) / pow((1 - sr.d * sr.Cs), 2);
-
-
-
-// 	u2 = a2 * (w2 - a1 * u1);
-
-// }
+void getInputValue::U3(const std::vector<double>& x_old, int sr_j) {
+    // ここではu3の計算を行う
+    // u3 = 0.0; // 例として0を代入
+    // 実際の計算ロジックを実装する必要があります
+    u3 = 0.0; // 仮の値
+}

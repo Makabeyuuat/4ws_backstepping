@@ -58,6 +58,7 @@ private:
 
     void U1(const std::vector<double>& x_old, int sr_j);
     void U2(const std::vector<double>& x_old, int sr_j);
+    void U3(const std::vector<double>& x_old, int sr_j);
 
 };
 

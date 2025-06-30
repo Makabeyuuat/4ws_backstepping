@@ -64,10 +64,8 @@ int main(int argc, char** argv) {
 		loop_rate.sleep();
 	}
 	//デバッグ用ログ出力
-	ROS_INFO("Locking initial pose and calling initial(): x=%.3f, y=%.3f, body_yaw=%.3f ,steering=%.3f",
-           true_body_pos[0], true_body_pos[1], true_body_yaw, true_steering);
 	ROS_INFO("Locking initial pose and calling initial(): xdot=%.3f, ydot=%.3f, thetadot=%.3f ,phidot=%.3f",
-           x_d[1], x_d[2], x_d[3], x_d[4]);
+           x_d[1], x_d[2], x_d[3], x_d[4], x_d[5], x_d[6]);
 		   
 	//初期値を設定
 	initial(t_max, h);
