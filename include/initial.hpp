@@ -100,8 +100,8 @@ inline double alpha31, alpha32, alpha33;
 
 
 //重心の目標相対位置関数
-inline double d0d, dd0d, ddd0d;
-inline double theta1d, dtheta1d, ddtheta1d;
+inline double d0d, dd0d, ddd0d, dddd0d;
+inline double theta1d, dtheta1d, ddtheta1d, dddthetap1d;
 
 //各リンクの長さ
 inline double lv = 1.0;

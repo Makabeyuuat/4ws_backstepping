@@ -1714,14 +1714,14 @@ return ret;
 double KinematicsSolver::calc_pd_W_pd_t_2_()
 {
 double ret;
-ret = ((k1*k2*Z22 - k1*k2*Pattern(d,Blank(d))(t) - Pattern(ddotd,Blank(d))(t) - k1*Pattern(dotd,Blank(d))(t) - k2*Pattern(dotd,Blank(d))(t))*a0_dot + a0*(k1*k2*Derivative(1)(Pattern(d,Blank(d)))(t) + Derivative(1)(Pattern(ddotd,Blank(d)))(t) + (k1 + k2)*Derivative(1)(Pattern(dotd,Blank(d)))(t)))/Power(a0,2);
+ret = ((k1*k2*Z22 - k1*k2*d0d - ddd0d - k1*dd0d - k2*dd0d)*a0_dot + a0*(k1*k2*dd0d + dddd0d + (k1 + k2)*ddd0d))/Power(a0,2);
 return ret;
 }
 
 double KinematicsSolver::calc_pd_W_pd_t_3_()
 {
 double ret;
-ret = ((-Pattern(ddotthetap,Blank(d))(t) - (k3 + k4)*Pattern(dotthetap,Blank(d))(t) + k3*k4*(Z32 - Pattern(thetap,Blank(d))(t)))*a0_dot + a0*(Derivative(1)(Pattern(ddotthetap,Blank(d)))(t) + (k3 + k4)*Derivative(1)(Pattern(dotthetap,Blank(d)))(t) + k3*k4*Derivative(1)(Pattern(thetap,Blank(d)))(t)))/Power(a0,2);
+ret = ((-ddtheta1d - (k3 + k4)*dtheta1d + k3*k4*(Z32 - theta1d))*a0_dot + a0*(dddtheta1d + (k3 + k4)*ddtheta1d + k3*k4*dtheta1d))/Power(a0,2);
 return ret;
 }
 
