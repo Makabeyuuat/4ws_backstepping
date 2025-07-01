@@ -334,7 +334,7 @@ void getInputValue::getXInput(std::vector<double>& x_old, std::vector<double>& x
 }
 
 
-//--- 制御入力計算用内部関数 ---
+//制御入力計算用内部関数
 void getInputValue::U1(const std::vector<double>& x_old, int sr_j) {
 
 
@@ -345,26 +345,25 @@ void getInputValue::U1(const std::vector<double>& x_old, int sr_j) {
 
 
 void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
-
-	
 	double z21 = kinematics_solver_.Z_funcs[0]();
 	double z22 = kinematics_solver_.Z_funcs[1]();
-	double z23 = kinematics_solver_.Z_funcs[2]();
-	double a = -5.0;
+    double alpha21 = kinematics_solver_.alpha_funcs[3]();
+    double alpha22 = kinematics_solver_.alpha_funcs[4]();
 
-	P21 = 3 * a;
-	P22 = -3 * a * a;
-	P23 = a * a * a;
+	//経路追従
+	d0d = 0.0;
+	dd0d = 0.0;
+	ddd0d = 0.0;
 
-	w2 = P21 * z21 + P22 * z22 + P23 * z23;
+	//重心を経路に対して周期的に変化させる
+	/*d0d = -0.7 *  sin(2* PAI * x[0] / t_max);
+	printf("%lf\n", d0d);
+	dd0d =  -0.7 * (2* PAI / t_max) * cos(2 * PAI * x[0] / t_max);
+	ddd0d = 0.7 * (2 * PAI / t_max) * (2 * PAI / t_max) * sin(2 * PAI * x[0] / t_max);*/
 
+	w2 = ddd0d / a0 + (k1 + k2) * ((dd0d / a0) - z21) + k1 * k2 * ((d0d / a0) - z22 / a0);
 
-	alpha21 = kinematics_solver_.alpha_funcs[2]();
-	alpha22 = kinematics_solver_.alpha_funcs[3](); 
-
-    
-
-	u2 = (w2 - alpha21 * w1)/alpha22;
+	u2 = (1 / alpha22) * (w2 - alpha21 * u1);
 
     // std::cout << "z21=" << z21 << ", z22=" << z22 << ", z23=" << z23 << "\n";
     // std::cout << "alpha21=" << alpha21 << ", alpha22=" << alpha22 << ", w2=" << w2 << "\n";
@@ -373,8 +372,17 @@ void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
 }
 
 void getInputValue::U3(const std::vector<double>& x_old, int sr_j) {
-    // ここではu3の計算を行う
-    // u3 = 0.0; // 例として0を代入
-    // 実際の計算ロジックを実装する必要があります
-    u3 = 0.0; // 仮の値
+    double z31 = kinematics_solver_.Z_funcs[0]();
+	double z32 = kinematics_solver_.Z_funcs[1]();
+    double alpha31 = kinematics_solver_.alpha_funcs[3]();
+    double alpha32 = kinematics_solver_.alpha_funcs[4]();
+    double alpha33 = kinematics_solver_.alpha_funcs[5]();
+
+    theta1d = 0;
+	dtheta1d = 0;
+	ddtheta1d = 0;
+
+	w3 = ddtheta1d / a0 + (k3 + k4) * ((dtheta1d / a0) - z31) + k3 * k4 * ((theta1d / a0) - z32 / a0);
+
+	u3 = (1 / alpha33) * (w3 - (alpha31 * u1 + alpha32 * u2));
 }
