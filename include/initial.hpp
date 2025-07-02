@@ -95,13 +95,14 @@ inline double k4 = 2.0;
 //制御入力の係数
 inline double alpha21, alpha22, alpha23;
 inline double alpha31, alpha32, alpha33;
+inline double z21, z22, z31, z32;
 
 
 
 
 //重心の目標相対位置関数
 inline double d0d, dd0d, ddd0d, dddd0d;
-inline double theta1d, dtheta1d, ddtheta1d, dddthetap1d;
+inline double thetap1d, dthetap1d, ddthetap1d, dddthetap1d;
 
 //各リンクの長さ
 inline double lv = 1.0;
@@ -139,7 +140,7 @@ inline double I_varphiF = 0.053334;
 inline double I_varphiR = 0.053334;        
 inline double wheelRadius = 0.153;          
 inline double Q_phiF = 0.0;
-inline double Q_phi_R = 0.0;
+inline double Q_phiR = 0.0;
 inline double Q_varphiF = 0.0;
 inline double Q_varphiR = 0.0;
 inline double nu1 = 0.0;

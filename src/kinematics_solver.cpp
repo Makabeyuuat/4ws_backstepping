@@ -102,6 +102,7 @@ return ret;
 
 double KinematicsSolver::calc_pd_Z2_pd_X_1_1_()
 {
+double ret;
 ret = -(sr.d*Tan(x_old[4] + Thetap)*sr.Cs1);
 return ret;
 }
@@ -246,14 +247,14 @@ return ret;
 double KinematicsSolver::calc_aqd_1_()
 {
 double ret;
-ret = Cos(q_map(3) + Thetap + thetat(t))*nu1 - Sin(q_map(3) + Thetap + thetat(t))*u1_act*(u2_act + sr.Cs*(calc_SX_1_1_()*u1) + (calc_SX_3_1_()*u1));
+ret = Cos(q_map(3) + Thetap + thetaT)*nu1 - Sin(q_map(3) + Thetap + thetaT)*u1_act*(u2_act + sr.Cs*(calc_SX_1_1_()*u1) + (calc_SX_3_1_()*u1));
 return ret;
 }
 
 double KinematicsSolver::calc_aqd_2_()
 {
 double ret;
-ret = nu1*Sin(q_map(3) + Thetap + thetat(t)) + Cos(q_map(3) + Thetap + thetat(t))*u1_act*(u2_act + sr.Cs*(calc_SX_1_1_()*u1) + (calc_SX_3_1_()*u1));
+ret = nu1*Sin(q_map(3) + Thetap + thetaT) + Cos(q_map(3) + Thetap + thetaT)*u1_act*(u2_act + sr.Cs*(calc_SX_1_1_()*u1) + (calc_SX_3_1_()*u1));
 return ret;
 }
 
@@ -942,7 +943,7 @@ return ret;
 double KinematicsSolver::calc_d_SX_d_t_1_1_()
 {
 double ret;
-ret = -((Sin(x_old[4] + Thetap)*((-((sr.Cs*Cos(x_old[4] + Thetap))/(1 - sr.Cs*sr.d)) + (Sec(x_old[4])*Sin(x_old[4] - x_old[5]))/lv)*u1(t) + u2(t)))/(1 - sr.Cs*sr.d)) - (Cos(x_old[4] + Thetap)*(-(sr.Cs*Sin(x_old[4] + Thetap)*u1(t)) - (Cos(x_old[4] + Thetap)*sr.d*u1(t)*sr.Cs1)/(1 - sr.Cs*sr.d)))/Power(1 - sr.Cs*sr.d,2);
+ret = -((Sin(x_old[4] + Thetap)*((-((sr.Cs*Cos(x_old[4] + Thetap))/(1 - sr.Cs*sr.d)) + (Sec(x_old[4])*Sin(x_old[4] - x_old[5]))/lv)*u1 + u2))/(1 - sr.Cs*sr.d)) - (Cos(x_old[4] + Thetap)*(-(sr.Cs*Sin(x_old[4] + Thetap)*u1) - (Cos(x_old[4] + Thetap)*sr.d*u1*sr.Cs1)/(1 - sr.Cs*sr.d)))/Power(1 - sr.Cs*sr.d,2);
 return ret;
 }
 
@@ -963,8 +964,8 @@ return ret;
 double KinematicsSolver::calc_d_SX_d_t_2_1_()
 {
 double ret;
-ret = Cos(x_old[4] + Thetap)*((-((sr.Cs*Cos(x_old[4] + Thetap))/(1 - sr.Cs*sr.d)) + (Sec(x_old[4])*Sin(x_old[4] - x_old[5]))/lv)*u1(t) + u2(t));
-return ret
+ret = Cos(x_old[4] + Thetap)*((-((sr.Cs*Cos(x_old[4] + Thetap))/(1 - sr.Cs*sr.d)) + (Sec(x_old[4])*Sin(x_old[4] - x_old[5]))/lv)*u1 + u2);
+return ret;
 }
 
 double KinematicsSolver::calc_d_SX_d_t_2_2_()
@@ -985,7 +986,7 @@ return ret;
 double KinematicsSolver::calc_d_SX_d_t_3_1_()
 {
 double ret;
-ret = (Sec(x_old[4])*Sin(x_old[4] - x_old[5])*Tan(x_old[4])*u2(t))/lv + (sr.Cs*Sin(x_old[4] + Thetap)*((-((sr.Cs*Cos(x_old[4] + Thetap))/(1 - sr.Cs*sr.d)) + (Sec(x_old[4])*Sin(x_old[4] - x_old[5]))/lv)*u1(t) + u2(t)))/(1 - sr.Cs*sr.d) + (Cos(x_old[4] - x_old[5])*Sec(x_old[4])*(u2(t) - u3(t)))/lv - (Power(Cos(x_old[4] + Thetap),2)*u1(t)*sr.Cs1)/Power(1 - sr.Cs*sr.d,2) + (sr.Cs*Cos(x_old[4] + Thetap)*(-(sr.Cs*Sin(x_old[4] + Thetap)*u1(t)) - (Cos(x_old[4] + Thetap)*sr.d*u1(t)*sr.Cs1)/(1 - sr.Cs*sr.d)))/Power(1 - sr.Cs*sr.d,2);
+ret = (Sec(x_old[4])*Sin(x_old[4] - x_old[5])*Tan(x_old[4])*u2)/lv + (sr.Cs*Sin(x_old[4] + Thetap)*((-((sr.Cs*Cos(x_old[4] + Thetap))/(1 - sr.Cs*sr.d)) + (Sec(x_old[4])*Sin(x_old[4] - x_old[5]))/lv)*u1 + u2))/(1 - sr.Cs*sr.d) + (Cos(x_old[4] - x_old[5])*Sec(x_old[4])*(u2 - u3))/lv - (Power(Cos(x_old[4] + Thetap),2)*u1*sr.Cs1)/Power(1 - sr.Cs*sr.d,2) + (sr.Cs*Cos(x_old[4] + Thetap)*(-(sr.Cs*Sin(x_old[4] + Thetap)*u1) - (Cos(x_old[4] + Thetap)*sr.d*u1*sr.Cs1)/(1 - sr.Cs*sr.d)))/Power(1 - sr.Cs*sr.d,2);
 return ret;
 }
 
@@ -1267,7 +1268,7 @@ return ret;
 double KinematicsSolver::calc_Mxi_4_4_()
 {
 double ret;
-ret = I_phi;
+ret = I_phiR;
 return ret;
 }
 
@@ -1323,7 +1324,7 @@ return ret;
 double KinematicsSolver::calc_Mxi_5_5_()
 {
 double ret;
-ret = IvarphiR;;
+ret = I_varphiR;
 return ret;
 }
 
@@ -1380,7 +1381,7 @@ return ret;
 double KinematicsSolver::calc_Mxi_6_6_()
 {
 double ret;
-ret = IphiF;
+ret = I_phiF;
 return ret;
 }
 
@@ -1438,7 +1439,7 @@ return ret;
 double KinematicsSolver::calc_Mxi_7_7_()
 {
 double ret;
-ret = IvarphiF;
+ret = I_varphiF;
 return ret;
 }
 
@@ -1714,14 +1715,14 @@ return ret;
 double KinematicsSolver::calc_pd_W_pd_t_2_()
 {
 double ret;
-ret = ((k1*k2*Z22 - k1*k2*d0d - ddd0d - k1*dd0d - k2*dd0d)*a0_dot + a0*(k1*k2*dd0d + dddd0d + (k1 + k2)*ddd0d))/Power(a0,2);
+ret = ((k1*k2*z22 - k1*k2*d0d - ddd0d - k1*dd0d - k2*dd0d)*a0_dot + a0*(k1*k2*dd0d + dddd0d + (k1 + k2)*ddd0d))/Power(a0,2);
 return ret;
 }
 
 double KinematicsSolver::calc_pd_W_pd_t_3_()
 {
 double ret;
-ret = ((-ddtheta1d - (k3 + k4)*dtheta1d + k3*k4*(Z32 - theta1d))*a0_dot + a0*(dddtheta1d + (k3 + k4)*ddtheta1d + k3*k4*dtheta1d))/Power(a0,2);
+ret = ((-ddthetap1d - (k3 + k4)*dthetap1d + k3*k4*(z32 - thetap1d))*a0_dot + a0*(dddthetap1d + (k3 + k4)*ddthetap1d + k3*k4*dthetap1d))/Power(a0,2);
 return ret;
 }
 
@@ -1842,25 +1843,25 @@ return ret;
 double KinematicsSolver::calc_pd_ud_pd_t_1_()
 {
 double ret;
-ret = -((W1*(x_d[5]*calc_pd_G11_pd_X_5_() + x_d[4]*calc_pd_G11_pd_X_4_() + (calc_SX_3_1_()*u1)*calc_pd_G11_pd_X_3_() + (calc_SX_2_1_()*u1)*calc_pd_G11_pd_X_2_() + (calc_SX_1_1_()*u1)*calc_pd_G11_pd_X_1_()))/Power(calc_SX_1_1_(),2));
+ret = -((w1*(x_d[5]*calc_pd_G11_pd_X_5_() + x_d[4]*calc_pd_G11_pd_X_4_() + (calc_SX_3_1_()*u1)*calc_pd_G11_pd_X_3_() + (calc_SX_2_1_()*u1)*calc_pd_G11_pd_X_2_() + (calc_SX_1_1_()*u1)*calc_pd_G11_pd_X_1_()))/Power(calc_SX_1_1_(),2));
 return ret;
 }
 
 double KinematicsSolver::calc_pd_ud_pd_t_2_()
 {
 double ret;
-ret = (-((calc_alpha_3_3_()*(W1*calc_alpha_2_1_() - w2) + calc_alpha_2_3_()*(-(W1*calc_alpha_3_1_()) + w3))*(-(calc_alpha_3_3_()*(x_d[5]*calc_pd_alpha2_pd_X_2_5_() + x_d[4]*calc_pd_alpha2_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_2_1_())) + calc_alpha_3_2_()*(x_d[5]*calc_pd_alpha2_pd_X_3_5_() + x_d[4]*calc_pd_alpha2_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_3_1_()) + calc_alpha_2_3_()*(x_d[5]*calc_pd_alpha3_pd_X_2_5_() + x_d[4]*calc_pd_alpha3_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_2_1_()) - calc_alpha_2_2_()*(x_d[5]*calc_pd_alpha3_pd_X_3_5_() 
-        + x_d[4]*calc_pd_alpha3_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_3_1_()))) + (calc_alpha_2_3_()*calc_alpha_3_2_() - calc_alpha_2_2_()*calc_alpha_3_3_())*((-(W1*calc_alpha_3_1_()) + w3)*(x_d[5]*calc_pd_alpha2_pd_X_3_5_() + x_d[4]*calc_pd_alpha2_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_3_1_()) + (W1*calc_alpha_2_1_() - w2)*(x_d[5]*calc_pd_alpha3_pd_X_3_5_() + x_d[4]*calc_pd_alpha3_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_3_1_()) + calc_alpha_3_3_()*(x_d[5]*(W1*calc_pd_alpha2_pd_X_1_5_() - calc_pd_W_pd_X_2_5_()) + x_d[4]*(W1*calc_pd_alpha2_pd_X_1_4_() 
-        - calc_pd_W_pd_X_2_4_()) + W1*(calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_1_3_() - (calc_SX_3_1_()*u1)*calc_pd_W_pd_X_2_3_() + W1*(calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_1_2_() - (calc_SX_2_1_()*u1)*calc_pd_W_pd_X_2_2_() + W1*(calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_1_1_() - (calc_SX_1_1_()*u1)*calc_pd_W_pd_X_2_1_()) + calc_alpha_2_3_()*(x_d[5]*calc_pd_W_pd_X_3_5_() + x_d[4]*calc_pd_W_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_W_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_W_pd_X_3_2_() - W1*(x_d[5]*calc_pd_alpha3_pd_X_1_5_() + x_d[4]*calc_pd_alpha3_pd_X_1_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_1_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_1_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_1_1_()) + (calc_SX_1_1_()*u1)*calc_pd_W_pd_X_3_1_())))/Power(calc_alpha_2_3_()*calc_alpha_3_2_() - calc_alpha_2_2_()*calc_alpha_3_3_(),2);
+ret = (-((calc_alpha_3_3_()*(w1*calc_alpha_2_1_() - w2) + calc_alpha_2_3_()*(-(w1*calc_alpha_3_1_()) + w3))*(-(calc_alpha_3_3_()*(x_d[5]*calc_pd_alpha2_pd_X_2_5_() + x_d[4]*calc_pd_alpha2_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_2_1_())) + calc_alpha_3_2_()*(x_d[5]*calc_pd_alpha2_pd_X_3_5_() + x_d[4]*calc_pd_alpha2_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_3_1_()) + calc_alpha_2_3_()*(x_d[5]*calc_pd_alpha3_pd_X_2_5_() + x_d[4]*calc_pd_alpha3_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_2_1_()) - calc_alpha_2_2_()*(x_d[5]*calc_pd_alpha3_pd_X_3_5_() 
+        + x_d[4]*calc_pd_alpha3_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_3_1_()))) + (calc_alpha_2_3_()*calc_alpha_3_2_() - calc_alpha_2_2_()*calc_alpha_3_3_())*((-(w1*calc_alpha_3_1_()) + w3)*(x_d[5]*calc_pd_alpha2_pd_X_3_5_() + x_d[4]*calc_pd_alpha2_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_3_1_()) + (w1*calc_alpha_2_1_() - w2)*(x_d[5]*calc_pd_alpha3_pd_X_3_5_() + x_d[4]*calc_pd_alpha3_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_3_1_()) + calc_alpha_3_3_()*(x_d[5]*(w1*calc_pd_alpha2_pd_X_1_5_() - calc_pd_W_pd_X_2_5_()) + x_d[4]*(w1*calc_pd_alpha2_pd_X_1_4_() 
+        - calc_pd_W_pd_X_2_4_()) + w1*(calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_1_3_() - (calc_SX_3_1_()*u1)*calc_pd_W_pd_X_2_3_() + w1*(calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_1_2_() - (calc_SX_2_1_()*u1)*calc_pd_W_pd_X_2_2_() + w1*(calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_1_1_() - (calc_SX_1_1_()*u1)*calc_pd_W_pd_X_2_1_()) + calc_alpha_2_3_()*(x_d[5]*calc_pd_W_pd_X_3_5_() + x_d[4]*calc_pd_W_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_W_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_W_pd_X_3_2_() - w1*(x_d[5]*calc_pd_alpha3_pd_X_1_5_() + x_d[4]*calc_pd_alpha3_pd_X_1_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_1_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_1_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_1_1_()) + (calc_SX_1_1_()*u1)*calc_pd_W_pd_X_3_1_())))/Power(calc_alpha_2_3_()*calc_alpha_3_2_() - calc_alpha_2_2_()*calc_alpha_3_3_(),2);
 return ret;
 }
 
 double KinematicsSolver::calc_pd_ud_pd_t_3_()
 {
 double ret;
-ret = (-((calc_alpha_3_2_()*(-(W1*calc_alpha_2_1_()) + w2) + calc_alpha_2_2_()*(W1*calc_alpha_3_1_() - w3))*(-(calc_alpha_3_3_()*(x_d[5]*calc_pd_alpha2_pd_X_2_5_() + x_d[4]*calc_pd_alpha2_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_2_1_())) + calc_alpha_3_2_()*(x_d[5]*calc_pd_alpha2_pd_X_3_5_() + x_d[4]*calc_pd_alpha2_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_3_1_()) + calc_alpha_2_3_()*(x_d[5]*calc_pd_alpha3_pd_X_2_5_() + x_d[4]*calc_pd_alpha3_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_2_1_()) - calc_alpha_2_2_()*(x_d[5]*calc_pd_alpha3_pd_X_3_5_() + x_d[4]*calc_pd_alpha3_pd_X_3_4_() 
-        + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_3_1_()))) + (calc_alpha_2_3_()*calc_alpha_3_2_() - calc_alpha_2_2_()*calc_alpha_3_3_())*((W1*calc_alpha_3_1_() - w3)*(x_d[5]*calc_pd_alpha2_pd_X_2_5_() + x_d[4]*calc_pd_alpha2_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_2_1_()) + (-(W1*calc_alpha_2_1_()) + w2)*(x_d[5]*calc_pd_alpha3_pd_X_2_5_() + x_d[4]*calc_pd_alpha3_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_2_1_()) + calc_alpha_3_2_()*(x_d[5]*calc_pd_W_pd_X_2_5_() + x_d[4]*calc_pd_W_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_W_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_W_pd_X_2_2_() - W1*(x_d[5]*calc_pd_alpha2_pd_X_1_5_() 
-        + x_d[4]*calc_pd_alpha2_pd_X_1_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_1_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_1_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_1_1_()) + (calc_SX_1_1_()*u1)*calc_pd_W_pd_X_2_1_()) + calc_alpha_2_2_()*(x_d[5]*(W1*calc_pd_alpha3_pd_X_1_5_() - calc_pd_W_pd_X_3_5_()) + x_d[4]*(W1*calc_pd_alpha3_pd_X_1_4_() - calc_pd_W_pd_X_3_4_()) + W1*(calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_1_3_() - (calc_SX_3_1_()*u1)*calc_pd_W_pd_X_3_3_() + W1*(calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_1_2_() - (calc_SX_2_1_()*u1)*calc_pd_W_pd_X_3_2_() + W1*(calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_1_1_() - (calc_SX_1_1_()*u1)*calc_pd_W_pd_X_3_1_())))/Power(calc_alpha_2_3_()*calc_alpha_3_2_() - calc_alpha_2_2_()*calc_alpha_3_3_(),2);
+ret = (-((calc_alpha_3_2_()*(-(w1*calc_alpha_2_1_()) + w2) + calc_alpha_2_2_()*(w1*calc_alpha_3_1_() - w3))*(-(calc_alpha_3_3_()*(x_d[5]*calc_pd_alpha2_pd_X_2_5_() + x_d[4]*calc_pd_alpha2_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_2_1_())) + calc_alpha_3_2_()*(x_d[5]*calc_pd_alpha2_pd_X_3_5_() + x_d[4]*calc_pd_alpha2_pd_X_3_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_3_1_()) + calc_alpha_2_3_()*(x_d[5]*calc_pd_alpha3_pd_X_2_5_() + x_d[4]*calc_pd_alpha3_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_2_1_()) - calc_alpha_2_2_()*(x_d[5]*calc_pd_alpha3_pd_X_3_5_() + x_d[4]*calc_pd_alpha3_pd_X_3_4_() 
+        + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_3_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_3_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_3_1_()))) + (calc_alpha_2_3_()*calc_alpha_3_2_() - calc_alpha_2_2_()*calc_alpha_3_3_())*((w1*calc_alpha_3_1_() - w3)*(x_d[5]*calc_pd_alpha2_pd_X_2_5_() + x_d[4]*calc_pd_alpha2_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_2_1_()) + (-(w1*calc_alpha_2_1_()) + w2)*(x_d[5]*calc_pd_alpha3_pd_X_2_5_() + x_d[4]*calc_pd_alpha3_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_2_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_2_1_()) + calc_alpha_3_2_()*(x_d[5]*calc_pd_W_pd_X_2_5_() + x_d[4]*calc_pd_W_pd_X_2_4_() + (calc_SX_3_1_()*u1)*calc_pd_W_pd_X_2_3_() + (calc_SX_2_1_()*u1)*calc_pd_W_pd_X_2_2_() - w1*(x_d[5]*calc_pd_alpha2_pd_X_1_5_() 
+        + x_d[4]*calc_pd_alpha2_pd_X_1_4_() + (calc_SX_3_1_()*u1)*calc_pd_alpha2_pd_X_1_3_() + (calc_SX_2_1_()*u1)*calc_pd_alpha2_pd_X_1_2_() + (calc_SX_1_1_()*u1)*calc_pd_alpha2_pd_X_1_1_()) + (calc_SX_1_1_()*u1)*calc_pd_W_pd_X_2_1_()) + calc_alpha_2_2_()*(x_d[5]*(w1*calc_pd_alpha3_pd_X_1_5_() - calc_pd_W_pd_X_3_5_()) + x_d[4]*(w1*calc_pd_alpha3_pd_X_1_4_() - calc_pd_W_pd_X_3_4_()) + w1*(calc_SX_3_1_()*u1)*calc_pd_alpha3_pd_X_1_3_() - (calc_SX_3_1_()*u1)*calc_pd_W_pd_X_3_3_() + w1*(calc_SX_2_1_()*u1)*calc_pd_alpha3_pd_X_1_2_() - (calc_SX_2_1_()*u1)*calc_pd_W_pd_X_3_2_() + w1*(calc_SX_1_1_()*u1)*calc_pd_alpha3_pd_X_1_1_() - (calc_SX_1_1_()*u1)*calc_pd_W_pd_X_3_1_())))/Power(calc_alpha_2_3_()*calc_alpha_3_2_() - calc_alpha_2_2_()*calc_alpha_3_3_(),2);
 return ret;
 }
 

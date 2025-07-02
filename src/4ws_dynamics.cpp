@@ -64,8 +64,8 @@ int main(int argc, char** argv) {
 		loop_rate.sleep();
 	}
 	//デバッグ用ログ出力
-	ROS_INFO("Locking initial pose and calling initial(): xdot=%.3f, ydot=%.3f, thetadot=%.3f ,phidot=%.3f",
-           x_d[1], x_d[2], x_d[3], x_d[4], x_d[5], x_d[6]);
+	ROS_INFO("Locking initial pose and calling initial(): xdot=%.3f, ydot=%.3f, thetadot=%.3f ,phiRdot=%.3f, varphiRdot=%.3f, phiFdot=%.3f, varphiFdot=%.3f",
+           x_d[1], x_d[2], x_d[3], x_d[4], x_d[5], x_d[6], x_d[7]);
 		   
 	//初期値を設定
 	initial(t_max, h);
@@ -303,7 +303,7 @@ int main(int argc, char** argv) {
 
 
 	// 各車両へ steering コマンドと車輪のトルクコマンドを送信
-    vehicle1.publishSteeringCommand(Q_phi/2.0,Q_phi/2.0);
+    vehicle1.publishSteeringCommand(Q_phiF/2.0, Q_phiF/2.0, Q_phiR/2.0, Q_phiR/2.0);
     vehicle1.publishWheelCommand(torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
 
 	//誤差平均
@@ -347,8 +347,8 @@ int main(int argc, char** argv) {
 		ROS_INFO_THROTTLE(1.0, "nu: nu1=%.3f, nu2=%.3f",
 		    nu1, nu2);
 
-		ROS_INFO_THROTTLE(0.01, "Torque: front_left=%.3f, front_right=%.3f, rear_left=%.3f, rear_right=%.3f, Q_phi=%.3f\n",
-		    torque_front[0], torque_front[1], torque_rear[0], torque_rear[1], Q_phi);
+		ROS_INFO_THROTTLE(0.01, "Torque: front_left=%.3f, front_right=%.3f, rear_left=%.3f, rear_right=%.3f\n",
+		    torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
 		
 
 
@@ -360,7 +360,7 @@ int main(int argc, char** argv) {
         // vehicle1.publishSteeringCommand(x_old[4],x_old[4]);
         // vehicle1.publishWheelCommand(omega_rear[0], omega_rear[1]);
 		// 各車両へ steering コマンドと車輪のトルクコマンドを送信
-		vehicle1.publishSteeringCommand(Q_phi/2.0, Q_phi/2.0);
+		vehicle1.publishSteeringCommand(Q_phiF/2.0, Q_phiF/2.0, Q_phiR/2.0, Q_phiR/2.0);
 		vehicle1.publishWheelCommand(torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
 
 		// ループレートを維持

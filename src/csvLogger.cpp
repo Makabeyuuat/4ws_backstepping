@@ -15,13 +15,13 @@ CSVLogger::CSVLogger(const std::string& dir, int close_threshold)
       return;
   }
   // ヘッダー行
-  csv_ << "t,x,y,theta,phi,"
+  csv_ << "t,x,y,theta,phiR,phiF,thetap"
        << "sr_j,Psx,Psy,d,Cs,Cs1,Cs2,Cs3,d_ave,"
        << "x_d1,x_d2,x_d3,"
-       << "nu1,nu2,"
+       << "nu1,nu2,nu3"
        << "torque_fl,torque_fr,torque_rl,torque_rr,"
        << "lamda1,lambda2,lambda3,lambda4,"
-        << "Q_phi, Q_varphif, Q_varphir"
+        << "Q_phiR, Q_varphiR, Q_phiF, Q_varphiF"
        << "\n";
 }
 
@@ -34,7 +34,7 @@ void CSVLogger::logData() {
 
   double t = ros::Time::now().toSec();
   csv_ << x_old[0] << ',' << x_old[1] << ',' << x_old[2] << ','
-       << x_old[3] << ',' << x_old[4] << ','
+       << x_old[3] << ',' << x_old[4] << ','<< x_old[5] << ',' << Thetap << ','
        // sr
        << sr.j       << ',' << sr.Psx  << ',' << sr.Psy  << ','
        << sr.d       << ',' << sr.Cs   << ',' << sr.Cs1   << ','
@@ -42,14 +42,14 @@ void CSVLogger::logData() {
        // x_d
        << x_d[1]     << ',' << x_d[2] << ',' << x_d[3]    << ','
        // nu
-       << nu1        << ',' << nu2     << ','
+       << nu1        << ',' << nu2     << ','<< nu3     << ','
        // torque
        << torque_front[0] << ',' << torque_front[1] << ','
        << torque_rear[0]  << ',' << torque_rear[1]  << ','
        // lamda
        << lamda_data(0) << ',' << lamda_data(1) << ','
        << lamda_data(2)  << ',' << lamda_data(3)  << ','
-       << Q_phi << ',' << Q_psi_f << ',' << Q_psi_r
+       << Q_phiR << ',' << Q_varphiR << ',' << Q_phiF<< ',' << Q_varphiF
        << "\n";
   csv_.flush();
   // 閾値に到達したらクローズ

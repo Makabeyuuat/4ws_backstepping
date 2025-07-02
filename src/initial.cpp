@@ -5,8 +5,8 @@
 
 //double Thetap[11] = {0.0};
 
-Eigen::Map<Eigen::Matrix<double,6,1>> q_map(q_twist);
-Eigen::Map<Eigen::Matrix<double,6,1>> qdot_map(qdot_twist);
+Eigen::Map<Eigen::Matrix<double,7,1>> q_map(q_twist);
+Eigen::Map<Eigen::Matrix<double,7,1>> qdot_map(qdot_twist);
 
 
 void initial(double &t, double &dt) {

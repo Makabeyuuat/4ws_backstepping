@@ -440,16 +440,27 @@
   <axis xyz="0.0 1.0 -0.0"/>
 </joint>
 
-<joint name="rear_to_Rsteering" type="fixed">
+<!-- 後輪右ステア -->
+<joint name="rear_right_steering" type="revolute">
   <origin xyz="0.0 -0.4 -0.02" rpy="0 0 0"/>
   <parent link="v1_rear_1"/>
-  <child link="new_hinge_2"/>
+  <child  link="new_hinge_2"/>
+  <!-- ステア駆動時のダンピング・摩擦 -->
+  <dynamics damping="${steering_damping}" friction="${steering_friction}"/>
+  <!-- 回転軸は Z 方向 -->
+  <axis    xyz="0.0 0.0 1.0"/>
+  <!-- 可動範囲／トルク／速度制限 -->
+  <limit  lower="-1.57" upper="1.57" effort="200" velocity="200"/>
 </joint>
 
-<joint name="rear_to_Lsteering" type="fixed">
+<!-- 後輪左ステア -->
+<joint name="rear_left_steering" type="revolute">
   <origin xyz="0.0 0.4 -0.02" rpy="0 0 0"/>
   <parent link="v1_rear_1"/>
-  <child link="new_hinge_4"/>
+  <child  link="new_hinge_4"/>
+  <dynamics damping="${steering_damping}" friction="${steering_friction}"/>
+  <axis    xyz="0.0 0.0 1.0"/>
+  <limit  lower="-1.57" upper="1.57" effort="200" velocity="200"/>
 </joint>
 
 </robot>

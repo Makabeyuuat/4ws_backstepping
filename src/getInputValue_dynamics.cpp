@@ -137,82 +137,91 @@ array<double,2> getInputValue::computeRearWheelOmegas(double speed, double steer
 // }
 
 // 入力がトルクの場合
-std::array<double,2> getInputValue::computeFrontWheelTorque(double Q, double steeringAngle) {
+std::array<double,2> getInputValue::computeFrontWheelTorque(double Q, double steeringAngleFront, double steeringAngleRear) {
     const double W = 0.05;  // 前輪トレッド幅 [m]
     std::array<double,2> torques;
 
-    // ① 入力 Q (Nm) をまず均等に半分ずつ分担
-    double tau_base = Q * 0.5;
+    // 1. 車両全体の旋回曲率を計算
+    // 4WSモデルでは、旋回半径 R = L / (tan(δf) - tan(δr)) となる
+    double tan_diff = std::tan(steeringAngleFront) - std::tan(steeringAngleRear);
 
-    // ② ほぼ直進なら均等トルク
-    if (std::fabs(steeringAngle) < 1e-6) {
-        torques[0] = tau_base;  // 左前輪
-        torques[1] = tau_base;  // 右前輪
+    // 直進状態（またはそれに近い状態）ではトルクを均等配分
+    if (std::fabs(tan_diff) < 1e-9) {
+        torques[0] = Q * 0.5;
+        torques[1] = Q * 0.5;
         return torques;
     }
 
-    // ③ 曲率半径の計算
-    double absPhi = std::fabs(steeringAngle);
-    double R      = lv / std::tan(absPhi);
-    double R_in   = R - W/2.0;    // 内輪半径
-    double R_out  = R + W/2.0;    // 外輪半径
+    // 2. 車体中心の旋回半径を計算
+    const double R_center = lv / tan_diff;
 
-    // ④ 内外輪トルク配分
-    double tau_in  = tau_base * (R_in  / R);
-    double tau_out = tau_base * (R_out / R);
+    // 3. 内輪と外輪、それぞれの旋回半径を計算
+    // R_centerが負の値（右旋回）の場合も考慮し、絶対値で計算
+    const double R_inner = std::abs(R_center) - W / 2.0;
+    const double R_outer = std::abs(R_center) + W / 2.0;
 
-    // ⑤ 左右どちらが内輪かでアサイン
-    if (steeringAngle > 0) {
-        // 左折: 左が内輪
-        torques[0] = tau_in;   // 左前輪
-        torques[1] = tau_out;  // 右前輪
+    // 4. パワー均等配分モデルに基づき、トルクを旋回半径の「逆比」で配分
+    const double R_total = R_inner + R_outer;
+    const double torque_inner = Q * (R_outer / R_total);
+    const double torque_outer = Q * (R_inner / R_total);
+
+    // 5. 旋回方向に応じて、内外輪トルクを左右輪に割り当てる
+    // tan_diff の符号で旋回方向を判断 (正なら左折)
+    if (tan_diff > 0) {
+        // 左折時：左輪が内輪、右輪が外輪
+        torques[0] = torque_inner; // 左輪トルク
+        torques[1] = torque_outer; // 右輪トルク
     } else {
-        // 右折: 右が内輪
-        torques[0] = tau_out;  // 左前輪
-        torques[1] = tau_in;   // 右前輪
+        // 右折時：右輪が内輪、左輪が外輪
+        torques[0] = torque_outer; // 左輪トルク
+        torques[1] = torque_inner; // 右輪トルク
     }
 
     return torques;
 }
 
-std::array<double,2> getInputValue::computeRearWheelTorque(double Q, double steeringAngle) {
+std::array<double,2> getInputValue::computeRearWheelTorque(double Q, double steeringAngleFront, double steeringAngleRear) {
     const double W = 0.05;  // 後輪トレッド幅 [m]
     std::array<double,2> torques;
 
-    // ① 入力 Q (Nm) をまず均等に分担
-    double tau_base = Q * 0.5;
+    // 1. 車両全体の旋回曲率を計算
+    // 4WSモデルでは、旋回半径 R = L / (tan(δf) - tan(δr)) となる
+    double tan_diff = std::tan(steeringAngleFront) - std::tan(steeringAngleRear);
 
-    // ② ほぼ直進なら均等トルク
-    if (std::fabs(steeringAngle) < 1e-6) {
-        torques[0] = tau_base;
-        torques[1] = tau_base;
+    // 直進状態（またはそれに近い状態）ではトルクを均等配分
+    if (std::fabs(tan_diff) < 1e-9) {
+        torques[0] = Q * 0.5;
+        torques[1] = Q * 0.5;
         return torques;
     }
 
-    // ③ 曲率半径の計算
-    double absPhi = std::fabs(steeringAngle);
-    double R      = lv / std::tan(absPhi);
-    double R_in   = R - W/2.0;    // 内輪半径
-    double R_out  = R + W/2.0;    // 外輪半径
+    // 2. 車体中心の旋回半径を計算
+    const double R_center = lv / tan_diff;
 
-    // ④ 内外輪トルク配分
-    double tau_in  = tau_base * (R_in  / R);
-    double tau_out = tau_base * (R_out / R);
+    // 3. 内輪と外輪、それぞれの旋回半径を計算
+    // R_centerが負の値（右旋回）の場合も考慮し、絶対値で計算
+    const double R_inner = std::abs(R_center) - W / 2.0;
+    const double R_outer = std::abs(R_center) + W / 2.0;
 
-    // ⑤ 左右どちらが内輪かでアサイン
-    if (steeringAngle > 0) {
-        // 左折: 左が内輪
-        torques[0] = tau_in;   // 左後輪
-        torques[1] = tau_out;  // 右後輪
+    // 4. パワー均等配分モデルに基づき、トルクを旋回半径の「逆比」で配分
+    const double R_total = R_inner + R_outer;
+    const double torque_inner = Q * (R_outer / R_total);
+    const double torque_outer = Q * (R_inner / R_total);
+
+    // 5. 旋回方向に応じて、内外輪トルクを左右輪に割り当てる
+    // tan_diff の符号で旋回方向を判断 (正なら左折)
+    if (tan_diff > 0) {
+        // 左折時：左輪が内輪、右輪が外輪
+        torques[0] = torque_inner; // 左輪トルク
+        torques[1] = torque_outer; // 右輪トルク
     } else {
-        // 右折: 右が内輪
-        torques[0] = tau_out;  // 左後輪
-        torques[1] = tau_in;   // 右後輪
+        // 右折時：右輪が内輪、左輪が外輪
+        torques[0] = torque_outer; // 左輪トルク
+        torques[1] = torque_inner; // 右輪トルク
     }
 
     return torques;
 }
-
 
 void getInputValue::rungeKutta(std::vector<double>& x_old, std::vector<double>& x_d) {
     int n = static_cast<int>(x_old.size());  // n = Dim+1
@@ -265,8 +274,8 @@ void getInputValue::rungeKutta(std::vector<double>& x_old, std::vector<double>& 
         // omega_rear[1] = rearOmega[1];  // 右後輪
 
          // 後輪左右のトルクをクラスメンバに格納
-        rearTorque = computeRearWheelTorque(Q_psi_r, x_old[4]);
-        frontTorque = computeFrontWheelTorque(Q_psi_f, x_old[4]);
+        rearTorque = computeRearWheelTorque(Q_varphiR, x_old[5], x_old[4]);
+        frontTorque = computeFrontWheelTorque(Q_varphiF, x_old[5], x_old[4]);
         
         torque_rear[0] = rearTorque[0];  // 左後輪
         torque_rear[1] = rearTorque[1];  // 右後輪
@@ -345,10 +354,10 @@ void getInputValue::U1(const std::vector<double>& x_old, int sr_j) {
 
 
 void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
-	double z21 = kinematics_solver_.Z_funcs[0]();
-	double z22 = kinematics_solver_.Z_funcs[1]();
-    double alpha21 = kinematics_solver_.alpha_funcs[3]();
-    double alpha22 = kinematics_solver_.alpha_funcs[4]();
+	z21 = kinematics_solver_.Z_funcs[0]();
+	z22 = kinematics_solver_.Z_funcs[1]();
+    alpha21 = kinematics_solver_.alpha_funcs[3]();
+    alpha22 = kinematics_solver_.alpha_funcs[4]();
 
 	//経路追従
 	d0d = 0.0;
@@ -372,17 +381,17 @@ void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
 }
 
 void getInputValue::U3(const std::vector<double>& x_old, int sr_j) {
-    double z31 = kinematics_solver_.Z_funcs[0]();
-	double z32 = kinematics_solver_.Z_funcs[1]();
-    double alpha31 = kinematics_solver_.alpha_funcs[3]();
-    double alpha32 = kinematics_solver_.alpha_funcs[4]();
-    double alpha33 = kinematics_solver_.alpha_funcs[5]();
+    z31 = kinematics_solver_.Z_funcs[0]();
+	z32 = kinematics_solver_.Z_funcs[1]();
+    alpha31 = kinematics_solver_.alpha_funcs[3]();
+    alpha32 = kinematics_solver_.alpha_funcs[4]();
+    alpha33 = kinematics_solver_.alpha_funcs[5]();
 
-    theta1d = 0;
-	dtheta1d = 0;
-	ddtheta1d = 0;
+    thetap1d = 0;
+	dthetap1d = 0;
+	ddthetap1d = 0;
 
-	w3 = ddtheta1d / a0 + (k3 + k4) * ((dtheta1d / a0) - z31) + k3 * k4 * ((theta1d / a0) - z32 / a0);
+	w3 = ddthetap1d / a0 + (k3 + k4) * ((dthetap1d / a0) - z31) + k3 * k4 * ((thetap1d / a0) - z32 / a0);
 
 	u3 = (1 / alpha33) * (w3 - (alpha31 * u1 + alpha32 * u2));
 }

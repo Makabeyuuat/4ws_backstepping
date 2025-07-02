@@ -40,7 +40,7 @@ DynamicsIntegrator::DynamicsIntegrator(double m_b,
 
 
 //状態変数の目標加速度を計算
-Eigen::Matrix<double,4,1> DynamicsIntegrator::computeXAlpha(
+Eigen::Matrix<double,5,1> DynamicsIntegrator::computeXAlpha(
     const std::vector<double> x,
     const std::vector<double> x_d,
     double u1,
@@ -68,13 +68,13 @@ Eigen::Matrix<double,4,1> DynamicsIntegrator::computeXAlpha(
         u3_act = phi2dot;
         
         // 結果格納用ベクトル
-        Eigen::Matrix<double,7,1> Xalpha;
+        Eigen::Matrix<double,5,1> Xalpha;
         
         //状態変数ベクトル
         Eigen::Matrix<double,5,1> Sx;
         Sx<<
             kinematics_solver_.SX_funcs[0](),
-            Kinematics_solver_.SX_funcs[3](),
+            kinematics_solver_.SX_funcs[3](),
             kinematics_solver_.SX_funcs[6](),
             kinematics_solver_.SX_funcs[9](),
             kinematics_solver_.SX_funcs[12]();
@@ -104,7 +104,7 @@ Eigen::Matrix<double,4,1> DynamicsIntegrator::computeXAlpha(
             0.0, 10.0, 0.0,
             0.0, 0.0, 10.0;
             
-        Eigen::Vector2d dot_C_rb = C*(r_b);
+        Eigen::Vector3d dot_C_rb = C*(r_b);
 
         double dot_C_rb1 = dot_C_rb(0);
         double dot_C_rb2 = dot_C_rb(1);
@@ -127,16 +127,15 @@ Eigen::Matrix<double,4,1> DynamicsIntegrator::computeXAlpha(
 
 
 //一般化座標の目標加速度を計算
-Eigen::Matrix<double,6,1> DynamicsIntegrator::computeAlpha(
+Eigen::Matrix<double,7,1> DynamicsIntegrator::computeAlpha(
     const Eigen::Matrix<double,7,1>& q,
     const Eigen::Matrix<double,7,1>& qdot,
     double u1,
-    double u2,
-    double u3)
+    double u2)
     {
         Eigen::Matrix<double,7,1> alpha;
         //状態変数ベクトルの目標加速度 
-        Eigen::Matrix<double,5,1> Xalpha = computeXAlpha(x_old, x_d, u1, u2);
+        Eigen::Matrix<double,5,1> Xalpha = computeXAlpha(x_old, x_d, u1, u2, u3);
 
         asd = Xalpha(0);
         athetapd = Xalpha(2);

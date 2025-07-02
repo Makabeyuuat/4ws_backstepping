@@ -53,8 +53,8 @@ private:
     // 後輪左右の角速度を計算
     // @return std::array{omega_left, omega_right}
     std::array<double,2> computeRearWheelOmegas(double speed, double steeringAngle);
-    std::array<double,2> computeRearWheelTorque(double Fx, double steeringAngle);
-    std::array<double,2> computeFrontWheelTorque(double Fx, double steeringAngle);
+    std::array<double,2> computeRearWheelTorque(double Q, double steeringAngleFront, double steeringAngleRear);
+    std::array<double,2> computeFrontWheelTorque(double Q, double steeringAngleFront, double steeringAngleRear);
 
     void U1(const std::vector<double>& x_old, int sr_j);
     void U2(const std::vector<double>& x_old, int sr_j);

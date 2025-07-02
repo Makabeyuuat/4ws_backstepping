@@ -13,24 +13,24 @@ class DynamicsIntegrator {
 public:
 
     //新規メソッド: バックステッピングから得られる目標加速度を計算する
-    Eigen::Matrix<double,6,1> computeAlpha(
-        const Eigen::Matrix<double,6,1>& q, // 状態ベクトル (x,y,θ,φ,ψ_f,ψ_r)
-        const Eigen::Matrix<double,6,1>& qdot,     // 速度ベクトル         
+    Eigen::Matrix<double,7,1> computeAlpha(
+        const Eigen::Matrix<double,7,1>& q, // 状態ベクトル (x,y,θ,φ,ψ_f,ψ_r)
+        const Eigen::Matrix<double,7,1>& qdot,     // 速度ベクトル         
         double u1,                                   // 前輪/後輪目標前進速度
-        double u2                                    // ステア角速度指令
-    );
+        double u2);
 
-    Eigen::Matrix<double,4,1> computeXAlpha(
+    Eigen::Matrix<double,5,1> computeXAlpha(
     std::vector<double> x_d,
     std::vector<double> x_dd,
     double u1,
-    double u2);
+    double u2,
+    double u3);
 
-     Eigen::Matrix<double,6,1> computeAlpha(const Eigen::Matrix<double,6,1>& q,
-                                            const Eigen::Matrix<double,6,1>& qdot,
+     Eigen::Matrix<double,7,1> computeAlpha(const Eigen::Matrix<double,7,1>& q,
+                                            const Eigen::Matrix<double,7,1>& qdot,
                                             double u1,
                                             double u2,
-                                            const Eigen::Matrix<double,6,1>& qddot);
+                                            const Eigen::Matrix<double,7,1>& qddot);
 
     DynamicsIntegrator(double m_b,
                        double I_theta,
@@ -42,8 +42,8 @@ public:
                        double dt);
 
 
-    void step(const Eigen::Matrix<double,6,1>& q,
-              const Eigen::Matrix<double,6,1>& qdot,
+    void step(const Eigen::Matrix<double,7,1>& q,
+              const Eigen::Matrix<double,7,1>& qdot,
               double u1,
               double u2);
 

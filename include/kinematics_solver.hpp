@@ -230,7 +230,7 @@ public:
             [this](){ return calc_pd_W_pd_X_1_1_(); },
             [this](){ return calc_pd_W_pd_X_1_2_(); },
             [this](){ return calc_pd_W_pd_X_1_3_(); },
-            [this](){ return calc_pd_W_pd_X_1_4_(); }
+            [this](){ return calc_pd_W_pd_X_1_4_(); },
             [this](){ return calc_pd_W_pd_X_1_5_(); },
             [this](){ return calc_pd_W_pd_X_2_1_(); },
             [this](){ return calc_pd_W_pd_X_2_2_(); },
