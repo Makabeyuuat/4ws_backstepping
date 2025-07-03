@@ -9,16 +9,16 @@ double f0 (const std::vector<double>& x) {
 }
 
 double f1 (const std::vector<double>& x) { 
-    return u1 * std::cos(x[3]); 
+    return u1 * std::cos(x[3] + x[4]); 
 }
 
 double f2 (const std::vector<double>& x) { 
-    return u1 * std::sin(x[3]); 
+    return u1 * std::sin(x[3] + x[4]); 
 }
 
 //theta1
 double f3 (const std::vector<double>&x) { 
-    return u1 * (-sin(x[5] - x[4])/(lv*cos(x[4]))); 
+    return u1 * std::tan(x[4])/lv; 
 }
 
 //phi1
@@ -37,7 +37,6 @@ double f6 (const std::vector<double>& x) {
 }
 
 double f7(const std::vector<double>& x) {
-    // x = [t,x,y,theta,phi, x_d,y_d,theta_d,phi_d]
     double u1_dot =  0.0;
     double theta   = x[3];
     double theta_d = x_d[3];
