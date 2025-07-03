@@ -16,6 +16,7 @@ double f2 (const std::vector<double>& x) {
     return u1 * std::sin(x[3] + x[4]); 
 }
 
+
 //theta1
 double f3 (const std::vector<double>&x) { 
     return u1 * std::tan(x[4])/lv; 
