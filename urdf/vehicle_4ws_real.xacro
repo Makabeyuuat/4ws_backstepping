@@ -41,9 +41,9 @@
 <xacro:property name="rotational_joint_mu" value="0.001" />
 <xacro:property name="rotational_joint_friction" value="${rotational_joint_mu * gravitational_acceleration}" />
 
-<xacro:include filename="$(find vehicle_4ws_description)/urdf/materials.xacro" />
-<xacro:include filename="$(find vehicle_4ws_description)/urdf/vehicle_4ws.trans" />
-<xacro:include filename="$(find vehicle_4ws_description)/urdf/vehicle_4ws.gazebo" />
+<xacro:include filename="$(find 4ws_backstepping)/urdf/materials.xacro" />
+<xacro:include filename="$(find 4ws_backstepping)/urdf/vehicle_4ws.trans" />
+<xacro:include filename="$(find 4ws_backstepping)/urdf/vehicle_4ws.gazebo" />
 
 <link name="base_link"/>
 
@@ -56,14 +56,14 @@
   <visual>
     <origin xyz="0 0 -0.376" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="_"/>
   </visual>
   <collision>
     <origin xyz="0 0 -0.376" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -77,14 +77,14 @@
   <visual>
     <origin xyz="0.44955 -0.05752 -0.376" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/v1_rear_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/v1_rear_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="_"/>
   </visual>
   <collision>
     <origin xyz="0.44955 -0.05752 -0.376" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/v1_rear_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/v1_rear_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -98,14 +98,14 @@
   <visual>
     <origin xyz="-0.45045 -0.05752 -0.376" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/v1_front_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/v1_front_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="_"/>
   </visual>
   <collision>
     <origin xyz="-0.45045 -0.05752 -0.376" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/v1_front_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/v1_front_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -119,14 +119,14 @@
   <visual>
     <origin xyz="-0.45045 0.34248 -0.356" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/new_hinge_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/new_hinge_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="_"/>
   </visual>
   <collision>
     <origin xyz="-0.45045 0.34248 -0.356" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/new_hinge_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/new_hinge_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -140,14 +140,14 @@
   <visual>
     <origin xyz="-0.45045 -0.45752 -0.356" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/new_hinge_3.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/new_hinge_3.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="_"/>
   </visual>
   <collision>
     <origin xyz="-0.45045 -0.45752 -0.356" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/new_hinge_3.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/new_hinge_3.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -161,14 +161,14 @@
   <visual>
     <origin xyz="0.44955 0.34248 -0.356" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/new_hinge_2.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/new_hinge_2.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="_"/>
   </visual>
   <collision>
     <origin xyz="0.44955 0.34248 -0.356" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/new_hinge_2.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/new_hinge_2.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -182,14 +182,14 @@
   <visual>
     <origin xyz="0.44955 -0.45752 -0.356" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/new_hinge_4.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/new_hinge_4.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="_"/>
   </visual>
   <collision>
     <origin xyz="0.44955 -0.45752 -0.356" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/new_hinge_4.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/new_hinge_4.stl" scale="0.001 0.001 0.001"/>
     </geometry>
   </collision>
 </link>
@@ -204,7 +204,7 @@
   <visual>
     <origin xyz="-0.450031 0.34248 -0.150215" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/new_wheel_1.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/new_wheel_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="_"/>
   </visual>
@@ -244,14 +244,14 @@
   <visual>
     <origin xyz="0.449969 0.34248 -0.150215" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/new_wheel_2.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/new_wheel_2.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="_"/>
   </visual>
   <collision>
     <!-- <origin xyz="0.449969 0.34248 -0.150215" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/new_wheel_2.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/new_wheel_2.stl" scale="0.001 0.001 0.001"/>
     </geometry> -->
     <origin xyz="0 0 0" rpy="1.57 0 0"/>
     <geometry>
@@ -289,14 +289,14 @@
   <visual>
     <origin xyz="-0.450031 -0.45752 -0.150215" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/new_wheel_3.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/new_wheel_3.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="_"/>
   </visual>
   <collision>
     <!-- <origin xyz="-0.450031 -0.45752 -0.150215" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/new_wheel_3.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/new_wheel_3.stl" scale="0.001 0.001 0.001"/>
     </geometry> -->
     <origin xyz="0 0 0" rpy="1.57 0 0"/>
     <geometry>
@@ -332,14 +332,14 @@
   <visual>
     <origin xyz="0.449969 -0.45752 -0.150215" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/new_wheel_4.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/new_wheel_4.stl" scale="0.001 0.001 0.001"/>
     </geometry>
     <material name="_"/>
   </visual>
   <collision>
     <!-- <origin xyz="0.449969 -0.45752 -0.150215" rpy="0 0 0"/>
     <geometry>
-      <mesh filename="package://vehicle_4ws_description/meshes/new_wheel_4.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="package://4ws_backstepping/meshes/new_wheel_4.stl" scale="0.001 0.001 0.001"/>
     </geometry> -->
     <origin xyz="0 0 0" rpy="1.57 0 0"/>
     <geometry>

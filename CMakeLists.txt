@@ -62,7 +62,7 @@ include_directories(
 
 
 ## 実行ファイルの定義
-add_executable(vehicle_dynamics_controller
+add_executable(4ws_dynamics_controller
   src/4ws_dynamics.cpp
   src/vehicle.cpp
   src/callback.cpp
@@ -75,7 +75,7 @@ add_executable(vehicle_dynamics_controller
   src/kinematics_solver.cpp
   src/csvLogger.cpp
 )
-target_link_libraries(vehicle_dynamics_controller
+target_link_libraries(4ws_dynamics_controller
   ${catkin_LIBRARIES}
 )
 

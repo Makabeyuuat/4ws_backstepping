@@ -20,16 +20,22 @@ double f3 (const std::vector<double>&x) {
     return u1 * std::tan(x[4])/lv; 
 }
 
-//phi
+//phi1
 double f4 (const std::vector<double>&x) {  
     return u2; 
 }
 
-double f5 (const std::vector<double>& x) { 
+//phi2
+double f5 (const std::vector<double>&x) {  
+    return u2; 
+}
+
+
+double f6 (const std::vector<double>& x) { 
     return 1.0; 
 }
 
-double f6(const std::vector<double>& x) {
+double f7(const std::vector<double>& x) {
     // x = [t,x,y,theta,phi, x_d,y_d,theta_d,phi_d]
     double u1_dot =  0.0;
     double theta   = x[3];
@@ -38,7 +44,7 @@ double f6(const std::vector<double>& x) {
          - u1    * std::sin(theta) * theta_d;
 }
 
-double f7(const std::vector<double>& x) {
+double f8(const std::vector<double>& x) {
     double u1_dot =  0.0;
     double theta   = x[3];
     double theta_d = x_d[3];
@@ -46,7 +52,7 @@ double f7(const std::vector<double>& x) {
          + u1    * std::cos(theta) * theta_d;
 }
 
-double f8(const std::vector<double>& x) {
+double f9(const std::vector<double>& x) {
     double u1_dot = 0.0;
     double phi     = x[4];
     double phi_d   = x_d[4];
@@ -54,16 +60,21 @@ double f8(const std::vector<double>& x) {
           + u1    * (phi_d/(std::cos(phi)*std::cos(phi)))) / lv;
 }
 
-double f9(const std::vector<double>& x) {
-    // phi_d の微分 = u2 の時間微分
+double f10(const std::vector<double>& x) {
+    // phi2_d の微分 = u2 の時間微分
     double u2_dot =  0.0;
     return u2_dot;
 }
 
+double f11(const std::vector<double>& x) {
+    // phi2_d の微分 = u2 の時間微分
+    double u3_dot =  0.0;
+    return u3_dot;
+}
 
-const std::array<FunctionPtr, 5> fAll = {{
-  f0, f1, f2, f3, f4
+const std::array<FunctionPtr, 6> fAll = {{
+  f0, f1, f2, f3, f4, f5
 }};
-const std::array<FunctionPtr, 5> fdAll = {{
-  f5, f6, f7, f8, f9
+const std::array<FunctionPtr, 6> fdAll = {{
+  f6, f7, f8, f9, f10, f11
 }};
