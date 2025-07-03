@@ -334,21 +334,24 @@ int main(int argc, char** argv) {
 	
 
 		//デバッグ用ログ出力
-    	ROS_INFO_THROTTLE(1.0, "x_old = [%.3f, %.3f, %.3f, %.3f, %.3f]",
-    	    x_old[0], x_old[1], x_old[2], x_old[3], x_old[4]);
+    	// ROS_INFO_THROTTLE(1.0, "x_old = [%.3f, %.3f, %.3f, %.3f, %.3f]",
+    	//     x_old[0], x_old[1], x_old[2], x_old[3], x_old[4]);
 
-    	ROS_INFO_THROTTLE(0.01, "sr: j=%d, Psx=%.3f, Psy=%.3f, d=%.3f, Cs=%.6f, dCs1=%.6f, dCs2=%.6f, dCs3=%.6f, d_ave=%.6f",
-    	    sr.j, sr.Psx, sr.Psy, sr.d, sr.Cs, sr.Cs1, sr.Cs2, sr.Cs3, d_ave);
+    	// ROS_INFO_THROTTLE(0.01, "sr: j=%d, Psx=%.3f, Psy=%.3f, d=%.3f, Cs=%.6f, dCs1=%.6f, dCs2=%.6f, dCs3=%.6f, d_ave=%.6f",
+    	//     sr.j, sr.Psx, sr.Psy, sr.d, sr.Cs, sr.Cs1, sr.Cs2, sr.Cs3, d_ave);
 		
 		
-		ROS_INFO_THROTTLE(1.0, "x_d: x_d=%.3f, y_d=%.3f, theta_d=%.3f",
-		    x_d[1], x_d[2],x_d[3]);
+		// ROS_INFO_THROTTLE(1.0, "x_d: x_d=%.3f, y_d=%.3f, theta_d=%.3f",
+		//     x_d[1], x_d[2],x_d[3]);
 
-		ROS_INFO_THROTTLE(1.0, "nu: nu1=%.3f, nu2=%.3f",
-		    nu1, nu2);
+		ROS_INFO_THROTTLE(0.01, "Q: Q_phir=%.3f, Q_phif=%.3f, Q_varphir=%.3f, Q_varphif=%.3f",
+		    Q_phiR, Q_phiF, Q_varphiR, Q_varphiF);
 
-		ROS_INFO_THROTTLE(0.01, "Torque: front_left=%.3f, front_right=%.3f, rear_left=%.3f, rear_right=%.3f\n",
-		    torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
+		ROS_INFO_THROTTLE(0.01, "nu: nu1=%.3f, nu2=%.3f, nu3=%.3f",
+		    nu1, nu2, nu3);
+
+		// ROS_INFO_THROTTLE(0.01, "Torque: front_left=%.3f, front_right=%.3f, rear_left=%.3f, rear_right=%.3f\n",
+		//     torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
 		
 
 

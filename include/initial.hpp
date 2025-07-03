@@ -77,7 +77,7 @@ inline double w1;
 inline double w2;
 inline double w3;
 inline double P21, P22, P23;
-inline double a0 = 0.2;
+inline double a0 = 0.1;
 inline double a0_dot = 0.0;
 inline double u1, u2, u3;
 inline double v1, v2;

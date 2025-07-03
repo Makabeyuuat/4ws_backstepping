@@ -333,7 +333,7 @@ void getInputValue::getU(std::vector<double>& x_old, int sr_j) {
 
     U1(x_old, sr_j);
     U2(x_old, sr_j);
-    U2(x_old, sr_j);
+    U3(x_old, sr_j);
 
 
 }
@@ -347,7 +347,7 @@ void getInputValue::getXInput(std::vector<double>& x_old, std::vector<double>& x
 void getInputValue::U1(const std::vector<double>& x_old, int sr_j) {
 
 
-	u1 = ((1 - sr.d * sr.Cs) / cos(Thetap)) * w1;
+	u1 = ((1 - sr.d * sr.Cs) / cos(Thetap + x_old[4])) * w1;
 
 
 }
@@ -374,18 +374,16 @@ void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
 
 	u2 = (1 / alpha22) * (w2 - alpha21 * u1);
 
-    // std::cout << "z21=" << z21 << ", z22=" << z22 << ", z23=" << z23 << "\n";
-    // std::cout << "alpha21=" << alpha21 << ", alpha22=" << alpha22 << ", w2=" << w2 << "\n";
-    // std::cout << "u1 =" <<u1 << ", u2 =" <<u2 << "\n\n";
+    
 
 }
 
 void getInputValue::U3(const std::vector<double>& x_old, int sr_j) {
-    z31 = kinematics_solver_.Z_funcs[0]();
-	z32 = kinematics_solver_.Z_funcs[1]();
-    alpha31 = kinematics_solver_.alpha_funcs[3]();
-    alpha32 = kinematics_solver_.alpha_funcs[4]();
-    alpha33 = kinematics_solver_.alpha_funcs[5]();
+    z31 = kinematics_solver_.Z_funcs[2]();
+	z32 = kinematics_solver_.Z_funcs[3]();
+    alpha31 = kinematics_solver_.alpha_funcs[6]();
+    alpha32 = kinematics_solver_.alpha_funcs[7]();
+    alpha33 = kinematics_solver_.alpha_funcs[8]();
 
     thetap1d = 0;
 	dthetap1d = 0;
@@ -394,4 +392,10 @@ void getInputValue::U3(const std::vector<double>& x_old, int sr_j) {
 	w3 = ddthetap1d / a0 + (k3 + k4) * ((dthetap1d / a0) - z31) + k3 * k4 * ((thetap1d / a0) - z32 / a0);
 
 	u3 = (1 / alpha33) * (w3 - (alpha31 * u1 + alpha32 * u2));
+
+    std::cout << "z21=" << z21 << ", z22=" << z22 << "\n";
+    std::cout << "z31=" << z31 << ", z32=" << z32 << "\n";
+    std::cout << "alpha21=" << alpha21 << ", alpha22=" << alpha22 << ", w2=" << w2 << "\n";
+    std::cout << "alpha31=" << alpha31 << ", alpha32=" << alpha32 << ", w3=" << w3 << "\n";
+    std::cout << "u1 =" <<u1 << ", u2 =" <<u2 <<", u3 =" <<u3 << "\n\n";
 }

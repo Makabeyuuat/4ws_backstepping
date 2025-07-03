@@ -51,16 +51,12 @@ Eigen::Matrix<double,5,1> DynamicsIntegrator::computeXAlpha(
         double y_pos      = x[2];
         double thetap = x[3];
         double phi1    = x[4];
-        double varphi1    = x[5];
-        double phi2    = x[6];
-        double varphi2    = x[7];
+        double phi2    = x[5];
         double xdot   = x_d[1];
         double ydot   = x_d[2];
         double thetapdot = x_d[3];
         double phi1dot = x_d[4];
-        double varphi1dot = x_d[5];
-        double phi2dot = x_d[6];
-        double varphi2dot = x_d[7];
+        double phi2dot = x_d[5];
 
         // 実際の前進速度と前輪操舵角速度
         u1_act = xdot * cos(thetap + phi1) + ydot * sin(thetap + phi1);
@@ -219,7 +215,7 @@ void DynamicsIntegrator::step(
         //駆動力計算
         Q_phiR   = I_phiR  * alpha(3);
         Q_varphiR = I_varphiR  * alpha(4) - wheelRadius * lambda(2);
-        Q_phiF = I_phiR   * alpha(5);
+        Q_phiF = I_phiF   * alpha(5);
         Q_varphiF = I_varphiF  * alpha(6) - wheelRadius * lambda(3);
 
         // std::cout << "lambda =\n" << lambda.transpose().format(CleanFmt) << "\n\n";
