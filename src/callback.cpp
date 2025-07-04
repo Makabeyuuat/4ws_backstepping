@@ -26,43 +26,18 @@ void jointStateCallback(const sensor_msgs::JointState::ConstPtr& msg)
 
         double wheel_angle_FL,wheel_angle_FR,wheel_angle_RL,wheel_angle_RR;
         double wheel_angle_vel_FL, wheel_angle_vel_FR, wheel_angle_vel_RL, wheel_angle_vel_RR;
-        // // — プリズマティックジョイントの変位を delta_pos に格納 —
-        // if (joint == "linkage_point_to_v1") {
-        //     delta_pos[0] = pos;
-        //     linkage_point1_pose_received = true;
-        //     // （PoseStamped の更新は必要に応じて）
-        // }
-        // else if (joint == "linkage_point_to_v2") {
-        //     delta_pos[1] = pos;
-        //     linkage_point2_pose_received = true;
-        // }
-        // else if (joint == "linkage_point_to_v3") {
-        //     delta_pos[2] = pos;
-        //     linkage_point3_pose_received = true;
-        // }
 
-        // …既存の revolute ジョイント処理…
         if (msg->name[i] == "front_right_steering") {
             steering_angle_FR     = pos;
             steering_angle_vel_FR  = vel;
-            x_old[4] = pos;  // 後輪のステアリング角度
-            q_twist[3] = pos;  
-            phiR_dot = vel;
-            qdot_twist[3] = phiR_dot;
-            x_d[4] = phiR_dot;
-        }
-        if (msg->name[i] == "rear_left_steering") {
-            steering_angle_vel_RL  = vel;
-            steering_angle_RL     = pos;
-            x_old[5] = pos;  // 前輪のステアリング角度
-            q_twist[5] = pos;  // 前輪のステアリング角
-            phiF_dot = vel;
-            qdot_twist[5] = phiF_dot;
-            x_d[5] = phiF_dot;
         }
         if (msg->name[i] == "front_left_steering") {
             steering_angle_vel_FL  = vel;
             steering_angle_FL     = pos;
+        }
+        if (msg->name[i] == "rear_left_steering") {
+            steering_angle_vel_RL  = vel;
+            steering_angle_RL     = pos;
         }
         if (msg->name[i] == "rear_right_steering") {
             steering_angle_vel_RR  = vel;
@@ -84,6 +59,7 @@ void jointStateCallback(const sensor_msgs::JointState::ConstPtr& msg)
             wheel_angle_RR     = pos;
             wheel_angle_vel_RR   = vel;
         }
+        //ステア角の左右の平均を取り格納
         x_old[4] = (steering_angle_RL + steering_angle_RR)/2;
         x_old[5] = (steering_angle_FL + steering_angle_FR)/2;
         x_d[4] = (steering_angle_vel_RL + steering_angle_vel_RR)/2;
@@ -91,7 +67,7 @@ void jointStateCallback(const sensor_msgs::JointState::ConstPtr& msg)
         phiR_dot = (steering_angle_vel_RL + steering_angle_vel_RR)/2;
         phiF_dot = (steering_angle_vel_FL + steering_angle_vel_FR)/2;
 
-        //取得した値を q_twist と qdot_twist に格納 —
+        //回転角の左右の平均を取り格納
         q_twist[3] = (steering_angle_RL + steering_angle_RR)/2;
         q_twist[4] = (wheel_angle_RL + wheel_angle_RR)/2;
         q_twist[5] = (steering_angle_FL + steering_angle_FR)/2;
