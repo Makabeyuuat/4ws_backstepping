@@ -55,7 +55,8 @@ int main(int argc, char** argv) {
 	DynamicsIntegrator integrator(
         M_mass, I_theta, lv, GRAV, rho,
         driveGains, steerGains,
-        0.01
+        0.01,
+		getInputValue
     );
 
 	//gazebo上の初期値をx_oldに代入

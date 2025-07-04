@@ -4,7 +4,7 @@
 #include <Eigen/Dense>
 #include "pidTau.hpp"
 #include <vector>
-
+#include "getInputValue_dynamics.hpp"
 
 /**
  * @brief DynamicsIntegrator: 制約付き動力学＋操舵ダイナミクス統合クラス
@@ -20,11 +20,11 @@ public:
         double u2);
 
     Eigen::Matrix<double,5,1> computeXAlpha(
-    std::vector<double> x_d,
-    std::vector<double> x_dd,
-    double u1,
-    double u2,
-    double u3);
+        std::vector<double> x_d,
+        std::vector<double> x_dd,
+        double u1,
+        double u2,
+        double u3);
 
      Eigen::Matrix<double,7,1> computeAlpha(const Eigen::Matrix<double,7,1>& q,
                                             const Eigen::Matrix<double,7,1>& qdot,
@@ -39,7 +39,8 @@ public:
                        double rho,
                        const PIDGains& drive_gains,
                        const PIDGains& steer_gains,
-                       double dt);
+                       double dt,
+                       getInputValue& inputValue);
 
 
     void step(const Eigen::Matrix<double,7,1>& q,
@@ -49,4 +50,5 @@ public:
 
 private:
         KinematicsSolver kinematics_solver_;
+        getInputValue& inputValue_ref_;
 };

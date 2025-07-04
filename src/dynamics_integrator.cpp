@@ -4,8 +4,7 @@
 #include "Bezier.h"         // Bezier 曲線の関数
 #include "vehicle.hpp"       // Vehicle クラスの宣言
 #include "callback.hpp"     // コールバック関数の宣言
-#include "getInputValue.hpp"
-#include "pidTau.hpp"
+#include "getInputValue_dynamics.hpp"
 #include "differential_equations_dynamics.hpp"
 #include "kinematics_solver.hpp"
 #include <cmath>
@@ -34,8 +33,11 @@ DynamicsIntegrator::DynamicsIntegrator(double m_b,
                                        double rho,
                                        const PIDGains& drive_gains,
                                        const PIDGains& steer_gains,
-                                       double dt)
-                                       :kinematics_solver_()
+                                       double dt,
+                                       getInputValue& inputValue)
+                                       :kinematics_solver_(),
+                                        inputValue_ref_(inputValue)
+
  {}
 
 
@@ -217,6 +219,16 @@ void DynamicsIntegrator::step(
         Q_varphiR = I_varphiR  * alpha(4) - wheelRadius * lambda(2);
         Q_phiF = I_phiF   * alpha(5);
         Q_varphiF = I_varphiF  * alpha(6) - wheelRadius * lambda(3);
+
+
+        inputValue_ref_.rearTorque= inputValue_ref_.computeRearWheelTorque(Q_varphiR, q(5), q(3));
+        inputValue_ref_.frontTorque = inputValue_ref_.computeFrontWheelTorque(Q_varphiF, q(5), q(3));
+
+        torque_rear[0] = inputValue_ref_.rearTorque[0];  // 左後輪
+        torque_rear[1] = inputValue_ref_.rearTorque[1];  // 右後輪
+
+        torque_front[0] = inputValue_ref_.frontTorque[0];  // 左後輪
+        torque_front[1] = inputValue_ref_.frontTorque[1];  // 右後輪
 
         // std::cout << "lambda =\n" << lambda.transpose().format(CleanFmt) << "\n\n";
         // std::cout << "u2act =" <<u2_act << "\n";

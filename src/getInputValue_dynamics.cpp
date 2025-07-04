@@ -274,14 +274,14 @@ void getInputValue::rungeKutta(std::vector<double>& x_old, std::vector<double>& 
         // omega_rear[1] = rearOmega[1];  // 右後輪
 
          // 後輪左右のトルクをクラスメンバに格納
-        rearTorque = computeRearWheelTorque(Q_varphiR, x_old[5], x_old[4]);
-        frontTorque = computeFrontWheelTorque(Q_varphiF, x_old[5], x_old[4]);
+        // rearTorque = computeRearWheelTorque(Q_varphiR, x_old[5], x_old[4]);
+        // frontTorque = computeFrontWheelTorque(Q_varphiF, x_old[5], x_old[4]);
         
-        torque_rear[0] = rearTorque[0];  // 左後輪
-        torque_rear[1] = rearTorque[1];  // 右後輪
+        // torque_rear[0] = rearTorque[0];  // 左後輪
+        // torque_rear[1] = rearTorque[1];  // 右後輪
 
-        torque_front[0] = frontTorque[0];  // 左後輪
-        torque_front[1] = frontTorque[1];  // 右後輪
+        // torque_front[0] = frontTorque[0];  // 左後輪
+        // torque_front[1] = frontTorque[1];  // 右後輪
     
 }
 

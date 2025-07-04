@@ -21,6 +21,9 @@ public:
     //  */
     getInputValue(double h);
 
+    std::array<double,2> rearTorque;  
+    std::array<double,2> frontTorque;
+
     // /**
     //  * @brief ルンゲ‐クッタ法による状態更新と制御入力計算を実行する
     //  * @param x_old 現在の状態（サイズは Dim+1）
@@ -30,6 +33,9 @@ public:
     void ddrungeKutta(std::vector<double>& x_old, std::vector<double>& x_dd);
     void getU(std::vector<double>& x_old, int sr_j);
     void getXInput(std::vector<double>& x_old, std::vector<double>& x_input);
+    std::array<double,2> computeRearWheelOmegas(double speed, double steeringAngle);
+    std::array<double,2> computeRearWheelTorque(double Q, double steeringAngleFront, double steeringAngleRear);
+    std::array<double,2> computeFrontWheelTorque(double Q, double steeringAngleFront, double steeringAngleRear);
 private:
     double h;  // 時間刻み
 
@@ -39,8 +45,6 @@ private:
     std::vector<std::vector<double>> q; // q[][0..3]
     std::vector<std::vector<double>> x; // x[0], x[1], x[2]
     std::array<double,2> rearOmega; 
-    std::array<double,2> rearTorque;  
-    std::array<double,2> frontTorque;
 
     // differential_equations.hpp で定義された配列をコピー
     std::vector<FunctionPtr> fAllVec;
@@ -52,9 +56,7 @@ private:
 
     // 後輪左右の角速度を計算
     // @return std::array{omega_left, omega_right}
-    std::array<double,2> computeRearWheelOmegas(double speed, double steeringAngle);
-    std::array<double,2> computeRearWheelTorque(double Q, double steeringAngleFront, double steeringAngleRear);
-    std::array<double,2> computeFrontWheelTorque(double Q, double steeringAngleFront, double steeringAngleRear);
+
 
     void U1(const std::vector<double>& x_old, int sr_j);
     void U2(const std::vector<double>& x_old, int sr_j);
