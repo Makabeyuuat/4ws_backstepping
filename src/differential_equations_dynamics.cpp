@@ -9,17 +9,17 @@ double f0 (const std::vector<double>& x) {
 }
 
 double f1 (const std::vector<double>& x) { 
-    return u1 * std::cos(x[3] + x[4]); 
+    return u1 * cos(x[3] + x[4]); 
 }
 
 double f2 (const std::vector<double>& x) { 
-    return u1 * std::sin(x[3] + x[4]); 
+    return u1 * sin(x[3] + x[4]); 
 }
 
 
 //theta1
 double f3 (const std::vector<double>&x) { 
-    return u1 * std::tan(x[4])/lv; 
+    return u1 * (-sin(x[5] - x[4])/(lv*cos(x[4]))); 
 }
 
 //phi1
