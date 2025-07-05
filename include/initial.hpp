@@ -86,10 +86,10 @@ inline double Thetap = 0.0;
 
 
 //フィードバック関数
-inline double k1 = 2.0;
-inline double k2 = 2.0;
-inline double k3 = 2.0;
-inline double k4 = 2.0;
+inline double k1 = 4.0;
+inline double k2 = 4.0;
+inline double k3 = 4.0;
+inline double k4 = 4.0;
 
 
 //制御入力の係数
@@ -128,16 +128,16 @@ inline double dymanic_v = 0.0;
 
 inline double m_wheel = 4.63972;
 inline double m_hinge = 4.884144703315957;
-inline double M_mass = 376.64;
-inline double m_b = 376.64;
+inline double M_mass = 376.64 + 2* 12.646385127140846;
+inline double m_b = 376.64 + 2*12.646385127140846; //車両の質量
 inline double m_w = 2*(m_wheel + m_hinge);
-inline double I_theta = vehicle_inertia_coef * 418.647558;
+inline double I_theta = vehicle_inertia_coef * 418.647558 + 2*0.755318;
 inline double I_wheel = 0.029034;
 inline double I_hinge = 0.021551;
 inline double I_phiF = 2*(I_wheel + I_hinge);
 inline double I_phiR = 2*(I_wheel + I_hinge);
-inline double I_varphiF = 0.053334;        
-inline double I_varphiR = 0.053334;        
+inline double I_varphiF = 2*0.053334;        
+inline double I_varphiR = 2*0.053334;        
 inline double wheelRadius = 0.153;          
 inline double Q_phiF = 0.0;
 inline double Q_phiR = 0.0;

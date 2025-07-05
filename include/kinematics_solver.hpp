@@ -193,7 +193,7 @@ public:
             [this](){ return calc_Cxi_4_1_(); }, [this](){ return calc_Cxi_4_2_(); }, [this](){ return calc_Cxi_4_3_(); }, [this](){ return calc_Cxi_4_4_(); }, [this](){ return calc_Cxi_4_5_(); }, [this](){ return calc_Cxi_4_6_(); }, [this](){ return calc_Cxi_4_7_(); },
             [this](){ return calc_Cxi_5_1_(); }, [this](){ return calc_Cxi_5_2_(); }, [this](){ return calc_Cxi_5_3_(); }, [this](){ return calc_Cxi_5_4_(); }, [this](){ return calc_Cxi_5_5_(); }, [this](){ return calc_Cxi_5_6_(); }, [this](){ return calc_Cxi_5_7_(); },
             [this](){ return calc_Cxi_6_1_(); }, [this](){ return calc_Cxi_6_2_(); }, [this](){ return calc_Cxi_6_3_(); }, [this](){ return calc_Cxi_6_4_(); }, [this](){ return calc_Cxi_6_5_(); }, [this](){ return calc_Cxi_6_6_(); }, [this](){ return calc_Cxi_6_7_(); },
-            [this](){ return calc_Cxi_7_1_(); }, [this](){ return calc_Cxi_7_2_(); }, [this](){ return calc_Cxi_7_3_(); }, [this](){ return calc_Cxi_7_4_(); }, [this](){ return calc_Cxi_7_5_(); }, [this]() { return calc_Cxi_7_6_(); }, [this](){ return calc_Cxi_7_7_(); }
+            [this](){ return calc_Cxi_7_1_(); }, [this](){ return calc_Cxi_7_2_(); }, [this](){ return calc_Cxi_7_3_(); }, [this](){ return calc_Cxi_7_4_(); }, [this](){ return calc_Cxi_7_5_(); }, [this](){ return calc_Cxi_7_6_(); }, [this](){ return calc_Cxi_7_7_(); }
         };
 
         Mxi_funcs = {

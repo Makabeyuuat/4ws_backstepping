@@ -329,7 +329,7 @@ void getInputValue::getU(std::vector<double>& x_old, int sr_j) {
     // --- 制御入力の計算 ---
     // 各内部関数を呼び出して制御入力を計算
     thetaT = atan2(dRdq[sr_j][1], dRdq[sr_j][0]);
-    ::Thetap = x_old[3] - thetaT;
+    Thetap = x_old[3] - thetaT;
 
     U1(x_old, sr_j);
     U2(x_old, sr_j);
@@ -372,7 +372,7 @@ void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
 
 	w2 = ddd0d / a0 + (k1 + k2) * ((dd0d / a0) - z21) + k1 * k2 * ((d0d / a0) - z22 / a0);
 
-	u2 = (1 / alpha22) * (w2 - alpha21 * u1);
+	u2 = (1 / alpha22) * (w2 - alpha21 * w1);
 
     
 
@@ -391,7 +391,7 @@ void getInputValue::U3(const std::vector<double>& x_old, int sr_j) {
 
 	w3 = ddthetap1d / a0 + (k3 + k4) * ((dthetap1d / a0) - z31) + k3 * k4 * ((thetap1d / a0) - z32 / a0);
 
-	u3 = (1 / alpha33) * (w3 - (alpha31 * u1 + alpha32 * u2));
+	u3 = (1 / alpha33) * (w3 - (alpha31 * w1 + alpha32 * u2));
 
     std::cout << "z21=" << z21 << ", z22=" << z22 << "\n";
     std::cout << "z31=" << z31 << ", z32=" << z32 << "\n";

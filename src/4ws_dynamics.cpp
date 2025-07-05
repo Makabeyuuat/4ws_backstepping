@@ -299,8 +299,8 @@ int main(int argc, char** argv) {
 	//制御入力を計算し、それらをルンゲクッタ法で更新
 	getInputValue.getU(x_old, sr.j);
 	integrator.step(q_map, qdot_map, u1, u2);
-	getInputValue.ddrungeKutta(x_d, x_dd);
-	getInputValue.rungeKutta(x_old, x_d);
+	// getInputValue.ddrungeKutta(x_d, x_dd);
+	// getInputValue.rungeKutta(x_old, x_d);
 
 
 	// 各車両へ steering コマンドと車輪のトルクコマンドを送信
@@ -328,8 +328,8 @@ int main(int argc, char** argv) {
 		//制御入力を計算し、それらをルンゲクッタ法で更新
 		getInputValue.getU(x_old, sr.j);
 		integrator.step(q_map, qdot_map, u1, u2);
-		getInputValue.ddrungeKutta(x_d, x_dd);
-		getInputValue.rungeKutta(x_old, x_d);
+		// getInputValue.ddrungeKutta(x_d, x_dd);
+		// getInputValue.rungeKutta(x_old, x_d);
 
 		
 	
@@ -338,8 +338,8 @@ int main(int argc, char** argv) {
     	// ROS_INFO_THROTTLE(1.0, "x_old = [%.3f, %.3f, %.3f, %.3f, %.3f]",
     	//     x_old[0], x_old[1], x_old[2], x_old[3], x_old[4]);
 
-    	// ROS_INFO_THROTTLE(0.01, "sr: j=%d, Psx=%.3f, Psy=%.3f, d=%.3f, Cs=%.6f, dCs1=%.6f, dCs2=%.6f, dCs3=%.6f, d_ave=%.6f",
-    	//     sr.j, sr.Psx, sr.Psy, sr.d, sr.Cs, sr.Cs1, sr.Cs2, sr.Cs3, d_ave);
+    	ROS_INFO_THROTTLE(0.01, "sr: j=%d, Psx=%.3f, Psy=%.3f, d=%.3f, Cs=%.6f, dCs1=%.6f, dCs2=%.6f, dCs3=%.6f, d_ave=%.6f, thetap=%.6f",
+    	    sr.j, sr.Psx, sr.Psy, sr.d, sr.Cs, sr.Cs1, sr.Cs2, sr.Cs3, d_ave, Thetap);
 		
 		
 		// ROS_INFO_THROTTLE(1.0, "x_d: x_d=%.3f, y_d=%.3f, theta_d=%.3f",

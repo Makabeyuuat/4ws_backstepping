@@ -74,16 +74,16 @@ Eigen::Matrix<double,5,1> DynamicsIntegrator::computeXAlpha(
             kinematics_solver_.SX_funcs[0](),
             kinematics_solver_.SX_funcs[3](),
             kinematics_solver_.SX_funcs[6](),
-            kinematics_solver_.SX_funcs[9](),
-            kinematics_solver_.SX_funcs[12]();
+            kinematics_solver_.SX_funcs[10](),
+            kinematics_solver_.SX_funcs[14]();
         
         Eigen::Matrix<double,5,1> dSx;
         dSx <<
             kinematics_solver_.dSXdt_funcs[0](),
-            kinematics_solver_.dSXdt_funcs[2](),
-            kinematics_solver_.dSXdt_funcs[4](),
-            kinematics_solver_.dSXdt_funcs[7](),
-            kinematics_solver_.dSXdt_funcs[9]();
+            kinematics_solver_.dSXdt_funcs[3](),
+            kinematics_solver_.dSXdt_funcs[6](),
+            kinematics_solver_.dSXdt_funcs[10](),
+            kinematics_solver_.dSXdt_funcs[14]();
         
         // 速度誤差
         double r_b1 = u1_act - u1;
@@ -177,6 +177,12 @@ void DynamicsIntegrator::step(
       
         Eigen::Vector3d alpha3 = alpha.head<3>();
 
+        Eigen::Vector3d xidot3;
+        xidot3 <<
+              xdot, 
+              ydot, 
+              thetadot;
+
         // ラムダの導出
         Eigen::Matrix<double,3,4> A3;
         A3 <<
@@ -195,7 +201,7 @@ void DynamicsIntegrator::step(
         Eigen::Vector3d C3;
         C3 <<
           kinematics_solver_.Cxi_funcs[2](),
-          kinematics_solver_.Cxi_funcs[8](),
+          kinematics_solver_.Cxi_funcs[9](),
           0.0;
 
         Eigen::Vector3d K3;

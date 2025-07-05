@@ -310,7 +310,7 @@ return ret;
 double KinematicsSolver::calc_Axi_1_3_()
 {
 double ret;
-ret = -(lv*Cos(x_old[5]));
+ret = -(lv*Cos(q_map(5)));
 return ret;
 }
 
@@ -936,7 +936,7 @@ return ret;
 double KinematicsSolver::calc_SX_5_3_()
 {
 double ret;
-ret = 0;
+ret =1;
 return ret;
 }
 
