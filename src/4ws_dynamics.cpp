@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 
 	//データファイル作成
 	// ディレクトリだけ渡す (末尾に '/' は不要)
-  	std::string pkg = ros::package::getPath("vehicle_backstepping");
+  	std::string pkg = ros::package::getPath("4ws_backstepping");
   	std::string data_dir = pkg + "/data";
 
   	CSVLogger logger(data_dir, 100000);
