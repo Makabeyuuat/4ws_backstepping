@@ -86,10 +86,10 @@ inline double Thetap = 0.0;
 
 
 //フィードバック関数
-inline double k1 = 4.0;
-inline double k2 = 4.0;
-inline double k3 = 2.0;
-inline double k4 = 2.0;
+inline double k1 = 6.0;
+inline double k2 = 6.0;
+inline double k3 = 3.0;
+inline double k4 = 3.0;
 
 
 //制御入力の係数

@@ -98,9 +98,9 @@ Eigen::Matrix<double,5,1> DynamicsIntegrator::computeXAlpha(
         //ゲイン
         Eigen::Matrix<double,3,3> C;
         C << 
-            10.0, 0.0, 0.0,
-            0.0, 10.0, 0.0,
-            0.0, 0.0, 10.0;
+            15.0, 0.0, 0.0,
+            0.0, 15.0, 0.0,
+            0.0, 0.0, 15.0;
             
         Eigen::Vector3d dot_C_rb = C*(r_b);
 
