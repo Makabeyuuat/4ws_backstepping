@@ -275,7 +275,7 @@ return ret;
 double KinematicsSolver::calc_aqd_5_()
 {
 double ret;
-ret = (Cos(q_map(3))*nu1 - Sin(q_map(3))*u1_act*u2_act)/wheelRadius;
+ret = nu1/wheelRadius;
 return ret;
 }
 
@@ -289,7 +289,7 @@ return ret;
 double KinematicsSolver::calc_aqd_7_()
 {
 double ret;
-ret = (Cos(q_map(5))*nu1 - Sin(q_map(5))*u1_act*u3_act)/wheelRadius;
+ret = (Cos(q_map(5) - q_map(3))*nu1 + Sin(q_map(5) - q_map(3))*u1_act*(u2_act - u3_act))/wheelRadius;
 return ret;
 }
 
