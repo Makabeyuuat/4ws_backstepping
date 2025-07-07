@@ -10,7 +10,7 @@
 #define PSdist 300
 #define GRAV 9.80665
 #define vehicle_inertia_coef 0.14824039
-inline constexpr int BEZIER_ORDER = 4; 
+inline constexpr int BEZIER_ORDER = 3; 
 //inline constexpr int BEZIER_ORDER = 15; 
 inline constexpr int Dim = 5;  //状態変数の次元
 inline constexpr int  Q = 100001;  //曲線の分割数PAI
@@ -20,8 +20,8 @@ inline constexpr double DEG2RAD = 180.0 / PAI;
 inline bool got_body_pose = false;
 inline bool got_steering_pose = false;
 //３次のベジェ曲線
-inline double Bx[BEZIER_ORDER + 1] = { -6.5, 3.0, -3.0, 6.5 ,7.0};
-inline double By[BEZIER_ORDER + 1] = { -1.0, -1.0, 1.0, 1.0 , 1.0};
+inline double Bx[BEZIER_ORDER + 1] = { -6.5, 3.0, -3.0, 6.5};
+inline double By[BEZIER_ORDER + 1] = { -1.0, -1.0, 1.0, 1.0};
 
 //inline double Bx[BEZIER_ORDER + 1]  = { -7.0 ,-7.0, -7.0, -7.0, -7.0,-5.5, -4.0, -2.5, -1.0, 0.5, 2.0, -1.0, 0.5, 2.0, 3.5, 5.0 };
 //inline double By[BEZIER_ORDER + 1] = { 0.0 ,-1.0, -2.0, -3.0, -7.0, -7.0, -7.0, -7.0, -7.0, -7.0, -7.0, 2.0, 2.0, 2.0, 2.0, 2.0 };

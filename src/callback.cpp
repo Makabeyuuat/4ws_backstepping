@@ -121,27 +121,27 @@ void trueBodyLinkCallback(const nav_msgs::Odometry::ConstPtr& msg)
     // u1_act = vx * cos(yaw) + vy * sin(yaw);
 }
 
-// void trueV1FrontLeftSteeringCallback(const nav_msgs::Odometry::ConstPtr& msg)
-// {
-//     v1_front_left_steering_pose.header = msg->header;
-//     v1_front_left_steering_pose.pose = msg->pose.pose;
-//     v1_front_left_steering_pose_received = true;
+void trueV1FrontLeftSteeringCallback(const nav_msgs::Odometry::ConstPtr& msg)
+{
+    v1_front_left_steering_pose.header = msg->header;
+    v1_front_left_steering_pose.pose = msg->pose.pose;
+    v1_front_left_steering_pose_received = true;
 
-//     tf2::Quaternion q;
-//     q.setX(v1_front_left_steering_pose.pose.orientation.x);
-//     q.setY(v1_front_left_steering_pose.pose.orientation.y);
-//     q.setZ(v1_front_left_steering_pose.pose.orientation.z);
-//     q.setW(v1_front_left_steering_pose.pose.orientation.w);
+    tf2::Quaternion q;
+    q.setX(v1_front_left_steering_pose.pose.orientation.x);
+    q.setY(v1_front_left_steering_pose.pose.orientation.y);
+    q.setZ(v1_front_left_steering_pose.pose.orientation.z);
+    q.setW(v1_front_left_steering_pose.pose.orientation.w);
 
-//     double roll, pitch, yaw;
-//     tf2::Matrix3x3(q).getRPY(roll, pitch, yaw);
+    double roll, pitch, yaw;
+    tf2::Matrix3x3(q).getRPY(roll, pitch, yaw);
 
-//     true_steering = yaw;
+    true_steering = yaw;
 
-//     // q_twist[3] = true_steering - true_body_yaw;
-//     // x_old[4] = q_twist[3];
-//     // std::cout << "x_old[4] =" <<x_old[4] << ",  true_body_yaw=" <<true_body_yaw << ", true_steering"  << true_steering << "\n\n";
-//     got_steering_pose = true;
+    // q_twist[3] = true_steering - true_body_yaw;
+    // x_old[4] = q_twist[3];
+    // std::cout << "x_old[4] =" <<x_old[4] << ",  true_body_yaw=" <<true_body_yaw << ", true_steering"  << true_steering << "\n\n";
+    got_steering_pose = true;
 
     
-// }
+}

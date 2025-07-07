@@ -299,8 +299,8 @@ int main(int argc, char** argv) {
 	//制御入力を計算し、それらをルンゲクッタ法で更新
 	getInputValue.getU(x_old, sr.j);
 	integrator.step(q_map, qdot_map, u1, u2);
-	// getInputValue.ddrungeKutta(x_d, x_dd);
-	// getInputValue.rungeKutta(x_old, x_d);
+	getInputValue.ddrungeKutta(x_d, x_dd);
+	getInputValue.rungeKutta(x_old, x_d);
 
 
 	// 各車両へ steering コマンドと車輪のトルクコマンドを送信
@@ -328,8 +328,8 @@ int main(int argc, char** argv) {
 		//制御入力を計算し、それらをルンゲクッタ法で更新
 		getInputValue.getU(x_old, sr.j);
 		integrator.step(q_map, qdot_map, u1, u2);
-		// getInputValue.ddrungeKutta(x_d, x_dd);
-		// getInputValue.rungeKutta(x_old, x_d);
+		getInputValue.ddrungeKutta(x_d, x_dd);
+		getInputValue.rungeKutta(x_old, x_d);
 
 		
 	
