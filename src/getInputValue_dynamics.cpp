@@ -297,10 +297,8 @@ void getInputValue::U2(const std::vector<double>& x_old, int sr_j) {
 	w2 = ddd0d / a0 + (k1 + k2) * ((dd0d / a0) - z21) + k1 * k2 * ((d0d / a0) - z22 / a0);
 
 	u2 = (1 / alpha22) * (w2 - alpha21 * w1);
-
-    
-
 }
+
 
 void getInputValue::U3(const std::vector<double>& x_old, int sr_j) {
     z31 = kinematics_solver_.Z_funcs[2]();
@@ -309,17 +307,21 @@ void getInputValue::U3(const std::vector<double>& x_old, int sr_j) {
     alpha32 = kinematics_solver_.alpha_funcs[7]();
     alpha33 = kinematics_solver_.alpha_funcs[8]();
 
-    thetap1d = 0;
-	dthetap1d = 0;
-	ddthetap1d = 0;
+    thetap1d = 0.0;
+	dthetap1d = 0.0;
+	ddthetap1d = 0.0;
 
 	w3 = ddthetap1d / a0 + (k3 + k4) * ((dthetap1d / a0) - z31) + k3 * k4 * ((thetap1d / a0) - z32 / a0);
 
+    double w31 = (k3 + k4) * ((dthetap1d / a0) - z31); 
+    double w32 = k3 * k4 * ((thetap1d / a0) - z32 / a0);
+
 	u3 = (1 / alpha33) * (w3 - (alpha31 * w1 + alpha32 * u2));
 
+    std::cout << "w31=" << w31 << ", w32=" << w32 << "\n";
     std::cout << "z21=" << z21 << ", z22=" << z22 << "\n";
     std::cout << "z31=" << z31 << ", z32=" << z32 << "\n";
     std::cout << "alpha21=" << alpha21 << ", alpha22=" << alpha22 << ", w2=" << w2 << "\n";
-    std::cout << "alpha31=" << alpha31 << ", alpha32=" << alpha32 << ", w3=" << w3 << "\n";
+    std::cout << "alpha31=" << alpha31 << ", alpha32=" << alpha32 << ", alpha33=" << alpha33 << ", w3=" << w3 << "\n";
     std::cout << "u1 =" <<u1 << ", u2 =" <<u2 <<", u3 =" <<u3 << "\n\n";
 }
