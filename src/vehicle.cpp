@@ -24,8 +24,8 @@ void Vehicle::publishSteeringCommand(double front_left_steering_value, double fr
     std_msgs::Float64 msg1, msg2, msg3, msg4;
     msg1.data = front_left_steering_value;
     msg2.data = front_right_steering_value;
-    msg3.data = front_left_steering_value;
-    msg4.data = front_right_steering_value;
+    msg3.data = rear_left_steering_value;
+    msg4.data = rear_right_steering_value;
     front_left_steering_pub.publish(msg1);
     front_right_steering_pub.publish(msg2);
     rear_left_steering_pub.publish(msg3);

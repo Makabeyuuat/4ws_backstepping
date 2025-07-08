@@ -59,167 +59,91 @@ array<double,2> getInputValue::computeRearWheelOmegas(double speed, double steer
     return omegas;
 }
 
-//入力が力の場合
-// array<double,2> getInputValue::computeFrontWheelTorque(double Fx, double steeringAngle) {
-//     const double W           = 0.05;  // 前輪トレッド幅 [m]
-//     array<double,2> torques;
 
-//     // ① 前進力 → ホイールトルクに変換（２輪で均等分担）
-//     double tau_base = Fx * wheelRadius / 2.0;
 
-//     // ② ほぼ直進なら均等トルク
-//     if (std::fabs(steeringAngle) < 1e-6) {
-//         torques[0] = tau_base;  // 左前輪
-//         torques[1] = tau_base;  // 右前輪
-//         return torques;
-//     }
-
-//     // ③ バイク曲率半径の計算
-//     double absPhi = std::fabs(steeringAngle);
-//     double R      = lv / std::tan(absPhi);
-//     double R_in   = R - W/2.0;    // 内輪半径
-//     double R_out  = R + W/2.0;    // 外輪半径
-
-//     // ④ 転がり比に応じたトルク配分
-//     double tau_in  = tau_base * (R_in  / R);
-//     double tau_out = tau_base * (R_out / R);
-
-//     // ⑤ 左右トルクをステア方向に合わせてセット
-//     if (steeringAngle > 0) {
-//         // 左折: 左前輪が内輪
-//         torques[0] = tau_in;   // 左前輪
-//         torques[1] = tau_out;  // 右前輪
-//     } else {
-//         // 右折: 右前輪が内輪
-//         torques[0] = tau_out;  // 左前輪
-//         torques[1] = tau_in;   // 右前輪
-//     }
-
-//     return torques;
-// }
-
-// array<double,2> getInputValue::computeRearWheelTorque(double Fx, double steeringAngle) {
-//     const double W           = 0.05;  // トレッド幅 [m]
-//     array<double,2> torques;
-
-//     // ① 前進力 → ホイールトルクに変換（２輪で均等分担）
-//     double tau_base = Fx * wheelRadius / 2.0;
-
-//     // ② ほぼ直進なら均等トルク
-//     if (std::fabs(steeringAngle) < 1e-6) {
-//         torques[0] = tau_base;
-//         torques[1] = tau_base;
-//         return torques;
-//     }
-
-//     // ③ バイク曲率半径の計算
-//     double absPhi = std::fabs(steeringAngle);
-//     double R      = lv / std::tan(absPhi);
-//     double R_in   = R - W/2.0;    // 内輪半径
-//     double R_out  = R + W/2.0;    // 外輪半径
-
-//     // ④ 転がり比に応じたトルク配分
-//     double tau_in  = tau_base * (R_in  / R);
-//     double tau_out = tau_base * (R_out / R);
-
-//     // ⑤ 左右トルクをステア方向に合わせてセット
-//     if (steeringAngle > 0) {
-//         // 左折: 左が内輪 → 左に小さめトルク、右に大きめトルク
-//         torques[0] = tau_in;
-//         torques[1] = tau_out;
-//     } else {
-//         // 右折: 右が内輪 → 左に大きめトルク、右に小さめトルク
-//         torques[0] = tau_out;
-//         torques[1] = tau_in;
-//     }
-
-//     return torques;
-// }
-
-// 入力がトルクの場合
-std::array<double,2> getInputValue::computeFrontWheelTorque(double Q, double steeringAngleFront, double steeringAngleRear) {
-    const double W = 0.05;  // 前輪トレッド幅 [m]
+// 入力がアクスルごとのトルク Q の場合
+std::array<double,2> getInputValue::computeFrontWheelTorque(
+    double Qf,
+    double steeringAngleFront,
+    double steeringAngleRear)
+{
+    const double Wf = 0.05;  // 前輪トレッド幅 [m]
     std::array<double,2> torques;
 
-    // 1. 車両全体の旋回曲率を計算
-    // 4WSモデルでは、旋回半径 R = L / (tan(δf) - tan(δr)) となる
     double tan_diff = std::tan(steeringAngleFront) - std::tan(steeringAngleRear);
-
-    // 直進状態（またはそれに近い状態）ではトルクを均等配分
     if (std::fabs(tan_diff) < 1e-9) {
-        torques[0] = Q * 0.5;
-        torques[1] = Q * 0.5;
+        torques[0] = Qf * 0.5;
+        torques[1] = Qf * 0.5;
         return torques;
     }
 
-    // 2. 車体中心の旋回半径を計算
-    const double R_center = lv / tan_diff;
+    // 1) リアアクスル基準での回転中心半径
+    double R_rear_center = lv / tan_diff;
 
-    // 3. 内輪と外輪、それぞれの旋回半径を計算
-    // R_centerが負の値（右旋回）の場合も考慮し、絶対値で計算
-    const double R_inner = std::abs(R_center) - W / 2.0;
-    const double R_outer = std::abs(R_center) + W / 2.0;
+    // 2) 前輪アクスルまで平行移動
+    double Rf_center = R_rear_center - lv;
 
-    // 4. パワー均等配分モデルに基づき、トルクを旋回半径の「逆比」で配分
-    const double R_total = R_inner + R_outer;
-    const double torque_inner = Q * (R_outer / R_total);
-    const double torque_outer = Q * (R_inner / R_total);
+    // 3) 内輪／外輪の絶対半径
+    double Rf_abs   = std::abs(Rf_center);
+    double Rf_inner = Rf_abs - Wf/2.0;
+    double Rf_outer = Rf_abs + Wf/2.0;
 
-    // 5. 旋回方向に応じて、内外輪トルクを左右輪に割り当てる
-    // tan_diff の符号で旋回方向を判断 (正なら左折)
+    // 4) 内外で逆比（パワー均等）にトルクを配分
+    double sum = Rf_inner + Rf_outer;
+    double Tin = Qf * (Rf_outer / sum);
+    double Tou = Qf * (Rf_inner / sum);
+
+    // 5) 旋回方向に応じて左右に割り当て
     if (tan_diff > 0) {
-        // 左折時：左輪が内輪、右輪が外輪
-        torques[0] = torque_inner; // 左輪トルク
-        torques[1] = torque_outer; // 右輪トルク
+        // 左折：左が内輪
+        torques[0] = Tin;  // 左
+        torques[1] = Tou;  // 右
     } else {
-        // 右折時：右輪が内輪、左輪が外輪
-        torques[0] = torque_outer; // 左輪トルク
-        torques[1] = torque_inner; // 右輪トルク
+        // 右折：右が内輪
+        torques[0] = Tou;  // 左
+        torques[1] = Tin;  // 右
     }
-
     return torques;
 }
 
-std::array<double,2> getInputValue::computeRearWheelTorque(double Q, double steeringAngleFront, double steeringAngleRear) {
-    const double W = 0.05;  // 後輪トレッド幅 [m]
+std::array<double,2> getInputValue::computeRearWheelTorque(
+    double Qr,
+    double steeringAngleFront,
+    double steeringAngleRear)
+{
+    const double Wr = 0.05;  // 後輪トレッド幅 [m]
     std::array<double,2> torques;
 
-    // 1. 車両全体の旋回曲率を計算
-    // 4WSモデルでは、旋回半径 R = L / (tan(δf) - tan(δr)) となる
     double tan_diff = std::tan(steeringAngleFront) - std::tan(steeringAngleRear);
-
-    // 直進状態（またはそれに近い状態）ではトルクを均等配分
     if (std::fabs(tan_diff) < 1e-9) {
-        torques[0] = Q * 0.5;
-        torques[1] = Q * 0.5;
+        torques[0] = Qr * 0.5;
+        torques[1] = Qr * 0.5;
         return torques;
     }
 
-    // 2. 車体中心の旋回半径を計算
-    const double R_center = lv / tan_diff;
+    // 1) リアアクスル基準での回転中心半径
+    double Rr_center = lv / tan_diff;
 
-    // 3. 内輪と外輪、それぞれの旋回半径を計算
-    // R_centerが負の値（右旋回）の場合も考慮し、絶対値で計算
-    const double R_inner = std::abs(R_center) - W / 2.0;
-    const double R_outer = std::abs(R_center) + W / 2.0;
+    // 2) 内輪／外輪の絶対半径
+    double Rr_abs   = std::abs(Rr_center);
+    double Rr_inner = Rr_abs - Wr/2.0;
+    double Rr_outer = Rr_abs + Wr/2.0;
 
-    // 4. パワー均等配分モデルに基づき、トルクを旋回半径の「逆比」で配分
-    const double R_total = R_inner + R_outer;
-    const double torque_inner = Q * (R_outer / R_total);
-    const double torque_outer = Q * (R_inner / R_total);
+    // 3) パワー均等配分
+    double sum = Rr_inner + Rr_outer;
+    double Tin = Qr * (Rr_outer / sum);
+    double Tou = Qr * (Rr_inner / sum);
 
-    // 5. 旋回方向に応じて、内外輪トルクを左右輪に割り当てる
-    // tan_diff の符号で旋回方向を判断 (正なら左折)
+    // 4) 左右アサイン
     if (tan_diff > 0) {
-        // 左折時：左輪が内輪、右輪が外輪
-        torques[0] = torque_inner; // 左輪トルク
-        torques[1] = torque_outer; // 右輪トルク
+        // 左折
+        torques[0] = Tin;
+        torques[1] = Tou;
     } else {
-        // 右折時：右輪が内輪、左輪が外輪
-        torques[0] = torque_outer; // 左輪トルク
-        torques[1] = torque_inner; // 右輪トルク
+        // 右折
+        torques[0] = Tou;
+        torques[1] = Tin;
     }
-
     return torques;
 }
 

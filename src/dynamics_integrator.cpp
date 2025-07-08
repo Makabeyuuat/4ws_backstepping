@@ -98,9 +98,9 @@ Eigen::Matrix<double,5,1> DynamicsIntegrator::computeXAlpha(
         //ゲイン
         Eigen::Matrix<double,3,3> C;
         C << 
-            15.0, 0.0, 0.0,
-            0.0, 15.0, 0.0,
-            0.0, 0.0, 15.0;
+            10.0, 0.0, 0.0,
+            0.0, 10.0, 0.0,
+            0.0, 0.0, 10.0;
             
         Eigen::Vector3d dot_C_rb = C*(r_b);
 
@@ -161,8 +161,8 @@ void DynamicsIntegrator::step(
         double theta = q(2);
         double phiR    = q(3);
         double varphiR = q(4);
-        double phiL    = q(5);
-        double varphiL = q(6);
+        double phiF    = q(5);
+        double varphiF = q(6);
 
         double xdot   = qdot(0);
         double ydot   = qdot(1);
@@ -252,7 +252,7 @@ void DynamicsIntegrator::step(
         // Mxi(4,4) = I_psif;
         // Mxi(5,5) = I_psir;
 
-        // Eigen::Matrix<double,6,6> Cxi = Eigen::Matrix<double,6,6>::Zero();
+        // Eigen::Matrix<double,7,7> Cxi = Eigen::Matrix<double,7,7>::Zero();
         // Cxi.block<3,3> = C3 <<
         //   kinematics_solver_.Cxi_funcs[21], kinematics_solver_.Cxi_funcs[22], kinematics_solver_.Cxi_funcs[23],
         //   kinematics_solver_.Cxi_funcs[27], kinematics_solver_.Cxi_funcs[28], kinematics_solver_.Cxi_funcs[29]
