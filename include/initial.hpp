@@ -86,6 +86,13 @@ inline double Thetap = 0.0;
 
 
 //フィードバック関数
+//hill
+// inline double k1 = 10.0;
+// inline double k2 = 10.0;
+// inline double k3 = 10.0;
+// inline double k4 = 10.0;
+
+//flat
 inline double k1 = 7.0;
 inline double k2 = 7.0;
 inline double k3 = 7.0;
@@ -113,7 +120,12 @@ inline double vy = 0.0;
 inline double dynamic_v = 0.0;
 inline double yaw_rate = 0.0;
 
+//hill
+//inline double rho = 5.7 * DEG2RAD;
+//flat
 inline double rho = 0.0 * DEG2RAD;
+
+inline double Tcomp = 4.9;
 inline double phiF_dot = 0.0;
 inline double phiR_dot = 0.0;
 inline double q_twist[7] = {0.0};

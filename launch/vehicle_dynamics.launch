@@ -1,7 +1,7 @@
 <launch>
 
   <!-- xacro を展開して robot_description に設定 -->
-  <param name="robot_description" command="$(find xacro)/xacro '$(find 4ws_backstepping)/urdf/vehicle_4ws_real.xacro'" />
+  <param name="robot_description" command="$(find xacro)/xacro '$(find 4ws_backstepping)/urdf/vehicle_4ws_real_hill.xacro'" />
 
   <!-- Gazebo にスポーン -->
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" args="-param robot_description -urdf -model vehicle_4ws -x -6.0 -y -1.0 -z 1.17 -R 0.0 -P -0.099 -Y 0.0" />

@@ -220,12 +220,25 @@ void DynamicsIntegrator::step(
         // Eigen :: MatrixXd transAxi = A3.transpose () ;
         // Eigen :: VectorXd lambda = transAxi.completeOrthogonalDecomposition ().solve (M3*alpha3 + C3 * thetadot + K3);
 
-        //駆動力計算
+        //駆動力計算(静止摩擦補填)
         Q_phiR   = I_phiR  * alpha(3);
         Q_varphiR = I_varphiR  * alpha(4) - wheelRadius * lambda(2);
         Q_phiF = I_phiF   * alpha(5);
         Q_varphiF = I_varphiF  * alpha(6) - wheelRadius * lambda(3);
 
+        // if(std::abs(Q_phiR) >0.0) {
+        //     Q_phiR += Tcomp;
+        // }
+        // else{
+        //     Q_phiR -= Tcomp;
+        // }
+
+        // if(std::abs(Q_phiF) >0.0) {
+        //     Q_phiF += Tcomp;
+        // }
+        // else{
+        //     Q_phiF -= Tcomp;
+        // }
 
         inputValue_ref_.rearTorque= inputValue_ref_.computeRearWheelTorque(Q_varphiR, q(5), q(3));
         inputValue_ref_.frontTorque = inputValue_ref_.computeFrontWheelTorque(Q_varphiF, q(5), q(3));
