@@ -67,7 +67,7 @@ std::array<double,2> getInputValue::computeFrontWheelTorque(
     double steeringAngleFront,
     double steeringAngleRear)
 {
-    const double Wf = 0.05;  // 前輪トレッド幅 [m]
+    const double Wf = 0.1;  // 前輪トレッド幅 [m]
     std::array<double,2> torques;
 
     double tan_diff = std::tan(steeringAngleFront) - std::tan(steeringAngleRear);
@@ -111,7 +111,7 @@ std::array<double,2> getInputValue::computeRearWheelTorque(
     double steeringAngleFront,
     double steeringAngleRear)
 {
-    const double Wr = 0.05;  // 後輪トレッド幅 [m]
+    const double Wr = 0.1;  // 後輪トレッド幅 [m]
     std::array<double,2> torques;
 
     double tan_diff = std::tan(steeringAngleFront) - std::tan(steeringAngleRear);
