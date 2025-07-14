@@ -98,7 +98,7 @@ Eigen::Matrix<double,5,1> DynamicsIntegrator::computeXAlpha(
         //ゲイン
         Eigen::Matrix<double,3,3> C;
         C << 
-            12.0, 0.0, 0.0,
+            20.0, 0.0, 0.0,
             0.0, 12.0, 0.0,
             0.0, 0.0, 12.0;
             

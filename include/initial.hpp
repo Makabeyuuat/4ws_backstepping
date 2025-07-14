@@ -9,7 +9,7 @@
 #define PAI 3.14159265358979323846
 #define PSdist 300
 #define GRAV 9.80665
-#define vehicle_inertia_coef 0.14824039
+#define vehicle_inertia_coef 0.04732
 inline constexpr int BEZIER_ORDER = 3; 
 //inline constexpr int BEZIER_ORDER = 15; 
 inline constexpr int Dim = 5;  //状態変数の次元
@@ -77,7 +77,7 @@ inline double w1;
 inline double w2;
 inline double w3;
 inline double P21, P22, P23;
-inline double a0 = 0.1;
+inline double a0 = 0.2;
 inline double a0_dot = 0.0;
 inline double u1, u2, u3;
 inline double v1, v2;
@@ -86,10 +86,10 @@ inline double Thetap = 0.0;
 
 
 //フィードバック関数
-inline double k1 = 4.0;
-inline double k2 = 4.0;
-inline double k3 = 4.0;
-inline double k4 = 4.0;
+inline double k1 = 7.0;
+inline double k2 = 7.0;
+inline double k3 = 7.0;
+inline double k4 = 7.0;
 
 
 //制御入力の係数
@@ -128,8 +128,8 @@ inline double dymanic_v = 0.0;
 
 inline double m_wheel = 4.63972;
 inline double m_hinge = 4.884144703315957;
-inline double M_mass = 376.64 + 2* 12.646385127140846;
-inline double m_b = 376.64 + 2*12.646385127140846; //車両の質量
+inline double M_mass = 100 + 2* 12.646385127140846;
+inline double m_b = 100 + 2*12.646385127140846; //車両の質量
 inline double m_w = 2*(m_wheel + m_hinge);
 inline double I_theta = vehicle_inertia_coef * 418.647558 + 2*0.755318;
 inline double I_wheel = 0.029034;

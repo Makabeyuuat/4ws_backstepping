@@ -2,12 +2,12 @@
 <robot name="vehicle_4ws" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 <xacro:property name="PI" value="3.1415926535897932384626433832795028841971" />
-<xacro:property name="gravitational_acceleration" value="9.8" />
+<xacro:property name="gravitational_acceleration" value="9.80665" />
 <xacro:property name="vehicle1_Yaw" value="-PI/4" />
 
 <!-- 荷台と連結点のmass -->
 <xacro:property name="fusion_vehicle_body_mass" value="2113.272311120373" /> 
-<xacro:property name="vehicle_body_mass" value="313.272311120373" /> 
+<xacro:property name="vehicle_body_mass" value="100" /> 
 <xacro:property name="vehicle_inertia_coef" value="${vehicle_body_mass/fusion_vehicle_body_mass}" /> 
 
 <xacro:property name="wheel_mass" value="4.639715839283939" /> 
@@ -29,8 +29,8 @@
 <xacro:property name="rear_steering_friction" value="${rear_steering_mu * gravitational_acceleration * 0.25*vehicle_body_mass}" />
 
 <!-- wheelの接地面の摩擦などを定義 -->
-<xacro:property name="wheel_surface_mu1" value="3.0"/>
-<xacro:property name="wheel_surface_mu2" value="3.0" />
+<xacro:property name="wheel_surface_mu1" value="1.0"/>
+<xacro:property name="wheel_surface_mu2" value="1.0" />
 <xacro:property name="wheel_kp" value="5e4" /> 
 <xacro:property name="wheel_kd" value="1.0" />
 <xacro:property name="wheel_minDepth" value="0.01" />
