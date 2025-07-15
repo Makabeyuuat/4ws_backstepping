@@ -77,7 +77,7 @@ inline double w1;
 inline double w2;
 inline double w3;
 inline double P21, P22, P23;
-inline double a0 = 0.3;
+inline double a0 = 0.2;
 inline double a0_dot = 0.0;
 inline double u1, u2, u3;
 inline double v1, v2;
@@ -87,16 +87,16 @@ inline double Thetap = 0.0;
 
 //フィードバック関数
 //hill
-inline double k1 = 10.0;
-inline double k2 = 10.0;
-inline double k3 = 10.0;
-inline double k4 = 10.0;
+// inline double k1 = 10.0;
+// inline double k2 = 10.0;
+// inline double k3 = 10.0;
+// inline double k4 = 10.0;
 
 //flat
-// inline double k1 = 7.0;
-// inline double k2 = 7.0;
-// inline double k3 = 7.0;
-// inline double k4 = 7.0;
+inline double k1 = 7.0;
+inline double k2 = 7.0;
+inline double k3 = 7.0;
+inline double k4 = 7.0;
 
 
 //制御入力の係数
@@ -112,7 +112,7 @@ inline double d0d, dd0d, ddd0d, dddd0d;
 inline double thetap1d, dthetap1d, ddthetap1d, dddthetap1d;
 
 //各リンクの長さ
-inline double lv = 1.0;
+inline double lv = 0.9;
 
 //動力学用変数
 inline double vx = 0.0;
@@ -121,9 +121,9 @@ inline double dynamic_v = 0.0;
 inline double yaw_rate = 0.0;
 
 //hill
-inline double rho = 5.7 * DEG2RAD;
+//inline double rho = 5.7 * DEG2RAD;
 //flat
-//inline double rho = 0.0 * DEG2RAD;
+inline double rho = 0.0 * DEG2RAD;
 
 inline double Tcomp = 4.9;
 inline double phiF_dot = 0.0;
