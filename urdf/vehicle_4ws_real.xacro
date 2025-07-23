@@ -10,6 +10,10 @@
 <xacro:property name="vehicle_body_mass" value="100" /> 
 <xacro:property name="vehicle_inertia_coef" value="${vehicle_body_mass/fusion_vehicle_body_mass}" /> 
 
+
+<xacro:property name="fusion_wheel_mass" value="4.639715839283939" /> 
+<xacro:property name="vehicle_wheel_mass" value="12" /> 
+<xacro:property name="wheel_inertia_coef" value="${vehicle_body_mass/fusion_vehicle_body_mass}" /> 
 <xacro:property name="wheel_mass" value="4.639715839283939" /> 
 
 <!-- frontは受動車輪なので低めに設定 -->
