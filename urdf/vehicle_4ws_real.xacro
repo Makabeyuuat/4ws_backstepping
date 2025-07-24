@@ -20,7 +20,7 @@
 <xacro:property name="front_wheel_joint_damping" value="1.0"/>
 <xacro:property name="front_wheel_joint_mu" value="0.1" />
 <xacro:property name="front_wheel_joint_friction" value="${front_wheel_joint_mu* gravitational_acceleration * wheel_mass  }" /> 
-<xacro:property name="front_steering_damping" value="3.0" />
+<xacro:property name="front_steering_damping" value="1.0" />
 <xacro:property name="front_steering_mu" value="0.001" />
 <xacro:property name="front_steering_friction" value="${front_steering_mu * gravitational_acceleration * 0.25*vehicle_body_mass}" />
 
@@ -28,7 +28,7 @@
 <xacro:property name="rear_wheel_joint_damping" value="1.0"/>
 <xacro:property name="rear_wheel_joint_mu" value="0.1" />
 <xacro:property name="rear_wheel_joint_friction" value="${rear_wheel_joint_mu* gravitational_acceleration * wheel_mass }" /> 
-<xacro:property name="rear_steering_damping" value="3.0" />
+<xacro:property name="rear_steering_damping" value="1.0" />
 <xacro:property name="rear_steering_mu" value="0.001" />
 <xacro:property name="rear_steering_friction" value="${rear_steering_mu * gravitational_acceleration * 0.25*vehicle_body_mass}" />
 
