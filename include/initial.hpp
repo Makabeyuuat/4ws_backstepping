@@ -10,6 +10,7 @@
 #define PSdist 300
 #define GRAV 9.80665
 #define vehicle_inertia_coef 0.04732
+#define wheel_inertia_coef 2.586764
 inline constexpr int BEZIER_ORDER = 3; 
 //inline constexpr int BEZIER_ORDER = 15; 
 inline constexpr int Dim = 5;  //状態変数の次元
@@ -138,13 +139,13 @@ extern Eigen::Map<Eigen::Matrix<double,7,1>> qddot_map;
 inline double dymanic_v = 0.0;
 
 
-inline double m_wheel = 4.63972;
+inline double m_wheel = 12;
 inline double m_hinge = 4.884144703315957;
 inline double M_mass = 100 + 2* 12.646385127140846;
 inline double m_b = 100 + 2*12.646385127140846; //車両の質量
 inline double m_w = 2*(m_wheel + m_hinge);
 inline double I_theta = vehicle_inertia_coef * 418.647558 + 2*0.755318;
-inline double I_wheel = 0.029034;
+inline double I_wheel = wheel_inertia_coef *0.029034;
 inline double I_hinge = 0.021551;
 inline double I_phiF = 2*(I_wheel + I_hinge);
 inline double I_phiR = 2*(I_wheel + I_hinge);
