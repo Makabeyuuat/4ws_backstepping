@@ -129,7 +129,7 @@
     <inertia ixx="0.039519" iyy="0.032652" izz="0.021551" ixy="0.0" iyz="0.0" ixz="-3e-05"/>
   </inertial>
   <visual>
-    <origin xyz="-0.45045 0.29248 -0.356" rpy="0 0 0"/>
+    <origin xyz="-0.45045 0.34248 -0.356" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://4ws_backstepping/meshes/new_hinge_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -150,7 +150,7 @@
     <inertia ixx="0.039519" iyy="0.032652" izz="0.021551" ixy="-0.0" iyz="0.0" ixz="-3e-05"/>
   </inertial>
   <visual>
-    <origin xyz="-0.45045 -0.50752 -0.356" rpy="0 0 0"/>
+    <origin xyz="-0.45045 -0.45752 -0.356" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://4ws_backstepping/meshes/new_hinge_3.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -171,7 +171,7 @@
     <inertia ixx="0.039519" iyy="0.032652" izz="0.021551" ixy="0.0" iyz="0.0" ixz="-3e-05"/>
   </inertial>
   <visual>
-    <origin xyz="0.44955 0.29248 -0.356" rpy="0 0 0"/>
+    <origin xyz="0.44955 0.34248 -0.356" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://4ws_backstepping/meshes/new_hinge_2.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -192,7 +192,7 @@
     <inertia ixx="0.039519" iyy="0.032652" izz="0.021551" ixy="0.0" iyz="0.0" ixz="-3e-05"/>
   </inertial>
   <visual>
-    <origin xyz="0.44955 -0.50752 -0.356" rpy="0 0 0"/>
+    <origin xyz="0.44955 -0.45752 -0.356" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://4ws_backstepping/meshes/new_hinge_4.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -214,7 +214,7 @@
     <inertia ixx="${wheel_inertia_coef*0.029034}" iyy="${wheel_inertia_coef*0.053334}" izz="${wheel_inertia_coef*0.029034}" ixy="-0.0" iyz="0.0" ixz="0.0"/>
   </inertial>
   <visual>
-    <origin xyz="-0.450031 0.29248 -0.150215" rpy="0 0 0"/>
+    <origin xyz="-0.450031 0.34248 -0.150215" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://4ws_backstepping/meshes/new_wheel_1.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -253,7 +253,7 @@
     <inertia ixx="${wheel_inertia_coef*0.029034}" iyy="${wheel_inertia_coef*0.053334}" izz="${wheel_inertia_coef*0.029034}"  ixy="0.0" iyz="0.0" ixz="0.0"/>
   </inertial>
   <visual>
-    <origin xyz="0.449969 0.29248 -0.150215" rpy="0 0 0"/>
+    <origin xyz="0.449969 0.34248 -0.150215" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://4ws_backstepping/meshes/new_wheel_2.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -298,7 +298,7 @@
     <inertia ixx="${wheel_inertia_coef*0.029034}" iyy="${wheel_inertia_coef*0.053334}" izz="${wheel_inertia_coef*0.029034}"  ixy="0.0" iyz="0.0" ixz="0.0"/>
   </inertial>
   <visual>
-    <origin xyz="-0.450031 -0.50752 -0.150215" rpy="0 0 0"/>
+    <origin xyz="-0.450031 -0.45752 -0.150215" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://4ws_backstepping/meshes/new_wheel_3.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -341,7 +341,7 @@
     <inertia ixx="${wheel_inertia_coef*0.029034}" iyy="${wheel_inertia_coef*0.053334}" izz="${wheel_inertia_coef*0.029034}"  ixy="0.0" iyz="0.0" ixz="0.0"/>
   </inertial>
   <visual>
-    <origin xyz="0.449969 -0.50752 -0.150215" rpy="0 0 0"/>
+    <origin xyz="0.449969 -0.45752 -0.150215" rpy="0 0 0"/>
     <geometry>
       <mesh filename="package://4ws_backstepping/meshes/new_wheel_4.stl" scale="0.001 0.001 0.001"/>
     </geometry>
@@ -380,7 +380,7 @@
 
 
 <joint name="body" type="fixed">
-  <origin xyz="0 -0.05 0.376" rpy="0 0 0"/>
+  <origin xyz="0 0 0.376" rpy="0 0 0"/>
   <parent link="base_link"/>
   <child link="body_link"/>
 </joint>
@@ -398,7 +398,7 @@
 </joint>
 
 <joint name="front_right_steering" type="revolute">
-  <origin xyz="0.0 -0.4 -0.02" rpy="0 0 0"/>
+  <origin xyz="0.0 -0.45 -0.02" rpy="0 0 0"/>
   <parent link="v1_front_1"/>
   <child link="new_hinge_1"/>
   <dynamics damping="${front_steering_damping}" friction="${front_steering_friction}"/>
@@ -425,7 +425,7 @@
 </joint>
 
 <joint name="front_left_steering" type="revolute">
-  <origin xyz="0.0 0.4 -0.02" rpy="0 0 0"/>
+  <origin xyz="0.0 0.35 -0.02" rpy="0 0 0"/>
   <parent link="v1_front_1"/>
   <child link="new_hinge_3"/>
   <dynamics damping="${front_steering_damping}" friction="${front_steering_friction}"/>
@@ -453,7 +453,7 @@
 
 <!-- 後輪右ステア -->
 <joint name="rear_right_steering" type="revolute">
-  <origin xyz="0.0 -0.4 -0.02" rpy="0 0 0"/>
+  <origin xyz="0.0 -0.45 -0.02" rpy="0 0 0"/>
   <parent link="v1_rear_1"/>
   <child  link="new_hinge_2"/>
   <!-- ステア駆動時のダンピング・摩擦 -->
@@ -466,7 +466,7 @@
 
 <!-- 後輪左ステア -->
 <joint name="rear_left_steering" type="revolute">
-  <origin xyz="0.0 0.4 -0.02" rpy="0 0 0"/>
+  <origin xyz="0.0 0.35 -0.02" rpy="0 0 0"/>
   <parent link="v1_rear_1"/>
   <child  link="new_hinge_4"/>
   <dynamics damping="${rear_steering_damping}" friction="${rear_steering_friction}"/>
