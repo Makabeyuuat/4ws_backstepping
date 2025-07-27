@@ -11,6 +11,7 @@
 #define GRAV 9.80665
 #define vehicle_inertia_coef 0.04732
 #define wheel_inertia_coef 2.586764
+#define hinge_inertia_coef 2.586374
 inline constexpr int BEZIER_ORDER = 3; 
 //inline constexpr int BEZIER_ORDER = 15; 
 inline constexpr int Dim = 5;  //状態変数の次元
@@ -140,7 +141,7 @@ inline double dymanic_v = 0.0;
 
 
 inline double m_wheel = 12;
-inline double m_hinge = 4.884144703315957;
+inline double m_hinge = 12;
 inline double M_mass = 100 + 2* 12.646385127140846;
 inline double m_b = 100 + 2*12.646385127140846; //車両の質量
 inline double m_w = 2*(m_wheel + m_hinge);

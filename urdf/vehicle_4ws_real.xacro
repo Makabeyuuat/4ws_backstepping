@@ -125,8 +125,8 @@
 <link name="new_hinge_1">
   <inertial>
     <origin xyz="-6.714468377522209e-05 2.5406917214532143e-07 -0.11523004751915897" rpy="0 0 0"/>
-    <mass value="4.884144703315957"/>
-    <inertia ixx="0.039519" iyy="0.032652" izz="0.021551" ixy="0.0" iyz="0.0" ixz="-3e-05"/>
+    <mass value="${vehicle_hinge_mass}"/>
+    <inertia ixx="${hinge_inertia_coef*0.039519}" iyy="${hinge_inertia_coef*0.032652}" izz="${hinge_inertia_coef*0.021551}" ixy="0.0" iyz="0.0" ixz="-3e-05"/>
   </inertial>
   <visual>
     <origin xyz="-0.45045 0.34248 -0.356" rpy="0 0 0"/>
@@ -146,8 +146,8 @@
 <link name="new_hinge_3">
   <inertial>
     <origin xyz="-6.714468377522209e-05 2.5406917258941064e-07 -0.11523004751915977" rpy="0 0 0"/>
-    <mass value="4.884144703315957"/>
-    <inertia ixx="0.039519" iyy="0.032652" izz="0.021551" ixy="-0.0" iyz="0.0" ixz="-3e-05"/>
+    <mass value="${vehicle_hinge_mass}"/>
+    <inertia ixx="${hinge_inertia_coef*0.039519}" iyy="${hinge_inertia_coef*0.032652}" izz="${hinge_inertia_coef*0.021551}" ixy="-0.0" iyz="0.0" ixz="-3e-05"/>
   </inertial>
   <visual>
     <origin xyz="-0.45045 -0.45752 -0.356" rpy="0 0 0"/>
@@ -167,8 +167,8 @@
 <link name="new_hinge_2">
   <inertial>
     <origin xyz="-6.714468377322369e-05 2.540692444763515e-07 -0.1152300475191588" rpy="0 0 0"/>
-    <mass value="4.884144703315957"/>
-    <inertia ixx="0.039519" iyy="0.032652" izz="0.021551" ixy="0.0" iyz="0.0" ixz="-3e-05"/>
+    <mass value="${vehicle_hinge_mass}"/>
+    <inertia ixx="${hinge_inertia_coef*0.039519}" iyy="${hinge_inertia_coef*0.032652}" izz="${hinge_inertia_coef*0.021551}" ixy="0.0" iyz="0.0" ixz="-3e-05"/>
   </inertial>
   <visual>
     <origin xyz="0.44955 0.34248 -0.356" rpy="0 0 0"/>
@@ -188,8 +188,8 @@
 <link name="new_hinge_4">
   <inertial>
     <origin xyz="-6.714468377405636e-05 2.5406924475390724e-07 -0.11523004751915963" rpy="0 0 0"/>
-    <mass value="4.884144703315957"/>
-    <inertia ixx="0.039519" iyy="0.032652" izz="0.021551" ixy="0.0" iyz="0.0" ixz="-3e-05"/>
+    <mass value="${vehicle_hinge_mass}"/>
+    <inertia ixx="${hinge_inertia_coef*0.039519}" iyy="${hinge_inertia_coef*0.032652}" izz="${hinge_inertia_coef*0.021551}" ixy="0.0" iyz="0.0" ixz="-3e-05"/>
   </inertial>
   <visual>
     <origin xyz="0.44955 -0.45752 -0.356" rpy="0 0 0"/>
