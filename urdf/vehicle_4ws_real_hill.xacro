@@ -28,7 +28,7 @@
 <xacro:property name="front_wheel_joint_damping" value="1.0"/>
 <xacro:property name="front_wheel_joint_mu" value="0.01" />
 <xacro:property name="front_wheel_joint_friction" value="${front_wheel_joint_mu* gravitational_acceleration * wheel_mass  }" /> 
-<xacro:property name="front_steering_damping" value="2.0" />
+<xacro:property name="front_steering_damping" value="1.0" />
 <xacro:property name="front_steering_mu" value="0.1" />
 <xacro:property name="front_steering_friction" value="${front_steering_mu * gravitational_acceleration * 0.25*vehicle_body_mass}" />
 
@@ -36,17 +36,17 @@
 <xacro:property name="rear_wheel_joint_damping" value="1.0"/>
 <xacro:property name="rear_wheel_joint_mu" value="0.01" />
 <xacro:property name="rear_wheel_joint_friction" value="${rear_wheel_joint_mu* gravitational_acceleration * wheel_mass }" /> 
-<xacro:property name="rear_steering_damping" value="2.0" />
+<xacro:property name="rear_steering_damping" value="1.0" />
 <xacro:property name="rear_steering_mu" value="0.1" />
 <xacro:property name="rear_steering_friction" value="${rear_steering_mu * gravitational_acceleration * 0.25*vehicle_body_mass}" />
 
 <!-- wheelの接地面の摩擦などを定義 -->
 <xacro:property name="wheel_surface_mu1" value="1.2"/>
 <xacro:property name="wheel_surface_mu2" value="1.2" />
-<xacro:property name="wheel_kp" value="5e4" /> 
-<xacro:property name="wheel_kd" value="1.0" />
-<xacro:property name="wheel_minDepth" value="0.01" />
-<xacro:property name="wheel_maxVel" value="1.0" />
+<xacro:property name="wheel_kp" value="8e4" /> 
+<xacro:property name="wheel_kd" value="50" />
+<xacro:property name="wheel_minDepth" value="0.005" />
+<xacro:property name="wheel_maxVel" value="2.0" />
 
 <!-- rotationは共通 -->
 <xacro:property name="rotational_joint_damping" value="0.01" />

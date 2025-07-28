@@ -95,13 +95,20 @@ Eigen::Matrix<double,5,1> DynamicsIntegrator::computeXAlpha(
         Eigen::Matrix<double,3,1> r_b;
         r_b <<r_b1, r_b2, r_b3;
         
-        //ゲイン
+        //坂道ゲイン
         Eigen::Matrix<double,3,3> C;
         C << 
             20.0, 0.0, 0.0,
-            0.0, 50.0, 0.0,
-            0.0, 0.0, 50.0;
-            
+            0.0, 30.0, 0.0,
+            0.0, 0.0, 30.0;
+
+        //ゲイン
+        // Eigen::Matrix<double,3,3> C;
+        // C << 
+        //     10.0, 0.0, 0.0,
+        //     0.0, 10.0, 0.0,
+        //     0.0, 0.0, 10.0;
+
         Eigen::Vector3d dot_C_rb = C*(r_b);
 
         double dot_C_rb1 = dot_C_rb(0);
@@ -226,19 +233,19 @@ void DynamicsIntegrator::step(
         Q_phiF = I_phiF   * alpha(5);
         Q_varphiF = I_varphiF  * alpha(6) - wheelRadius * lambda(3);
 
-        if(Q_phiR >0.0) {
-            Q_phiR += Tcomp;
-        }
-        else{
-            Q_phiR -= Tcomp;
-        }
+        // if(Q_phiR >0.0) {
+        //     Q_phiR += Tcomp;
+        // }
+        // else{
+        //     Q_phiR -= Tcomp;
+        // }
 
-        if(Q_phiF >0.0) {
-            Q_phiF += Tcomp;
-        }
-        else{
-            Q_phiF -= Tcomp;
-        }
+        // if(Q_phiF >0.0) {
+        //     Q_phiF += Tcomp;
+        // }
+        // else{
+        //     Q_phiF -= Tcomp;
+        // }
 
         inputValue_ref_.rearTorque= inputValue_ref_.computeRearWheelTorque(Q_varphiR, q(5), q(3));
         inputValue_ref_.frontTorque = inputValue_ref_.computeFrontWheelTorque(Q_varphiF, q(5), q(3));

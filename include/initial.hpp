@@ -89,10 +89,10 @@ inline double Thetap = 0.0;
 
 //フィードバック関数
 //hill
-inline double k1 = 10.0;
-inline double k2 = 10.0;
-inline double k3 = 10.0;
-inline double k4 = 10.0;
+inline double k1 = 13.0;
+inline double k2 = 13.0;
+inline double k3 = 13.0;
+inline double k4 = 13.0;
 // 
 // //flat
 // inline double k1 = 7.0;
@@ -147,11 +147,11 @@ inline double m_b = 100 + 2*12.646385127140846; //車両の質量
 inline double m_w = 2*(m_wheel + m_hinge);
 inline double I_theta = vehicle_inertia_coef * 418.647558 + 2*0.755318;
 inline double I_wheel = wheel_inertia_coef *0.029034;
-inline double I_hinge = 0.021551;
+inline double I_hinge = hinge_inertia_coef*0.021551;
 inline double I_phiF = 2*(I_wheel + I_hinge);
 inline double I_phiR = 2*(I_wheel + I_hinge);
-inline double I_varphiF = 2*0.053334;        
-inline double I_varphiR = 2*0.053334;        
+inline double I_varphiF = 2*(wheel_inertia_coef*0.053334);        
+inline double I_varphiR = 2*(wheel_inertia_coef*0.053334);        
 inline double wheelRadius = 0.153;          
 inline double Q_phiF = 0.0;
 inline double Q_phiR = 0.0;
