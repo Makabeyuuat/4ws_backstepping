@@ -10,7 +10,7 @@
 #define PSdist 300
 #define GRAV 9.80665
 #define vehicle_inertia_coef 0.04732
-#define wheel_inertia_coef 2.586764
+#define wheel_inertia_coef 1.724249
 #define hinge_inertia_coef 2.586374
 inline constexpr int BEZIER_ORDER = 3; 
 //inline constexpr int BEZIER_ORDER = 15; 
@@ -89,10 +89,10 @@ inline double Thetap = 0.0;
 
 //フィードバック関数
 //hill
-inline double k1 = 13.0;
-inline double k2 = 13.0;
-inline double k3 = 13.0;
-inline double k4 = 13.0;
+inline double k1 = 15.0;
+inline double k2 = 15.0;
+inline double k3 = 15.0;
+inline double k4 = 15.0;
 // 
 // //flat
 // inline double k1 = 7.0;
@@ -140,7 +140,7 @@ extern Eigen::Map<Eigen::Matrix<double,7,1>> qddot_map;
 inline double dymanic_v = 0.0;
 
 
-inline double m_wheel = 12;
+inline double m_wheel = 8;
 inline double m_hinge = 12;
 inline double M_mass = 100 + 2* 12.646385127140846;
 inline double m_b = 100 + 2*12.646385127140846; //車両の質量
