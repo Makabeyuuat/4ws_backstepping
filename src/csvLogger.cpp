@@ -18,7 +18,7 @@ CSVLogger::CSVLogger(const std::string& dir, int close_threshold)
   csv_ << "t,x,y,theta,phiR,phiF,thetap,"
        << "sr_j,Psx,Psy,d,Cs,Cs1,Cs2,Cs3,d_ave,"
        << "x_d1,x_d2,x_d3,"
-       << "nu1,nu2,nu3"
+       << "nu1,nu2,nu3,"
        << "torque_fl,torque_fr,torque_rl,torque_rr,"
        << "lamda1,lambda2,lambda3,lambda4,"
         << "Q_phiR, Q_varphiR, Q_phiF, Q_varphiF"

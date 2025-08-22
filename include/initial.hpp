@@ -10,8 +10,8 @@
 #define PSdist 300
 #define GRAV 9.80665
 #define vehicle_inertia_coef 0.04732
-#define wheel_inertia_coef 1.724249
-#define hinge_inertia_coef 2.586374
+#define wheel_inertia_coef 1.72425
+#define hinge_inertia_coef 2.58637
 inline constexpr int BEZIER_ORDER = 3; 
 //inline constexpr int BEZIER_ORDER = 15; 
 inline constexpr int Dim = 5;  //状態変数の次元
