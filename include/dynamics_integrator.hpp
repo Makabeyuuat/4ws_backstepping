@@ -6,48 +6,54 @@
 #include <vector>
 #include "getInputValue_dynamics.hpp"
 
-// === 追加: Ni連動補償で使うパラメータ/結果 ===
+// ========= ここから追加：4輪Ni補償 用の型 =========
+
+// 各輪の角速度（ステア/回転）を渡すための簡単な入れ物
+struct WheelState4 {
+  // ステア角速度 [rad/s]
+  double phiRRdot{0}, phiRLdot{0}, phiFRdot{0}, phiFLdot{0};
+  // 車輪回転角速度 [rad/s]
+  double varphiRRdot{0}, varphiRLdot{0}, varphiFRdot{0}, varphiFLdot{0};
+};
+
+// 物理・幾何パラメータ一式
 struct NiCompParams {
-  // 幾何・物理
-  double m;      // 総質量 [kg]
-  double g;      // 重力加速度 [m/s^2]
-  double L;      // ホイールベース [m]
-  double t;      // トレッド [m]
-  double h;      // 重心高 [m]
-  double r;      // 車輪半径 [m]
-  // 重心から各軸/各側までの半距離（一般式用）
-  double lF;     // 前軸まで [m]（lF + lR = L）
-  double lR;     // 後軸まで [m]
-  double wL;     // 左側まで [m]（wL + wR = t）
-  double wR;     // 右側まで [m]
+  // 物理・幾何
+  double m{0}, g{9.80665}, L{0}, t{0}, h{0}, r{0};
+  // 重心からの半距離（一般式用）: lF+lR=L, wL+wR=t
+  double lF{0}, lR{0}, wL{0}, wR{0};
 
-  // 摩擦・補償係数
-  double mu_t;     // 接地（縦）摩擦（飽和用）
-  double mu_r;     // 転がり抵抗係数
-  double kc_phi;   // 駆動クーロン補償係数 [m] (= 名目friction/N0)
-  double kc_varphi;// ステアクーロン補償係数 [m]
-  double b_phi;    // 駆動粘性 [N·m·s/rad]
-  double b_varphi; // ステア粘性 [N·m·s/rad]
-  double eps;      // 滑らか符号の微小量
+  // 接触/抵抗パラメータ
+  double mu_t{1.0};     // 接地（縦）摩擦：飽和上限に使用
+  double mu_r{0.015};   // 転がり抵抗係数
+  // クーロン補償係数: 名目friction/N0で同定（N0=mg/4）
+  double kc_drive{0};   // 車輪回転側（varphi）に使う
+  double kc_steer{0};   // ステア側（phi）に使う
+  // 粘性
+  double b_drive{0};    // 車輪回転用の粘性 [N·m·s/rad]
+  double b_steer{0};    // ステア用の粘性 [N·m·s/rad]
 
-  // 任意：実加速度（重力除去後）を既に持っていれば入れる
-  double ax_dyn{0.0}; // 車体x前後[m/s^2]
-  double ay_dyn{0.0}; // 車体y左右[m/s^2]
+  // 数値安定用
+  double eps{1e-3};
+
+  // 任意：重力除去後の実前後/左右加速度（あるなら）
+  double ax_dyn{0.0};   // 車体x前後[m/s^2]（+で後輪側に荷重転移）
+  double ay_dyn{0.0};   // 車体y左右[m/s^2]（+で右側に荷重転移）
 };
 
-struct NiCompTorques {
-  // この補正トルクを Q_* に「加算」してください
-  double d_phiR{0}, d_phiF{0};
-  double d_varphiR{0}, d_varphiF{0};
+// 関数の出力（補正トルクと、デバッグ/飽和に必要なNi等）
+struct NiCompTorques4 {
+  // これを Q_* に「加算」してください
+  double d_phiRR{0},    d_phiRL{0},    d_phiFR{0},    d_phiFL{0};       // ステア補正
+  double d_varphiRR{0}, d_varphiRL{0}, d_varphiFR{0}, d_varphiFL{0};    // 回転補正
 
-  // デバッグ/飽和用
-  double N_FL{0}, N_FR{0}, N_RL{0}, N_RR{0};
-  double tau_max_FL{0}, tau_max_FR{0}, tau_max_RL{0}, tau_max_RR{0};
+  // 各輪の鉛直荷重と、回転トルクの飽和上限 τ_max = r*mu_t*Ni
+  double N_RR{0}, N_RL{0}, N_FR{0}, N_FL{0};
+  double tau_max_RR{0}, tau_max_RL{0}, tau_max_FR{0}, tau_max_FL{0};
 };
 
-/**
- * @brief DynamicsIntegrator: 制約付き動力学＋操舵ダイナミクス統合クラス
- */
+
+
 class DynamicsIntegrator {
 public:
 
@@ -90,12 +96,10 @@ public:
 private:
         KinematicsSolver kinematics_solver_;
         getInputValue& inputValue_ref_;
-
-        // === 追加: Ni連動補償の計算メソッド ===
-        NiCompTorques computeCompensationTorques(
-            const Eigen::Matrix<double,7,1>& q,
-            const Eigen::Matrix<double,7,1>& qdot,
-            double alpha,   // 斜面角（世界x軸に沿って上り）
-            double psi,     // 登り方向に対する車体ヨーずれ
-            const NiCompParams& P);
+        // ===== 追加：4輪Ni連動補償の計算メソッド =====
+        NiCompTorques4 computeCompensationTorques4W(
+        const WheelState4& ws,   // 各輪の角速度
+        double alpha,            // 斜面角（世界x軸に沿って上り）
+        double psi,              // 登り方向に対する車体ヨーずれ
+        const NiCompParams& P);  // パラメータ一式
 };

@@ -21,12 +21,7 @@ void jointStateCallback(const sensor_msgs::JointState::ConstPtr& msg)
         const auto& joint = msg->name[i];
         double pos = msg->position[i];  // [m] for prismatic
         double vel = msg->velocity[i];
-        double steering_angle_FL, steering_angle_FR, steering_angle_RL,steering_angle_RR;
-        double steering_angle_vel_FL, steering_angle_vel_FR, steering_angle_vel_RL, steering_angle_vel_RR;
-
-        double wheel_angle_FL,wheel_angle_FR,wheel_angle_RL,wheel_angle_RR;
-        double wheel_angle_vel_FL, wheel_angle_vel_FR, wheel_angle_vel_RL, wheel_angle_vel_RR;
-
+        
         if (msg->name[i] == "front_right_steering") {
             steering_angle_FR     = pos;
             steering_angle_vel_FR  = vel;

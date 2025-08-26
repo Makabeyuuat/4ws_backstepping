@@ -287,6 +287,9 @@ int main(int argc, char** argv) {
 		ROS_INFO_THROTTLE(0.01, "nu: nu1=%.3f, nu2=%.3f, nu3=%.3f",
 		    nu1, nu2, nu3);
 
+		
+		ROS_INFO_THROTTLE(0.01, "dot: xdot=%.3f, ydot=%.3f",
+		    x_d[1], x_d[2]);
 		// ROS_INFO_THROTTLE(0.01, "Torque: front_left=%.3f, front_right=%.3f, rear_left=%.3f, rear_right=%.3f\n",
 		//     torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
 		
@@ -296,8 +299,11 @@ int main(int argc, char** argv) {
 		//     x_dd[1], x_dd[2],x_dd[3]);
 	
 		// 各車両へ steering コマンドと車輪のトルクコマンドを送信
-		vehicle1.publishSteeringCommand(Q_phiF/2.0, Q_phiF/2.0, Q_phiR/2.0, Q_phiR/2.0);
-		vehicle1.publishWheelCommand(torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
+		// vehicle1.publishSteeringCommand(Q_phiF/2.0, Q_phiF/2.0, Q_phiR/2.0, Q_phiR/2.0);
+		// vehicle1.publishWheelCommand(torque_front[0], torque_front[1], torque_rear[0], torque_rear[1]);
+
+		vehicle1.publishSteeringCommand(Q_phiFL, Q_phiFR, Q_phiRL, Q_phiRR);
+		vehicle1.publishWheelCommand(Q_varphiFL, Q_varphiFR, Q_varphiRL, Q_varphiRR);
 
 		// ループレートを維持
 		logger.logData();

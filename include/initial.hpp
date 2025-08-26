@@ -89,11 +89,11 @@ inline double Thetap = 0.0;
 
 //フィードバック関数
 //hill
-inline double k1 = 15.0;
-inline double k2 = 15.0;
-inline double k3 = 15.0;
-inline double k4 = 15.0;
-// 
+inline double k1 = 16.0;
+inline double k2 = 16.0;
+inline double k3 = 16.0;
+inline double k4 = 16.0;
+
 // //flat
 // inline double k1 = 7.0;
 // inline double k2 = 7.0;
@@ -139,6 +139,13 @@ extern Eigen::Map<Eigen::Matrix<double,7,1>> qdot_map;
 extern Eigen::Map<Eigen::Matrix<double,7,1>> qddot_map;
 inline double dymanic_v = 0.0;
 
+//cakkbackで受け取った値を入れる変数
+inline double steering_angle_FL, steering_angle_FR, steering_angle_RL,steering_angle_RR;
+inline double steering_angle_vel_FL, steering_angle_vel_FR, steering_angle_vel_RL, steering_angle_vel_RR;
+inline double wheel_angle_FL,wheel_angle_FR,wheel_angle_RL,wheel_angle_RR;
+inline double wheel_angle_vel_FL, wheel_angle_vel_FR, wheel_angle_vel_RL, wheel_angle_vel_RR;
+
+
 
 inline double m_wheel = 8;
 inline double m_hinge = 12;
@@ -157,6 +164,15 @@ inline double Q_phiF = 0.0;
 inline double Q_phiR = 0.0;
 inline double Q_varphiF = 0.0;
 inline double Q_varphiR = 0.0;
+
+inline double Q_phiFR = 0.0;
+inline double Q_phiFL = 0.0;
+inline double Q_phiRR = 0.0;
+inline double Q_phiRL = 0.0;
+inline double Q_varphiFR = 0.0;
+inline double Q_varphiFL = 0.0;
+inline double Q_varphiRR = 0.0;
+inline double Q_varphiRL = 0.0;
 inline double nu1 = 0.0;
 inline double nu2 = 0.0;
 inline double nu3 = 0.0;

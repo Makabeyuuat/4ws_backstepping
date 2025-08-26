@@ -100,8 +100,8 @@ Eigen::Matrix<double,5,1> DynamicsIntegrator::computeXAlpha(
         Eigen::Matrix<double,3,3> C;
         C << 
             20.0, 0.0, 0.0,
-            0.0, 20.0, 0.0,
-            0.0, 0.0, 20.0;
+            0.0, 30.0, 0.0,
+            0.0, 0.0, 30.0;
 
         //ゲイン
         // Eigen::Matrix<double,3,3> C;
@@ -162,19 +162,18 @@ static inline double smooth_sign(double v, double eps){
   return v / std::sqrt(v*v + eps*eps);
 }
 
-// === 一般式でのNi計算＋補償 ===
-NiCompTorques DynamicsIntegrator::computeCompensationTorques(
-    const Eigen::Matrix<double,7,1>& q,
-    const Eigen::Matrix<double,7,1>& qdot,
-    double alpha,   // 斜面角
-    double psi,     // 登り方向に対するヨーずれ
+// 各車輪の荷重を計算し補正トルクを設計
+NiCompTorques4 DynamicsIntegrator::computeCompensationTorques4W(
+    const WheelState4& ws,
+    double alpha,
+    double psi,
     const NiCompParams& P)
 {
-  NiCompTorques out{};
+  NiCompTorques4 out{};
 
   // 1) 等価加速度：動的 + 斜面の面内重力
-  const double ax_eq = P.ax_dyn + P.g * std::sin(alpha) * std::cos(psi); // 前後(+で後輪側に転移)
-  const double ay_eq = P.ay_dyn + P.g * std::sin(alpha) * std::sin(psi); // 左右(+で右側に転移)
+  const double ax_eq = P.ax_dyn + P.g * std::sin(alpha) * std::cos(psi); // +で後輪側に荷重増
+  const double ay_eq = P.ay_dyn + P.g * std::sin(alpha) * std::sin(psi); // +で右側に荷重増
 
   // 2) 静的配分（法線合力 mg cosα）
   const double mgc = P.m * P.g * std::cos(alpha);
@@ -182,77 +181,59 @@ NiCompTorques DynamicsIntegrator::computeCompensationTorques(
   const double Wsum = (P.wL + P.wR);
   const double denom = Lsum * Wsum;
 
-  // 前後×左右の比例配分（Velenis/Gillespie の標準形）
+  // 前後×左右の比例配分（Velenis/Gillespieの標準形）
   const double N0_FL = mgc * (P.lR/Lsum) * (P.wR/Wsum);
   const double N0_FR = mgc * (P.lR/Lsum) * (P.wL/Wsum);
   const double N0_RL = mgc * (P.lF/Lsum) * (P.wR/Wsum);
   const double N0_RR = mgc * (P.lF/Lsum) * (P.wL/Wsum);
 
   // 3) 荷重転移（一般式）
-  // 縦：後(+)・前(-)、左右への割り振りは w に比例
+  // 縦：後(+)・前(-)、左右配分は w に比例
   const double dFx_L = (P.m * P.h * ax_eq) * (P.wR / denom);
   const double dFx_R = (P.m * P.h * ax_eq) * (P.wL / denom);
-  // 横：右(+)・左(-)、前後への割り振りは l に比例
+  // 横：右(+)・左(-)、前後配分は l に比例
   const double dFy_F = (P.m * P.h * ay_eq) * (P.lR / denom);
   const double dFy_R = (P.m * P.h * ay_eq) * (P.lF / denom);
 
-  // 4) 各輪の垂直荷重（符号：右＋／後＋）
-  out.N_FL = N0_FL - dFx_L - dFy_F;
-  out.N_FR = N0_FR - dFx_R + dFy_F;
-  out.N_RL = N0_RL + dFx_L - dFy_R;
-  out.N_RR = N0_RR + dFx_R + dFy_R;
+  // 4) 各輪の鉛直荷重（符号：右＋／後＋）
+  out.N_FL = std::max(N0_FL - dFx_L - dFy_F, 1.0);
+  out.N_FR = std::max(N0_FR - dFx_R + dFy_F, 1.0);
+  out.N_RL = std::max(N0_RL + dFx_L - dFy_R, 1.0);
+  out.N_RR = std::max(N0_RR + dFx_R + dFy_R, 1.0);
 
-  // 最低値クリップ（数値安定）
-  constexpr double Nmin = 1.0;
-  out.N_FL = std::max(out.N_FL, Nmin);
-  out.N_FR = std::max(out.N_FR, Nmin);
-  out.N_RL = std::max(out.N_RL, Nmin);
-  out.N_RR = std::max(out.N_RR, Nmin);
-
-  // 5) 軸速度
-  const double phiRdot    = qdot(3);
-  const double varphiRdot = qdot(4);
-  const double phiFdot    = qdot(5);
-  const double varphiFdot = qdot(6);
-
-  const double s_phiR    = smooth_sign(phiRdot,    P.eps);
-  const double s_phiF    = smooth_sign(phiFdot,    P.eps);
-  const double s_varphiR = smooth_sign(varphiRdot, P.eps);
-  const double s_varphiF = smooth_sign(varphiFdot, P.eps);
-
-  // 軸合計の荷重（左右輪の和）
-  const double NR_axle = out.N_RL + out.N_RR;
-  const double NF_axle = out.N_FL + out.N_FR;
-
-  // 6) 補償トルク（抵抗＝負号なので、相殺は“加算”）
-  // 駆動： 粘性 + クーロン(kc_phi*Ni) + 転がり(r*mu_r*Ni)
-  out.d_phiR =
-      P.b_phi * phiRdot
-    + P.kc_phi * NR_axle * s_phiR
-    + P.r * P.mu_r * NR_axle * s_phiR;
-
-  out.d_phiF =
-      P.b_phi * phiFdot
-    + P.kc_phi * NF_axle * s_phiF
-    + P.r * P.mu_r * NF_axle * s_phiF;
-
-  // ステア： 粘性 + クーロン(kc_varphi*Ni)  ※トレールほぼ0なら十分
-  out.d_varphiR =
-      P.b_varphi * varphiRdot
-    + P.kc_varphi * NR_axle * s_varphiR;
-
-  out.d_varphiF =
-      P.b_varphi * varphiFdot
-    + P.kc_varphi * NF_axle * s_varphiF;
-
-  // 7) 飽和上限（各輪のトラクション）
+  // 5) 飽和上限（回転トルクのみ使用） τ_max = r*mu_t*Ni
   out.tau_max_FL = P.r * P.mu_t * out.N_FL;
   out.tau_max_FR = P.r * P.mu_t * out.N_FR;
   out.tau_max_RL = P.r * P.mu_t * out.N_RL;
   out.tau_max_RR = P.r * P.mu_t * out.N_RR;
 
+  // 6) 補償トルクを各輪で個別に計算
+  // varphi = 車輪回転（drive）、phi = ステア（steer）
+  //   回転： b_drive * varphidot + kc_drive * Ni * ss(varphidot) + r*mu_r*Ni*ss(varphidot)
+  //   ステア：b_steer * phidot   + kc_steer * Ni * ss(phidot)
+  auto ss = [&](double v){ return smooth_sign(v, P.eps); };
+
+  // RR
+  out.d_varphiRR = P.b_drive*ws.varphiRRdot + P.kc_drive*out.N_RR*ss(ws.varphiRRdot) + P.r*P.mu_r*out.N_RR*ss(ws.varphiRRdot);
+  //out.d_phiRR    = P.b_steer*ws.phiRRdot    + P.kc_steer *out.N_RR*ss(ws.phiRRdot);
+  out.d_phiRR    = P.kc_steer *out.N_RR*ss(ws.phiRRdot);
+  // RL
+  out.d_varphiRL = P.b_drive*ws.varphiRLdot + P.kc_drive*out.N_RL*ss(ws.varphiRLdot) + P.r*P.mu_r*out.N_RL*ss(ws.varphiRLdot);
+  //out.d_phiRL    = P.b_steer*ws.phiRLdot    + P.kc_steer *out.N_RL*ss(ws.phiRLdot);
+  out.d_phiRL    = P.kc_steer *out.N_RL*ss(ws.phiRLdot);
+  // FR
+  out.d_varphiFR = P.b_drive*ws.varphiFRdot + P.kc_drive*out.N_FR*ss(ws.varphiFRdot) + P.r*P.mu_r*out.N_FR*ss(ws.varphiFRdot);
+  //out.d_phiFR    = P.b_steer*ws.phiFRdot    + P.kc_steer *out.N_FR*ss(ws.phiFRdot);
+  out.d_phiFR    = P.kc_steer *out.N_FR*ss(ws.phiFRdot);
+  // FL
+  out.d_varphiFL = P.b_drive*ws.varphiFLdot + P.kc_drive*out.N_FL*ss(ws.varphiFLdot) + P.r*P.mu_r*out.N_FL*ss(ws.varphiFLdot);
+  //out.d_phiFL    = P.b_steer*ws.phiFLdot    + P.kc_steer *out.N_FL*ss(ws.phiFLdot);
+  out.d_phiFL    = P.kc_steer *out.N_FL*ss(ws.phiFLdot);
+
   return out;
 }
+
+
 
 
 
@@ -275,8 +256,8 @@ void DynamicsIntegrator::step(
         double thetadot = qdot(2);
         double phiRdot = qdot(3);
         double varphiRdot = qdot(4);
-        double phiLdot = qdot(5);
-        double varphiLdot = qdot(6);
+        double phiFdot = qdot(5);
+        double varphiFdot = qdot(6);
 
         //目標加速度の取得
         Eigen::Matrix<double,7,1> alpha = computeAlpha(q, qdot, u1, u2);
@@ -348,43 +329,6 @@ void DynamicsIntegrator::step(
 
         if(rho == 0.0) {
           inputValue_ref_.rearTorque= inputValue_ref_.computeRearWheelTorque(Q_varphiR, q(5), q(3));
-        inputValue_ref_.frontTorque = inputValue_ref_.computeFrontWheelTorque(Q_varphiF, q(5), q(3));
-
-        torque_rear[0] = inputValue_ref_.rearTorque[0];  // 左後輪
-        torque_rear[1] = inputValue_ref_.rearTorque[1];  // 右後輪
-
-        torque_front[0] = inputValue_ref_.frontTorque[0];  // 左後輪
-        torque_front[1] = inputValue_ref_.frontTorque[1];  // 右後輪
-        }
-        else{
-          // ===== Ni 連動の補償を“加算” =====
-          NiCompParams P;
-          P.m = 205.29;   P.g = 9.80665;
-          P.L = 0.90;     P.t = 0.80;     P.h = 0.326;   P.r =  wheelRadius;
-          P.lF = 0.45;    P.lR = 0.45;    P.wL = 0.40;   P.wR = 0.40;
-          P.mu_t = 1.2;   P.mu_r = 0.015;
-          P.kc_phi = 0.000904;   // (= wheel_joint_friction / N0)
-          P.kc_varphi = 0.0487;  // (= steering_friction  / N0)
-          P.b_phi = 1.0;         P.b_varphi = 1.0;
-          P.eps = 1e-3;
-          // 動的加速度があれば P.ax_dyn, P.ay_dyn にセット
-          // P.ax_dyn = ax_body; P.ay_dyn = ay_body;
-
-          const double alpha = rho;    // 斜面角（保持している値）
-          const double psi   = q(2);    // 車体ヨー（=登り方向に対するずれ）
-
-          const NiCompTorques comp = computeCompensationTorques(q, qdot, alpha, psi, P);
-
-          // モデルトルクに“加算”して相殺
-          Q_phiR    += comp.d_phiR;
-          Q_phiF    += comp.d_phiF;
-          Q_varphiR += comp.d_varphiR;
-          Q_varphiF += comp.d_varphiF;
-
-
-
-
-          inputValue_ref_.rearTorque= inputValue_ref_.computeRearWheelTorque(Q_varphiR, q(5), q(3));
           inputValue_ref_.frontTorque = inputValue_ref_.computeFrontWheelTorque(Q_varphiF, q(5), q(3));
   
           torque_rear[0] = inputValue_ref_.rearTorque[0];  // 左後輪
@@ -392,6 +336,80 @@ void DynamicsIntegrator::step(
   
           torque_front[0] = inputValue_ref_.frontTorque[0];  // 左後輪
           torque_front[1] = inputValue_ref_.frontTorque[1];  // 右後輪
+
+          Q_varphiRL = inputValue_ref_.rearTorque[0];
+          Q_varphiRR = inputValue_ref_.rearTorque[1];
+          Q_varphiFL = inputValue_ref_.frontTorque[0];
+          Q_varphiFR = inputValue_ref_.frontTorque[1];
+
+          Q_phiRR = Q_phiR/2.0;
+          Q_phiRL = Q_phiR/2.0;
+          Q_phiFR = Q_phiF/2.0;
+          Q_phiFL = Q_phiF/2.0;
+        }
+        else{
+
+          inputValue_ref_.rearTorque= inputValue_ref_.computeRearWheelTorque(Q_varphiR, q(5), q(3));
+          inputValue_ref_.frontTorque = inputValue_ref_.computeFrontWheelTorque(Q_varphiF, q(5), q(3));
+
+
+          Q_varphiRL = inputValue_ref_.rearTorque[0];
+          Q_varphiRR = inputValue_ref_.rearTorque[1];
+          Q_varphiFL = inputValue_ref_.frontTorque[0];
+          Q_varphiFR = inputValue_ref_.frontTorque[1];
+
+          Q_phiRR = Q_phiR/2.0;
+          Q_phiRL = Q_phiR/2.0;
+          Q_phiFR = Q_phiF/2.0;
+          Q_phiFL = Q_phiF/2.0;
+          
+          
+
+          // ===== Ni 連動の補償を“加算” =====
+          // （1）各輪の角速度を用意（計測や状態から取得）
+          WheelState4 ws;
+          ws.phiRRdot    = steering_angle_vel_RR;
+          ws.phiRLdot    = steering_angle_vel_RL;
+          ws.phiFRdot    = steering_angle_vel_FR;
+          ws.phiFLdot    = steering_angle_vel_FL;
+          ws.varphiRRdot = wheel_angle_vel_RR;
+          ws.varphiRLdot = wheel_angle_vel_RL;
+          ws.varphiFRdot = wheel_angle_vel_FR;
+          ws.varphiFLdot = wheel_angle_vel_FL;
+                  
+          // （2）パラメータ設定（URDF整合）
+          NiCompParams P;
+          P.m = 205.29;     P.g = 9.80665;
+          P.L = 0.90;       P.t = 0.80;       P.h = 0.326;
+          P.r = wheelRadius;
+          P.lF = 0.45;      P.lR = 0.45;      P.wL = 0.40;    P.wR = 0.40;
+          P.mu_t = 1.2;     P.mu_r = 0.015;
+          P.kc_drive = 0.000904;   // (= wheel_joint_friction / N0)
+          P.kc_steer = 0.7*0.0487;     // (= steering_friction   / N0)
+          P.b_drive  = 0.7*1.0;        // URDF damping と整合
+          P.b_steer  = 1.0;
+          P.eps = 1e-3;
+          // 任意：動的加速度があるなら
+          // P.ax_dyn = ax_body; P.ay_dyn = ay_body;
+                  
+          // （3）斜面情報
+          double alpha = rho;
+          double psi   = q(2);
+
+                  
+          // （4）計算
+          NiCompTorques4 comp = computeCompensationTorques4W(ws, alpha, psi, P);
+                  
+          // （5）モデルトルクに“加算”して相殺（あなたの変数名に合わせて）
+          // Q_varphiRR += comp.d_varphiRR;   Q_phiRR += comp.d_phiRR;
+          // Q_varphiRL += comp.d_varphiRL;   Q_phiRL += comp.d_phiRL;
+          // Q_varphiFR += comp.d_varphiFR;   Q_phiFR += comp.d_phiFR;
+          // Q_varphiFL += comp.d_varphiFL;   Q_phiFL += comp.d_phiFL;
+                    
+
+
+
+          
         }
         
 
