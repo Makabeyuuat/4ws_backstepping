@@ -41,10 +41,10 @@
 <xacro:property name="rear_steering_friction" value="${rear_steering_mu * gravitational_acceleration * 0.25*vehicle_body_mass}" />
 
 <!-- wheelの接地面の摩擦などを定義 -->
-<xacro:property name="wheel_surface_mu1" value="0.6"/>
+<xacro:property name="wheel_surface_mu1" value="0.8"/>
 <xacro:property name="wheel_surface_mu2" value="0.6" />
 <xacro:property name="wheel_kp" value="8e4" /> 
-<xacro:property name="wheel_kd" value="50" />
+<xacro:property name="wheel_kd" value="300" />
 <xacro:property name="wheel_minDepth" value="0.005" />
 <xacro:property name="wheel_maxVel" value="2.0" />
 

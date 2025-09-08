@@ -82,9 +82,9 @@
       <link>vehicle_4ws::base_link</link>
       <pose>-0.5 0 0.00 0 0 0</pose>
       <!-- Gazebo 内定義済みマテリアル -->
-      <material>Gazebo/Red</material>
+      <material>Gazebo/Yellow</material>
     </plot>
-
+<!-- 
     <plot>
       <link>vehicle_4ws::new_wheel_1</link>
       <pose>0 0 0 0 0 0</pose>
@@ -101,7 +101,7 @@
       <link>vehicle_4ws::v1_front_1</link>
       <pose>0 0 0 0 0 0</pose>
       <material>Gazebo/Blue</material>
-    </plot>
+    </plot> -->
 
     <!-- 必要に応じてさらに <plot> を追加 -->
   </plugin>
